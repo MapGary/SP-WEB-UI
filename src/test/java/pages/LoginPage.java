@@ -20,6 +20,12 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//button[@data-testid='LoginButton']")
     private WebElement buttonLogin;
 
+    @FindBy(id = ":r1:-helper-text")
+    private WebElement helperLogin;
+
+    @FindBy(id = ":r2:-helper-text")
+    private WebElement helperPassword;
+
     @Step("Добавляю значение в поле Логин")
     public LoginPage addValueToFieldLogin(String value) {
         fieldLogin.sendKeys(value);
@@ -39,5 +45,36 @@ public class LoginPage extends BasePage {
         buttonLogin.click();
 
         return new DashboardPage(driver);
+    }
+
+    @Step("Кликнуть в поле Логин")
+    public LoginPage clickToFieldLogin() {
+        fieldLogin.click();
+
+        return this;
+    }
+
+    @Step("Кликнуть в поле Пароль")
+    public LoginPage clickToFieldPassword() {
+        fieldPassword.click();
+
+        return this;
+    }
+
+    @Step("Кликаю кнопку Войти с подсказкой")
+    public LoginPage clickButtonLoginWithHelper() {
+        buttonLogin.click();
+
+        return this;
+    }
+
+    @Step("Проверить текст подсказки для поля Логин")
+    public String getHelperTextLogin() {
+        return helperLogin.getText();
+    }
+
+    @Step("Проверить текст подсказки для поля Пароль")
+    public String getHelperTextPassword() {
+        return helperPassword.getText();
     }
 }
