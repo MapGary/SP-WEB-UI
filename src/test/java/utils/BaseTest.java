@@ -15,10 +15,14 @@ import java.util.Objects;
 public abstract class BaseTest {
 
     private WebDriver driver;
-    TestConfig config = new TestConfig();
+    private TestConfig config = new TestConfig();
 
     protected WebDriver getDriver() {
         return driver;
+    }
+
+    protected TestConfig getConfig() {
+        return config;
     }
 
     private void startDriver() {

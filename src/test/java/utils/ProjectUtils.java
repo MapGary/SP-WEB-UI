@@ -11,7 +11,7 @@ public class ProjectUtils {
         ChromeOptions chromeOptions = new ChromeOptions();
         WebDriver driver;
 
-        chromeOptions.addArguments("--window-size=1920,1080");
+        chromeOptions.addArguments("--window-size=1440, 1080");
 
         driver = new ChromeDriver(chromeOptions);
 
