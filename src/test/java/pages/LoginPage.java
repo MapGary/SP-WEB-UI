@@ -40,6 +40,18 @@ public class LoginPage extends BasePage {
         return this;
     }
 
+    @Step("Взять значение поля Логин")
+    public String getValueToFieldLogin() {
+
+        return fieldLogin.getDomAttribute("value");
+    }
+
+    @Step("Взять значение поля  Пароль")
+    public String getValueToFieldPassword() {
+
+        return fieldPassword.getDomAttribute("value");
+    }
+
     @Step("Кликаю кнопку Войти")
     public DashboardPage clickButtonLogin() {
         buttonLogin.click();
