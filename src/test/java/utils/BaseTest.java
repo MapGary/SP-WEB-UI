@@ -19,7 +19,7 @@ import java.util.Objects;
 public abstract class BaseTest {
 
     private WebDriver driver;
-    private TestConfig config = new TestConfig();
+    private final TestConfig config = new TestConfig();
 
     protected WebDriver getDriver() {
         return driver;
@@ -27,10 +27,6 @@ public abstract class BaseTest {
 
     protected TestConfig getConfig() {
         return config;
-    }
-
-    private void startDriver() {
-
     }
 
     private void closeDriver() {
@@ -57,7 +53,7 @@ public abstract class BaseTest {
         }
 
         driver.manage().window().setSize(new Dimension(1440, 1080));
-        System.out.println(String.format("Открылса браузер: %s", browser));
+        System.out.println("Открылса браузер: " + browser);
 
         driver.get(config.getBaseUrl());
     }
