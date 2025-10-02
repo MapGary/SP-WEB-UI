@@ -81,54 +81,18 @@
 
 ## ⚙️ Файл конфигурации
 
-Чтением данных из Properties файлов занимается класс `TestConfig`
+На проекте есть возможность запускать тесты по разными окружениями. Для этого нужно создать файлы `*.properties` на основе шаблона `defauilt.properties.TAMPLATE`
 
-Если у нас есть несколько properties файлов, то нам нужен способ переключаться между ними.
-Для этого нужно добавить поля: env и properties и конструктор, который будет инициализировать эти поля.
-В данном случае название переменной "env", значение по умолчанию "default". И уже по выбранному значению env нужно загружать значения из properties файла.
-```java
-public class TestConfig {
-    String env;
-    Properties properties;
+1. Окружение `demo` то которое работает без VPN. Файл должен называться `demo.properties`
+    ```bash
+      mvn clean test -Denv=demo
+   ```
+1. Окружение `vpn` то которое работает с VPN. Файл должен называться `vpn.properties`
+    ```bash
+      mvn clean test -Denv=vpn
+   ```
 
-    public TestConfig() {
-        env = System.getProperty("env", "default");
-        properties = getPropertiesByEnv(env);
-    }
-}
-```
 
-Чтобы реализовать утилитарный `getPropertiesByEnv` метод нужно добавить импорт `import java.util.Properties;` также стоит реализовать обработку исключений.
-Например, ситуации, если файла для такого тестового окружения по имени env не существует, либо внутри properties файла нет нужной переменной.
-Цепочка методов `load(getClass().getClassLoader().getResourceAsStream(env + ".properties"));` служит для загрузки properties файла по имени env из resources.
-
-```java
-public class TestConfig {
-    private Properties getPropertiesByEnv(String env) {
-        Properties testProperties = new Properties();
-        try {
-            testProperties.load(getClass().getClassLoader().getResourceAsStream(env + ".properties"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(String.format("Cannot open %s.properties", env));
-        }
-        return testProperties;
-    }
-}
-```
-Теперь когда у нас читается properties файл можно получить конкретное значение переменной, например, baseUrl:
-
-```java
-public class TestConfig {
-    public String getBaseUrl() {
-        String baseUrl = properties.getProperty("baseUrl");
-        assertNotNull(baseUrl, String.format("BaseUrl is not found in %s.properties", env));
-        System.out.println("Base URL: " + baseUrl);
-        return baseUrl;
-    }
-}
-```
 
 ## ⛔ Добавление конфиденциальных данных
 
@@ -141,7 +105,7 @@ public class TestConfig {
 1. Создайте копию файла `default.properties.TEMPLATE`, удалите изназвания `.TEMPLATE`
 2. Добавьте ключи для секретных данных, но без значений, и закоммитьте
 ```properties
-baseUrl=http://10.0.0.238
+baseUrl=
 userName=
 password=
 ```
@@ -151,7 +115,7 @@ src/test/resources/*.properties
 ```
 4. Добавьте секретные значения локально и убедитесь, что они не попадают в коммиты
 ```properties
-baseUrl=http://10.0.0.238
+baseUrl=url
 userName=username
 password=password
 ```
@@ -165,22 +129,22 @@ git rm --cached src/test/resources/default.properties
 Генерация Allure отчета.
 
 1. Открыть модуль `Maven`
-<p align="center"> <img src="images/allure/img.png" alt="Press to Actions tab" width="700"/> </p>
+<p align="center"> <img src="images/allure/img.png" alt="Press to Actions tab" width="400"/> </p>
 
 2. Кликнуть `Plugins`, перейти в `allure` 
-<p align="center"> <img src="images/allure/img_1.png" alt="Press to Actions tab" width="700"/> </p>
+<p align="center"> <img src="images/allure/img_1.png" alt="Press to Actions tab" width="400"/> </p>
 
 3. Кликнуть `allure:report`
-<p align="center"> <img src="images/allure/img_2.png" alt="Press to Actions tab" width="700"/> </p>
+<p align="center"> <img src="images/allure/img_2.png" alt="Press to Actions tab" width="400"/> </p>
 
 4. Дождаться выполнения
-<p align="center"> <img src="images/allure/img_3.png" alt="Press to Actions tab" width="700"/> </p>
+<p align="center"> <img src="images/allure/img_3.png" alt="Press to Actions tab" width="400"/> </p>
 
 5. Найти папку `target` далее `site` открыть `index.html`
-<p align="center"> <img src="images/allure/img_4.png" alt="Press to Actions tab" width="700"/> </p>
+<p align="center"> <img src="images/allure/img_4.png" alt="Press to Actions tab" width="400"/> </p>
 
 6. Открыть в одном из предложенных браузеров
-<p align="center"> <img src="images/allure/img_5.png" alt="Press to Actions tab" width="700"/> </p>
+<p align="center"> <img src="images/allure/img_5.png" alt="Press to Actions tab" width="400"/> </p>
 
 7. Посмотреть отчет
-<p align="center"> <img src="images/allure/img_6.png" alt="Press to Actions tab" width="700"/> </p>
+<p align="center"> <img src="images/allure/img_6.png" alt="Press to Actions tab" width="400"/> </p>
