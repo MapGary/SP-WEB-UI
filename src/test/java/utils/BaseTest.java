@@ -94,6 +94,8 @@ public abstract class BaseTest {
                     "text/html",
                     Objects.requireNonNull(driver.getPageSource()),
                     ".html");
+
+            LoggerUtil.error(String.format("Crashed with an error %s.%s", this.getClass().getName(), method.getName()));
         }
 
         closeDriver();
