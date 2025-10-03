@@ -10,7 +10,7 @@ public class TestConfig {
     Properties properties;
 
     public TestConfig() {
-        env = System.getProperty("env", "default");
+        env = System.getProperty("env", "demo");
         properties = getPropertiesByEnv(env);
     }
 
