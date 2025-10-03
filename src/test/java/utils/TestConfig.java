@@ -35,6 +35,13 @@ public class TestConfig {
         return baseUrl;
     }
 
+    public String getUserWin() {
+        String baseUrl = properties.getProperty("userWin");
+        assertNotNull(baseUrl, String.format("UserWin is not found in %s.properties", env));
+
+        return baseUrl;
+    }
+
     private Properties getPropertiesByEnv(String env) {
         Properties testProperties = new Properties();
         try {

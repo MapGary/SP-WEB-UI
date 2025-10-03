@@ -6,6 +6,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -15,6 +16,7 @@ import org.testng.annotations.Parameters;
 
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.Objects;
 
 public abstract class BaseTest {
@@ -40,7 +42,7 @@ public abstract class BaseTest {
 
     @Parameters("browser")
     @BeforeMethod
-    protected void beforeMethod(Method method, @Optional("chrome") String browser) {
+    protected void beforeMethod(Method method, @Optional("yandex") String browser) {
 
         switch (browser.toLowerCase()) {
             case "chrome":
@@ -48,6 +50,10 @@ public abstract class BaseTest {
                 break;
             case "edge":
                 driver = new EdgeDriver();
+                break;
+            case "yandex":
+                System.setProperty("webdriver.chrome.driver", "driver/yandexdriver-25.8.0.1872-win64/yandexdriver.exe");
+                driver = new ChromeDriver();
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported browser: " + browser);
