@@ -6,6 +6,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -24,10 +25,16 @@ public abstract class BaseTest {
     private final TestConfig config = new TestConfig();
 
     protected WebDriver getDriver() {
+
+        LoggerUtil.info("Driver received");
+
         return driver;
     }
 
     protected TestConfig getConfig() {
+
+        LoggerUtil.info("Configuration received");
+
         return config;
     }
 
@@ -36,7 +43,10 @@ public abstract class BaseTest {
         if (driver != null) {
             driver.quit();
             driver = null;
+            LoggerUtil.info("Driver quit");
         }
+
+        LoggerUtil.info("Driver NULL");
     }
 
     @Parameters("browser")
@@ -52,7 +62,10 @@ public abstract class BaseTest {
                 break;
             case "yandex":
                 System.setProperty("webdriver.chrome.driver", "driver/yandexdriver-25.8.0.1872-win64/yandexdriver.exe");
-                driver = new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--disable-notifications");
+                options.addArguments("--remote-allow-origins=*");
+                driver = new ChromeDriver(options);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported browser: " + browser);
@@ -60,9 +73,11 @@ public abstract class BaseTest {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().setSize(new Dimension(1440, 1080));
-        System.out.println("Открылса браузер: " + browser);
+        LoggerUtil.info(String.format("Open browser: %s", browser));
 
         driver.get(config.getBaseUrl());
+
+        LoggerUtil.info(String.format("Run %s.%s", this.getClass().getName(), method.getName()));
     }
 
     @AfterMethod
@@ -71,16 +86,18 @@ public abstract class BaseTest {
             Allure.addAttachment(
                     "screenshot.png",
                     "image/png",
-                    new ByteArrayInputStream(((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES)),
+                    new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)),
                     "png");
 
             Allure.addAttachment(
                     "Page HTML",
                     "text/html",
-                    Objects.requireNonNull(getDriver().getPageSource()),
+                    Objects.requireNonNull(driver.getPageSource()),
                     ".html");
         }
 
         closeDriver();
+
+        LoggerUtil.info(String.format("Execution time is %.3f sec%n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000.0));
     }
 }
