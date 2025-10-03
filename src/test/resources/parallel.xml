@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="Мультибраузерное тестирование">
+<suite name="Мультибраузерное тестирование" parallel="tests" thread-count="3">
 
     <test name="Браузер Chrome">
         <parameter name="browser" value="chrome"/>
