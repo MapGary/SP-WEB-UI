@@ -6,7 +6,6 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -59,6 +58,7 @@ public abstract class BaseTest {
                 throw new IllegalArgumentException("Unsupported browser: " + browser);
         }
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().setSize(new Dimension(1440, 1080));
         System.out.println("Открылса браузер: " + browser);
 
