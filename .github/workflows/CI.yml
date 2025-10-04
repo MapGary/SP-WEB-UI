@@ -36,6 +36,8 @@ jobs:
           cache: 'maven'
 
       - name: Maven test
+        env:
+          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
         run: mvn clean test
 
       - name: Get Allure history
