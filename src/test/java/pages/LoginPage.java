@@ -27,15 +27,15 @@ public class LoginPage extends BasePage {
     private WebElement helperPassword;
 
     @Step("Добавляю значение в поле Логин")
-    public LoginPage addValueToFieldLogin(String value) {
-        fieldLogin.sendKeys(value);
+    public LoginPage addValueToFieldLogin(String login) {
+        fieldLogin.sendKeys(login);
 
         return this;
     }
 
     @Step("Добавляю значение в поле Пароль")
-    public LoginPage addValueToFieldPassword(String value) {
-        fieldPassword.sendKeys(value);
+    public LoginPage addValueToFieldPassword(String password) {
+        fieldPassword.sendKeys(password);
 
         return this;
     }
