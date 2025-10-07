@@ -35,6 +35,15 @@ jobs:
           distribution: 'corretto'
           cache: 'maven'
 
+      - name: Create demo.properties file
+        run: |
+          mkdir -p src/test/resources
+          cat > src/test/resources/demo.properties << EOF
+          baseUrl=${{ secrets.BASE_URL }}
+          userName=${{ secrets.USER_NAME }}
+          password=${{ secrets.PASSWORD }}
+          EOF
+
       - name: Maven test
         env:
           SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
