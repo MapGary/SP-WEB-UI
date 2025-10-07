@@ -32,6 +32,8 @@
   <a href="https://maven.apache.org/" rel="nofollow"><img width="10%" title="Gradle" src="images/logo/Maven.png" alt="Maven"></a>
   <a href="https://testng.org/" rel="nofollow"><img width="10%" title="JUnit5" src="images/logo/TestNG.png" alt="TestNG" style="max-width: 100%;"></a>
   <a href="https://allurereport.org/" rel="nofollow"><img width="10%" title="Allure Report" src="images/logo/Allure.png" alt="Allure" style="max-width: 100%;"></a>
+  <a href="https://github.com/" rel="nofollow"><img width="10%" title="GitHub" src="images/logo/github.png" alt="GitHub" style="max-width: 100%;"></a>
+  <a href="https://github.com/features/actions" rel="nofollow"><img width="10%" title="Github Actions" src="images/logo/GitHubActions.png" alt="Github Actions" style="max-width: 100%;"></a>
 </p>
 
 - **Язык программирования:** Java 17
@@ -40,6 +42,8 @@
 - **Тестовый фреймворк:** TestNG
 - **Шаблон проектирования:** Page Object Model (POM)
 - **Отчетность:** Allure Report
+- **CI/CD:** GitHub Actions, который создаёт Allure отчёт и публикует результаты на GitHub Pages.
+
 
 **Содержание Allure отчёта:**
 
