@@ -13,7 +13,7 @@ public class TestConfig {
     private String password;
 
     public TestConfig() {
-        env = System.getProperty("env", "demo");
+        env = System.getProperty("env", "vpn");
         properties = getPropertiesByEnv(env);
 
         LoggerUtil.info(String.format("The environment has been launched: %s", env));
