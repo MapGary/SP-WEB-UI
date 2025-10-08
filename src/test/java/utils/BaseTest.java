@@ -23,7 +23,7 @@ import java.util.Objects;
 public abstract class BaseTest {
 
     private WebDriver driver;
-//    private final TestConfig config = new TestConfig();
+    private final TestConfig config = new TestConfig();
 
     protected WebDriver getDriver() {
 
@@ -32,12 +32,12 @@ public abstract class BaseTest {
         return driver;
     }
 
-//    protected TestConfig getConfig() {
-//
-//        LoggerUtil.info("Configuration received");
-//
-//        return config;
-//    }
+    protected TestConfig getConfig() {
+
+        LoggerUtil.info("Configuration received");
+
+        return config;
+    }
 
     private void closeDriver() {
 
@@ -102,7 +102,7 @@ public abstract class BaseTest {
         driver.manage().window().setSize(new Dimension(1440, 1080));
         LoggerUtil.info(String.format("Open browser: %s", browser));
 
-        driver.get("https://web.staging.diatechnic.ru/login");
+        driver.get(config.getBaseUrl());
 
         LoggerUtil.info(String.format("Run %s.%s", this.getClass().getName(), method.getName()));
     }

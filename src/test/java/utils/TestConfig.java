@@ -6,8 +6,11 @@ import java.util.Properties;
 import static org.testng.Assert.assertNotNull;
 
 public class TestConfig {
-    String env;
-    Properties properties;
+    private final String env;
+    private final Properties properties;
+    private String baseUrl;
+    private String userName;
+    private String password;
 
     public TestConfig() {
         env = System.getProperty("env", "demo");
@@ -17,7 +20,7 @@ public class TestConfig {
     }
 
     public String getBaseUrl() {
-        String baseUrl = properties.getProperty("baseUrl");
+        baseUrl = properties.getProperty("baseUrl");
         assertNotNull(baseUrl, String.format("BaseUrl is not found in %s.properties", env));
 
         LoggerUtil.info(String.format("Received baseUrl for the environment: %s", env));
@@ -26,7 +29,7 @@ public class TestConfig {
     }
 
     public String getUserName() {
-        String userName = properties.getProperty("userName");
+        userName = properties.getProperty("userName");
         assertNotNull(userName, String.format("UserName is not found in %s.properties", env));
 
         LoggerUtil.info(String.format("Received userName for the environment: %s", env));
@@ -35,7 +38,7 @@ public class TestConfig {
     }
 
     public String getPassword() {
-        String password = properties.getProperty("password");
+        password = properties.getProperty("password");
         assertNotNull(password, String.format("Password is not found in %s.properties", env));
 
         LoggerUtil.info(String.format("Received password for the environment: %s", env));
