@@ -1,9 +1,14 @@
 package pages;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.io.ByteArrayInputStream;
 
 public class LoginPage extends BasePage {
 
@@ -25,6 +30,9 @@ public class LoginPage extends BasePage {
 
     @FindBy(id = ":r2:-helper-text")
     private WebElement helperPassword;
+
+    @FindBy(xpath = "//input[@name='password']/../div/a")
+    private WebElement iconEye;
 
     @Step("Добавляю значение в поле Логин")
     public LoginPage addValueToFieldLogin(String login) {
@@ -88,5 +96,30 @@ public class LoginPage extends BasePage {
     @Step("Проверить текст подсказки для поля Пароль")
     public String getHelperTextPassword() {
         return helperPassword.getText();
+    }
+
+    @Step("Получаю значение атрибута 'type' для поля password")
+    public String getAttributeFieldPassword() {
+
+        return fieldPassword.getDomAttribute("type");
+    }
+
+    @Step("Кликаю иконку 'глаз'")
+    public LoginPage clickEyeIcon() {
+        iconEye.click();
+
+        return this;
+    }
+
+    public byte[] screen() {
+        byte[] screenshot = null;
+        try {
+            screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            Allure.addAttachment("Скрин поля пароль", new ByteArrayInputStream(screenshot));
+        } catch (Exception e) {
+            System.out.println("Не удалось сделать скриншот: " + e.getMessage());
+        }
+
+        return screenshot;
     }
 }

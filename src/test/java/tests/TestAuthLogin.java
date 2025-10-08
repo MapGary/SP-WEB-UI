@@ -1,6 +1,8 @@
 package tests;
 
 import io.qameta.allure.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
@@ -14,7 +16,7 @@ public class TestAuthLogin extends BaseTest {
     @Feature("Вход с валидными логином и паролем")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/8")
-    public void testLoginWithValidUsernameAndPassword() throws InterruptedException {
+    public void testLoginWithValidUsernameAndPassword() {
 
         String login = getConfig().getUserName();
         String password = getConfig().getPassword();
@@ -25,8 +27,11 @@ public class TestAuthLogin extends BaseTest {
                 .clickButtonLogin();
 
         Allure.step("Загрузилась сатраница Дашборд");
-        Thread.sleep(1000);
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("equipment-content")));
         Assert.assertTrue(dashboardPage.getCurrentUrl().contains(String.format("%s/dashboard", getConfig().getBaseUrl())));
+        Assert.assertNotNull(dashboardPage.getRefreshToken());
+        Assert.assertNotNull(dashboardPage.getJwtAsu());
+        Assert.assertNotNull(dashboardPage.getUser());
     }
 
     @Test
@@ -63,5 +68,34 @@ public class TestAuthLogin extends BaseTest {
         Assert.assertEquals(loginPage.getCurrentUrl(), String.format("%s/login", getConfig().getBaseUrl()));
         Assert.assertEquals(loginPage.getHelperTextLogin(), "Поле Логин обязательно для заполнения");
         Assert.assertEquals(loginPage.getHelperTextPassword(), "Поле Пароль обязательно для заполнения");
+    }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Проверка видимости пароля (иконка 'глаз') на странице Login")
+    @Severity(SeverityLevel.MINOR)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/10")
+    public void testCheckingPasswordVisibility() {
+
+        byte[] screenshot1 = new LoginPage(getDriver())
+                .addValueToFieldPassword("Test1234!")
+                .screen();
+
+        String value = new LoginPage(getDriver())
+                .clickEyeIcon()
+                .getAttributeFieldPassword();
+
+        String secretValue = new LoginPage(getDriver())
+                .clickEyeIcon()
+                .getAttributeFieldPassword();
+
+        byte[] screenshot2 = new LoginPage(getDriver())
+                .screen();
+
+        Allure.step("Значение атрибута type для поля password меняется");
+        Assert.assertEquals(value, "text");
+        Assert.assertEquals(secretValue, "password");
+        Allure.step("Сравниваю скрины поля password");
+        Assert.assertEquals(screenshot1, screenshot2);
     }
 }
