@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 public class Assert {
 
@@ -35,5 +36,14 @@ public class Assert {
 
         double diffPercentage = (double) diffPixels / totalPixels * 100;
         return diffPercentage <= tolerance;
+    }
+
+    public static boolean compareExpectedLanguage(Language language, Map<String, String> map) {
+        return language.getNameForm().toLowerCase().equals(map.get("nameForm").toLowerCase()) ||
+                language.getLogin().toLowerCase().equals(map.get("login").toLowerCase()) ||
+                language.getPassword().toLowerCase().equals(map.get("password").toLowerCase()) ||
+                language.getButtonNewPassword().toLowerCase().equals(map.get("buttonNewPassword").toLowerCase()) ||
+                language.getButtonLogin().toLowerCase().equals(map.get("buttonLogin").toLowerCase()) ||
+                language.getHelperLanguage().toLowerCase().equals(map.get("helperLanguage").toLowerCase());
     }
 }

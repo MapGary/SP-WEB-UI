@@ -9,9 +9,12 @@ import pages.DashboardPage;
 import pages.LoginPage;
 import pages.SetNewPasswordPage;
 import utils.BaseTest;
+import utils.Language;
 
 import java.io.File;
+import java.util.Map;
 
+import static utils.Assert.compareExpectedLanguage;
 import static utils.Assert.compareScreenshotsWithTolerance;
 
 public class TestAuthLogin extends BaseTest {
@@ -125,4 +128,29 @@ public class TestAuthLogin extends BaseTest {
         Assert.assertEquals(setNewPasswordPage.getCurrentUrl(), String.format("%s/set-new-password", getConfig().getBaseUrl()));
     }
 
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Переключения языка (RU/EN)")
+    @Description("Переключения языка (RU/EN)")
+    @Severity(SeverityLevel.NORMAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/12")
+    public void testSwitchLanguage() {
+
+        Map<String, String> dataLanguageUS = new LoginPage(getDriver())
+                .getHelperSwitchLanguage()
+                .clickSwitchLanguage()
+                .clickInactiveLanguage()
+                .getTranslatedData();
+
+        Map<String, String> dataLanguageRU = new LoginPage(getDriver())
+                .getHelperSwitchLanguage()
+                .clickSwitchLanguage()
+                .clickInactiveLanguage()
+                .getTranslatedData();
+
+        Allure.step("По умолчанию был русский язык, я изменил на английский");
+        Assert.assertTrue(compareExpectedLanguage(Language.US, dataLanguageUS));
+        Allure.step("Английский язык, я изменил на русский");
+        Assert.assertTrue(compareExpectedLanguage(Language.RU, dataLanguageRU));
+    }
 }
