@@ -136,21 +136,53 @@ public class TestAuthLogin extends BaseTest {
     @Link("https://team-b9fb.testit.software/projects/1/tests/12")
     public void testSwitchLanguage() {
 
-        Map<String, String> dataLanguageUS = new LoginPage(getDriver())
+        String settingsUS = new LoginPage(getDriver())
                 .getHelperSwitchLanguage()
                 .clickSwitchLanguage()
                 .clickInactiveLanguage()
+                .getSettings();
+
+        Map<String, String> dataLanguageUS = new LoginPage(getDriver())
                 .getTranslatedData();
 
-        Map<String, String> dataLanguageRU = new LoginPage(getDriver())
+        String settingsRU = new LoginPage(getDriver())
                 .getHelperSwitchLanguage()
                 .clickSwitchLanguage()
                 .clickInactiveLanguage()
+                .getSettings();
+
+        Map<String, String> dataLanguageRU = new LoginPage(getDriver())
                 .getTranslatedData();
 
         Allure.step("По умолчанию был русский язык, я изменил на английский");
         Assert.assertTrue(compareExpectedLanguage(Language.US, dataLanguageUS));
+        Assert.assertEquals(settingsUS, "{\"schemeColumnCount\":\"2\",\"layoutDirection\":\"ltr\",\"language\":\"EN\"}");
         Allure.step("Английский язык, я изменил на русский");
         Assert.assertTrue(compareExpectedLanguage(Language.RU, dataLanguageRU));
+        Assert.assertEquals(settingsRU, "{\"schemeColumnCount\":\"2\",\"layoutDirection\":\"ltr\",\"language\":\"RU\"}");
+
+    }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Ввод неверного логина или пароля")
+    @Description("Ввод неверного логина или пароля")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/13")
+    public void testEnterIncorrectLoginOrPassword() {
+
+        String login = "login";
+        String password = "098";
+
+        LoginPage loginPage = new LoginPage(getDriver())
+                .addValueToFieldLogin(login)
+                .addValueToFieldPassword(password)
+                .clickButtonLoginWithHelper();
+
+        Allure.step("Получил ошибку");
+        Assert.assertEquals(loginPage.getCurrentUrl(), String.format("%s/login", getConfig().getBaseUrl()));
+        Assert.assertEquals(loginPage.getHelperTextPassword(), "Неверный пароль или логин пользователя");
+        Assert.assertEquals(loginPage.getJwtAsu(), "null");
+        Assert.assertEquals(loginPage.getUser(), "null");
     }
 }
