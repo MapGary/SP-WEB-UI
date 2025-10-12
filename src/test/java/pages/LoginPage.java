@@ -2,6 +2,7 @@ package pages;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
+import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -188,8 +189,8 @@ public class LoginPage extends BasePage {
     public LoginPage clickInactiveLanguage() {
         Actions actions = new Actions(driver);
 
-        actions.moveToElement(inactiveLanguage).click().perform();
         Allure.addAttachment("Кликнул по неактивному языку", inactiveLanguage.getText());
+        actions.moveToElement(inactiveLanguage).click().perform();
 
         return this;
     }
@@ -207,6 +208,15 @@ public class LoginPage extends BasePage {
         data.put("buttonNewPassword", buttonNewPassword.getText());
         data.put("buttonLogin", buttonLogin.getText());
         data.put("helperLanguage", new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOf(helperLanguage)).getText());
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(data);
+            Allure.addAttachment("Данные перевода", "application/json", json);
+        } catch (Exception e) {
+            Allure.addAttachment("Данные перевода", "text/plain", "Error converting map to JSON: " + e.getMessage());
+        }
 
         return data;
     }
