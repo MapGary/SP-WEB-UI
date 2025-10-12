@@ -120,7 +120,7 @@ public class LoginPage extends BasePage {
     public File getScreenshotWebElement() {
         File screenshot = null;
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
             byte[] screen = elementFieldPassword.getScreenshotAs(OutputType.BYTES);
             Allure.addAttachment("Скрин поля пароль", new ByteArrayInputStream(screen));
             screenshot = elementFieldPassword.getScreenshotAs(OutputType.FILE);
