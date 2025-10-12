@@ -84,7 +84,7 @@ public class TestAuthLogin extends BaseTest {
 
         File screenshot1 = new LoginPage(getDriver())
                 .addValueToFieldPassword("Test1234!")
-                .screen();
+                .getScreenshotWebElement();
 
         String value = new LoginPage(getDriver())
                 .clickEyeIcon()
@@ -96,7 +96,7 @@ public class TestAuthLogin extends BaseTest {
 
         File screenshot2 = new LoginPage(getDriver())
                 .clickToFieldPassword()
-                .screen();
+                .getScreenshotWebElement();
 
         Allure.step("Значение атрибута type для поля password меняется");
         Assert.assertEquals(value, "text");

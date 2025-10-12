@@ -6,9 +6,12 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.time.Duration;
 
 public class LoginPage extends BasePage {
 
@@ -114,10 +117,10 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public File screen() {
+    public File getScreenshotWebElement() {
         File screenshot = null;
         try {
-            Thread.sleep(1000);
+            Thread.sleep(500);
             byte[] screen = elementFieldPassword.getScreenshotAs(OutputType.BYTES);
             Allure.addAttachment("Скрин поля пароль", new ByteArrayInputStream(screen));
             screenshot = elementFieldPassword.getScreenshotAs(OutputType.FILE);
