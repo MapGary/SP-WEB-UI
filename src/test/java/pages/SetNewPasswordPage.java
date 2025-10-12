@@ -5,13 +5,13 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
-public class DashboardPage extends BasePage {
+public class SetNewPasswordPage extends BasePage {
 
     String jwt_asu = null;
     String user = null;
     JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 
-    public DashboardPage(WebDriver driver) {
+    public SetNewPasswordPage(WebDriver driver) {
         super(driver);
     }
 
