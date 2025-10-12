@@ -2,8 +2,6 @@ package tests;
 
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -11,8 +9,6 @@ import pages.DashboardPage;
 import pages.LoginPage;
 import utils.BaseTest;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
