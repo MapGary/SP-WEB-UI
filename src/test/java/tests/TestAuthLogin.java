@@ -10,7 +10,6 @@ import pages.LoginPage;
 import utils.BaseTest;
 
 import java.io.File;
-import java.io.IOException;
 
 import static utils.Assert.compareScreenshotsWithTolerance;
 
@@ -80,7 +79,7 @@ public class TestAuthLogin extends BaseTest {
     @Feature("Проверка видимости пароля (иконка 'глаз') на странице Login")
     @Severity(SeverityLevel.MINOR)
     @Link("https://team-b9fb.testit.software/projects/1/tests/10")
-    public void testCheckingPasswordVisibility() throws IOException {
+    public void testCheckingPasswordVisibility() {
 
         File screenshot1 = new LoginPage(getDriver())
                 .addValueToFieldPassword("Test1234!")

@@ -7,9 +7,16 @@ import java.io.IOException;
 
 public class Assert {
 
-    public static boolean compareScreenshotsWithTolerance(File screenshot1, File screenshot2, double tolerance) throws IOException {
-        BufferedImage img1 = ImageIO.read(screenshot1);
-        BufferedImage img2 = ImageIO.read(screenshot2);
+    public static boolean compareScreenshotsWithTolerance(File screenshot1, File screenshot2, double tolerance) {
+        BufferedImage img1 = null;
+        BufferedImage img2 = null;
+
+        try {
+            img1 = ImageIO.read(screenshot1);
+            img2 = ImageIO.read(screenshot2);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         if (img1.getWidth() != img2.getWidth() || img1.getHeight() != img2.getHeight()) {
             return false;
