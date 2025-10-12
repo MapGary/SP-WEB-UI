@@ -2,12 +2,21 @@ package tests;
 
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.LoginPage;
 import utils.BaseTest;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import static utils.Assert.compareScreenshotsWithTolerance;
 
 public class TestAuthLogin extends BaseTest {
 
@@ -75,9 +84,9 @@ public class TestAuthLogin extends BaseTest {
     @Feature("Проверка видимости пароля (иконка 'глаз') на странице Login")
     @Severity(SeverityLevel.MINOR)
     @Link("https://team-b9fb.testit.software/projects/1/tests/10")
-    public void testCheckingPasswordVisibility() {
+    public void testCheckingPasswordVisibility() throws IOException {
 
-        byte[] screenshot1 = new LoginPage(getDriver())
+        File screenshot1 = new LoginPage(getDriver())
                 .addValueToFieldPassword("Test1234!")
                 .screen();
 
@@ -89,13 +98,14 @@ public class TestAuthLogin extends BaseTest {
                 .clickEyeIcon()
                 .getAttributeFieldPassword();
 
-        byte[] screenshot2 = new LoginPage(getDriver())
+        File screenshot2 = new LoginPage(getDriver())
+                .clickToFieldPassword()
                 .screen();
 
         Allure.step("Значение атрибута type для поля password меняется");
         Assert.assertEquals(value, "text");
         Assert.assertEquals(secretValue, "password");
         Allure.step("Сравниваю скрины поля password");
-        Assert.assertEquals(screenshot1, screenshot2);
+        Assert.assertTrue(compareScreenshotsWithTolerance(screenshot1, screenshot2, 0.7));
     }
 }

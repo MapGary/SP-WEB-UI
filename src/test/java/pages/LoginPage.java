@@ -3,12 +3,12 @@ package pages;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 
 public class LoginPage extends BasePage {
 
@@ -21,6 +21,9 @@ public class LoginPage extends BasePage {
 
     @FindBy(name = "password")
     private WebElement fieldPassword;
+
+    @FindBy(xpath = "//input[@name='password']/..")
+    private WebElement elementFieldPassword;
 
     @FindBy(xpath = "//button[@data-testid='LoginButton']")
     private WebElement buttonLogin;
@@ -111,15 +114,17 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public byte[] screen() {
-        byte[] screenshot = null;
+    public File screen() {
+        File screenshot = null;
         try {
-            screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment("Скрин поля пароль", new ByteArrayInputStream(screenshot));
-        } catch (Exception e) {
-            System.out.println("Не удалось сделать скриншот: " + e.getMessage());
-        }
+            Thread.sleep(1000);
+            byte[] screen = elementFieldPassword.getScreenshotAs(OutputType.BYTES);
+            Allure.addAttachment("Скрин поля пароль", new ByteArrayInputStream(screen));
+            screenshot = elementFieldPassword.getScreenshotAs(OutputType.FILE);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return screenshot;
     }
 }
