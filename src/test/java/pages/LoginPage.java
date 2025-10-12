@@ -136,7 +136,7 @@ public class LoginPage extends BasePage {
         return helperLogin.getText();
     }
 
-    @Step("Проверить текст подсказки для поля Пароль")
+    @Step("Получаю текст подсказки для поля Пароль")
     public String getHelperTextPassword() {
         return helperPassword.getText();
     }
