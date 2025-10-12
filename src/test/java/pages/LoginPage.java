@@ -1,9 +1,14 @@
 package pages;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
 
 public class LoginPage extends BasePage {
 
@@ -17,6 +22,9 @@ public class LoginPage extends BasePage {
     @FindBy(name = "password")
     private WebElement fieldPassword;
 
+    @FindBy(xpath = "//input[@name='password']/..")
+    private WebElement elementFieldPassword;
+
     @FindBy(xpath = "//button[@data-testid='LoginButton']")
     private WebElement buttonLogin;
 
@@ -25,6 +33,9 @@ public class LoginPage extends BasePage {
 
     @FindBy(id = ":r2:-helper-text")
     private WebElement helperPassword;
+
+    @FindBy(xpath = "//input[@name='password']/../div/a")
+    private WebElement iconEye;
 
     @Step("Добавляю значение в поле Логин")
     public LoginPage addValueToFieldLogin(String login) {
@@ -88,5 +99,32 @@ public class LoginPage extends BasePage {
     @Step("Проверить текст подсказки для поля Пароль")
     public String getHelperTextPassword() {
         return helperPassword.getText();
+    }
+
+    @Step("Получаю значение атрибута 'type' для поля password")
+    public String getAttributeFieldPassword() {
+
+        return fieldPassword.getDomAttribute("type");
+    }
+
+    @Step("Кликаю иконку 'глаз'")
+    public LoginPage clickEyeIcon() {
+        iconEye.click();
+
+        return this;
+    }
+
+    public File getScreenshotWebElement() {
+        File screenshot = null;
+        try {
+            Thread.sleep(1000);
+            byte[] screen = elementFieldPassword.getScreenshotAs(OutputType.BYTES);
+            Allure.addAttachment("Скрин поля пароль", new ByteArrayInputStream(screen));
+            screenshot = elementFieldPassword.getScreenshotAs(OutputType.FILE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return screenshot;
     }
 }
