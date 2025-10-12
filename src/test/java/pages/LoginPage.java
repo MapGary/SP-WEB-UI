@@ -37,6 +37,9 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//input[@name='password']/../div/a")
     private WebElement iconEye;
 
+    @FindBy(xpath = "//a[@data-testid='SetNewPasswordButton']")
+    private WebElement buttonNewPassword;
+
     @Step("Добавляю значение в поле Логин")
     public LoginPage addValueToFieldLogin(String login) {
         fieldLogin.sendKeys(login);
@@ -126,5 +129,11 @@ public class LoginPage extends BasePage {
             e.printStackTrace();
         }
         return screenshot;
+    }
+
+    @Step("Кликаю кнопку 'Сменить пароль'")
+    public SetNewPasswordPage clickButtonNewPassword() {
+        buttonNewPassword.click();
+        return new SetNewPasswordPage(driver);
     }
 }

@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.LoginPage;
+import pages.SetNewPasswordPage;
 import utils.BaseTest;
 
 import java.io.File;
@@ -18,6 +19,7 @@ public class TestAuthLogin extends BaseTest {
     @Test
     @Epic("Авторизация и аутентификация")
     @Feature("Вход с валидными логином и паролем")
+    @Description("Вход с валидными логином и паролем")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/8")
     public void testLoginWithValidUsernameAndPassword() {
@@ -30,7 +32,7 @@ public class TestAuthLogin extends BaseTest {
                 .addValueToFieldPassword(password)
                 .clickButtonLogin();
 
-        Allure.step("Загрузилась сатраница Дашборд");
+        Allure.step("Загрузилась страница Дашборд");
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("equipment-content")));
         Assert.assertTrue(dashboardPage.getCurrentUrl().contains(String.format("%s/dashboard", getConfig().getBaseUrl())));
         Assert.assertNotNull(dashboardPage.getRefreshToken());
@@ -41,6 +43,7 @@ public class TestAuthLogin extends BaseTest {
     @Test
     @Epic("Авторизация и аутентификация")
     @Feature("Введенные данные сохраняются в значение поля")
+    @Description("Введенные данные сохраняются в значение поля")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/8")
     public void testEnteredDataSavedFieldValue() {
@@ -59,6 +62,7 @@ public class TestAuthLogin extends BaseTest {
     @Test
     @Epic("Авторизация и аутентификация")
     @Feature("Вход с пустыми полями логина и пароля")
+    @Description("Вход с пустыми полями логина и пароля")
     @Severity(SeverityLevel.BLOCKER)
     @Link("https://team-b9fb.testit.software/projects/1/tests/9")
     public void testLoginWithEmptyUsernameAndPassword() {
@@ -77,6 +81,7 @@ public class TestAuthLogin extends BaseTest {
     @Test
     @Epic("Авторизация и аутентификация")
     @Feature("Проверка видимости пароля (иконка 'глаз') на странице Login")
+    @Description("Проверка видимости пароля (иконка 'глаз') на странице Login")
     @Severity(SeverityLevel.MINOR)
     @Link("https://team-b9fb.testit.software/projects/1/tests/10")
     public void testCheckingPasswordVisibility() {
@@ -103,4 +108,21 @@ public class TestAuthLogin extends BaseTest {
         Allure.step("Сравниваю скрины поля password");
         Assert.assertTrue(compareScreenshotsWithTolerance(screenshot1, screenshot2, 0.7));
     }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Переход по кнопке 'Сменить пароль'")
+    @Description("Переход по кнопке 'Сменить пароль'")
+    @Severity(SeverityLevel.NORMAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/11")
+    public void testClickChangePasswordButton() {
+
+        SetNewPasswordPage setNewPasswordPage = new LoginPage(getDriver())
+                .clickButtonNewPassword();
+
+        Allure.step("Загрузилась страница Сменить пароль");
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@data-testid='SetNewPassword-form']")));
+        Assert.assertEquals(setNewPasswordPage.getCurrentUrl(), String.format("%s/set-new-password", getConfig().getBaseUrl()));
+    }
+
 }
