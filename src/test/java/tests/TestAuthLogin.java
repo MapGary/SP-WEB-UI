@@ -185,4 +185,18 @@ public class TestAuthLogin extends BaseTest {
         Assert.assertEquals(loginPage.getJwtAsu(), "null");
         Assert.assertEquals(loginPage.getUser(), "null");
     }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Клик по лого на странице Login")
+    @Description("Клик по лого на странице Login")
+    @Severity(SeverityLevel.MINOR)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/224")
+    public void testClickLogo() {
+
+        LoginPage loginPage = new LoginPage(getDriver())
+                .clickLogo();
+
+        Assert.assertEquals(loginPage.getSettings(), "{\"schemeColumnCount\":\"2\",\"layoutDirection\":\"ltr\"}");
+    }
 }

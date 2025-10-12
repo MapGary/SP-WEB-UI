@@ -29,6 +29,9 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
+    @FindBy(xpath = "//header//a")
+    private WebElement logo;
+
     @FindBy(tagName = "h2")
     private WebElement nameForm;
 
@@ -246,5 +249,12 @@ public class LoginPage extends BasePage {
         settings = (String) jsExecutor.executeScript("return localStorage.getItem('settings');");
         Allure.addAttachment("В Local storage сохранился settings", settings);
         return settings;
+    }
+
+    @Step("Кликнул по лого")
+    public LoginPage clickLogo() {
+        logo.click();
+
+        return this;
     }
 }
