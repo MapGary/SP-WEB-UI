@@ -257,4 +257,49 @@ public class LoginPage extends BasePage {
 
         return this;
     }
+
+    @Step("Очистить поля логина и пароля")
+    public LoginPage clearFields() {
+        try {
+            fieldLogin.clear();
+        } catch (Exception ignored) {}
+        try {
+            fieldPassword.clear();
+        } catch (Exception ignored) {}
+        return this;
+    }
+
+    @Step("Попытка входа (негативная) с логином: {0}")
+    public LoginPage loginAttempt(String login, String password) {
+        clearFields();
+        fieldLogin.sendKeys(login);
+        fieldPassword.sendKeys(password);
+        // clickButtonLoginWithHelper() возвращает LoginPage
+        return clickButtonLoginWithHelper();
+    }
+
+    @Step("Установить логин: {0}")
+    public LoginPage setLogin(String login) {
+        fieldLogin.clear();
+        fieldLogin.sendKeys(login);
+        return this;
+    }
+
+
+    @Step("Установить пароль: {0}")
+    public LoginPage setPassword(String password) {
+        fieldPassword.clear();
+        fieldPassword.sendKeys(password);
+        return this;
+    }
+
+    @Step("Получить исходный HTML страницы")
+    public String getPageSource() {
+        return driver.getPageSource();
+    }
+
+    @Step("Получить текущий URL")
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
 }
