@@ -3,7 +3,6 @@ package pages;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,11 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginPage extends BasePage {
-
-    String jwt_asu = null;
-    String user = null;
-    String settings = null;
-    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -186,9 +180,7 @@ public class LoginPage extends BasePage {
 
     @Step("Кликаю иконку 'Сменить язык'")
     public LoginPage clickSwitchLanguage() {
-        Actions actions = new Actions(driver);
-
-        actions.moveToElement(buttonLanguage).click().perform();
+        buttonLanguage.click();
         Allure.addAttachment("Появилось всплавающее меню с активным полем", activeLanguage.getText());
 
         return this;
@@ -196,10 +188,8 @@ public class LoginPage extends BasePage {
 
     @Step("Кликаю по неактивному языку")
     public LoginPage clickInactiveLanguage() {
-        Actions actions = new Actions(driver);
-
         Allure.addAttachment("Кликнул по неактивному языку", inactiveLanguage.getText());
-        actions.moveToElement(inactiveLanguage).click().perform();
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(inactiveLanguage)).click();
 
         return this;
     }
