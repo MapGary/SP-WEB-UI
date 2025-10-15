@@ -188,8 +188,8 @@ public class LoginPage extends BasePage {
 
     @Step("Кликаю по неактивному языку")
     public LoginPage clickInactiveLanguage() {
-        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(inactiveLanguage)).click();
         Allure.addAttachment("Кликнул по неактивному языку", inactiveLanguage.getText());
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(inactiveLanguage)).click();
 
         return this;
     }
