@@ -1,4 +1,4 @@
-# SafePlant WEB Project Java
+# SafePlant WEB Test Project Java
 
 [![Java](https://img.shields.io/badge/Java-17-%23ED8B00?logo=coffee)](https://www.java.com/)
 [![Maven](https://img.shields.io/badge/Maven-3.9.8-%23ED8B00?logo=apachemaven)](https://maven.apache.org/)
