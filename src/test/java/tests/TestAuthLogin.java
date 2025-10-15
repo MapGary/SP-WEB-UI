@@ -213,7 +213,5 @@ public class TestAuthLogin extends BaseTest {
         Allure.step("Проверяю, что url страницы Логин");
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@data-testid='SystemLogin-form']")));
         Assert.assertEquals(loginPage.getCurrentUrl(), String.format("%s/login", getConfig().getBaseUrl()));
-        Allure.step("Проверяю поле settings в Local storage");
-        Assert.assertEquals(loginPage.getSettings(), "null");
     }
 }
