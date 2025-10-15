@@ -233,6 +233,9 @@ public class LoginPage extends BasePage {
     @Step("Получаю jwt_asu")
     public String getJwtAsu() {
         jwt_asu = (String) jsExecutor.executeScript("return localStorage.getItem('jwt_asu');");
+        if (jwt_asu == null) {
+            jwt_asu = "null";
+        }
         Allure.addAttachment("В Local storage сохранился jwt_asu", jwt_asu);
         return jwt_asu;
     }
@@ -255,6 +258,17 @@ public class LoginPage extends BasePage {
     public LoginPage clickLogo() {
         logo.click();
 
+        return this;
+    }
+
+    @Step("Очистить поля логина и пароля")
+    public LoginPage clearFields() {
+        try {
+            fieldLogin.clear();
+        } catch (Exception ignored) {}
+        try {
+            fieldPassword.clear();
+        } catch (Exception ignored) {}
         return this;
     }
 }
