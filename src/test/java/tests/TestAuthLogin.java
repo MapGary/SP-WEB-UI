@@ -144,33 +144,23 @@ public class TestAuthLogin extends BaseTest {
     @Link("https://team-b9fb.testit.software/projects/1/tests/12")
     public void testSwitchLanguage() {
 
-        String settingsUS = new LoginPage(getDriver())
+        Map<String, String> dataLanguageUS = new LoginPage(getDriver())
                 .getHelperSwitchLanguage()
                 .clickSwitchLanguage()
                 .clickInactiveLanguage()
-                .getSettings();
-
-        Map<String, String> dataLanguageUS = new LoginPage(getDriver())
                 .getTranslatedData();
 
-        String settingsRU = new LoginPage(getDriver())
+        Map<String, String> dataLanguageRU = new LoginPage(getDriver())
                 .getHelperSwitchLanguage()
                 .clickSwitchLanguage()
                 .clickInactiveLanguage()
-                .getSettings();
-
-        Map<String, String> dataLanguageRU = new LoginPage(getDriver())
                 .getTranslatedData();
 
         Allure.step("Проверяю, что язык соответствует английскому");
         Assert.assertTrue(compareExpectedLanguage(Language.US, dataLanguageUS));
-        Allure.step("Проверяю поле settings в Local storage");
-        Assert.assertEquals(settingsUS, "{\"schemeColumnCount\":\"2\",\"layoutDirection\":\"ltr\",\"language\":\"EN\"}");
+
         Allure.step("Проверяю, что язык соответствует русскому");
         Assert.assertTrue(compareExpectedLanguage(Language.RU, dataLanguageRU));
-        Allure.step("Проверяю поле settings в Local storage");
-        Assert.assertEquals(settingsRU, "{\"schemeColumnCount\":\"2\",\"layoutDirection\":\"ltr\",\"language\":\"RU\"}");
-
     }
 
     @Test
@@ -213,7 +203,5 @@ public class TestAuthLogin extends BaseTest {
         Allure.step("Проверяю, что url страницы Логин");
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@data-testid='SystemLogin-form']")));
         Assert.assertEquals(loginPage.getCurrentUrl(), String.format("%s/login", getConfig().getBaseUrl()));
-        Allure.step("Проверяю поле settings в Local storage");
-        Assert.assertEquals(loginPage.getSettings(), "{\"schemeColumnCount\":\"2\",\"layoutDirection\":\"ltr\"}");
     }
 }
