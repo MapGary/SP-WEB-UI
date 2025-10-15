@@ -144,22 +144,16 @@ public class TestAuthLogin extends BaseTest {
     @Link("https://team-b9fb.testit.software/projects/1/tests/12")
     public void testSwitchLanguage() {
 
-        new LoginPage(getDriver())
+        Map<String, String> dataLanguageUS = new LoginPage(getDriver())
                 .getHelperSwitchLanguage()
                 .clickSwitchLanguage()
                 .clickInactiveLanguage()
-                .getSettings();
-
-        Map<String, String> dataLanguageUS = new LoginPage(getDriver())
                 .getTranslatedData();
 
-        new LoginPage(getDriver())
+        Map<String, String> dataLanguageRU = new LoginPage(getDriver())
                 .getHelperSwitchLanguage()
                 .clickSwitchLanguage()
                 .clickInactiveLanguage()
-                .getSettings();
-
-        Map<String, String> dataLanguageRU = new LoginPage(getDriver())
                 .getTranslatedData();
 
         Allure.step("Проверяю, что язык соответствует английскому");
