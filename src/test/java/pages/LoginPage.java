@@ -3,7 +3,6 @@ package pages;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,11 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginPage extends BasePage {
-
-    String jwt_asu = null;
-    String user = null;
-    String settings = null;
-    JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -228,27 +222,6 @@ public class LoginPage extends BasePage {
         }
 
         return data;
-    }
-
-    @Step("Получаю jwt_asu")
-    public String getJwtAsu() {
-        jwt_asu = (String) jsExecutor.executeScript("return localStorage.getItem('jwt_asu');");
-        Allure.addAttachment("В Local storage сохранился jwt_asu", jwt_asu);
-        return jwt_asu;
-    }
-
-    @Step("Получаю user")
-    public String getUser() {
-        user = (String) jsExecutor.executeScript("return localStorage.getItem('user');");
-        Allure.addAttachment("В Local storage сохранился user", user);
-        return user;
-    }
-
-    @Step("Получаю settings")
-    public String getSettings() {
-        settings = (String) jsExecutor.executeScript("return localStorage.getItem('settings');");
-        Allure.addAttachment("В Local storage сохранился settings", settings);
-        return settings;
     }
 
     @Step("Кликнул по лого")
