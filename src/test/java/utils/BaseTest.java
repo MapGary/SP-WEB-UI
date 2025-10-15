@@ -77,7 +77,7 @@ public abstract class BaseTest {
             ChromeOptions chromeOptions = new ChromeOptions();
             Allure.addAttachment("RemoteUrl", remoteUrl);
             chromeOptions.addArguments("--headless");
-//            chromeOptions.addArguments("--disable-gpu");
+            chromeOptions.addArguments("--disable-gpu");
             chromeOptions.addArguments("--no-sandbox");
             chromeOptions.addArguments("--disable-dev-shm-usage");
             chromeOptions.addArguments("--window-size=1440,1080");
@@ -90,25 +90,25 @@ public abstract class BaseTest {
         } else {
             LoggerUtil.info("Local run");
 
-            ChromeOptions chromeOptions = new ChromeOptions();
+//            ChromeOptions chromeOptions = new ChromeOptions();
 //            chromeOptions.addArguments("--disable-gpu");
-            chromeOptions.addArguments("--no-sandbox");
-            chromeOptions.addArguments("--disable-dev-shm-usage");
+//            chromeOptions.addArguments("--no-sandbox");
+//            chromeOptions.addArguments("--disable-dev-shm-usage");
 //            chromeOptions.addArguments("--disable-extensions");
 //            chromeOptions.addArguments("--disable-notifications");
 //            chromeOptions.addArguments("--remote-allow-origins=*");
 
-            EdgeOptions edgeOptions = new EdgeOptions();
+//            EdgeOptions edgeOptions = new EdgeOptions();
 //            edgeOptions.addArguments("--disable-gpu");
-            edgeOptions.addArguments("--no-sandbox");
-            edgeOptions.addArguments("--disable-dev-shm-usage");
+//            edgeOptions.addArguments("--no-sandbox");
+//            edgeOptions.addArguments("--disable-dev-shm-usage");
 //            edgeOptions.addArguments("--disable-extensions");
 //            edgeOptions.addArguments("--disable-notifications");
 //            edgeOptions.addArguments("--remote-allow-origins=*");
 
             switch (browser.toLowerCase()) {
                 case "chrome":
-                    driver = new ChromeDriver(chromeOptions);
+                    driver = new ChromeDriver();
                     break;
                 case "edge":
                     driver = new EdgeDriver();
@@ -122,7 +122,7 @@ public abstract class BaseTest {
 //                    chromeOptions.addArguments("--no-sandbox");
 //                    chromeOptions.addArguments("--disable-dev-shm-usage");
 //                    chromeOptions.addArguments("--remote-allow-origins=*");
-                    driver = new ChromeDriver(chromeOptions);
+                    driver = new ChromeDriver();
                     break;
                 default:
                     throw new IllegalArgumentException("Unsupported browser: " + browser);
