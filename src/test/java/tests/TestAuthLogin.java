@@ -44,6 +44,8 @@ public class TestAuthLogin extends BaseTest {
         Assert.assertNotNull(dashboardPage.getJwtAsu());
         Allure.step("Проверяю поле user в Local storage");
         Assert.assertNotNull(dashboardPage.getUser());
+        Allure.step("Проверяю поле settings в Local storage");
+        Assert.assertNotNull(dashboardPage.getSettings());
     }
 
     @Test
