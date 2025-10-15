@@ -18,7 +18,6 @@ public class DashboardPage extends BasePage {
     @Step("Получаю jwt_asu")
     public String getJwtAsu() {
         jwt_asu = (String) jsExecutor.executeScript("return localStorage.getItem('jwt_asu.accessToken');");
-//        jwt_asu = (String) jsExecutor.executeScript("return localStorage.getItem('jwt_asu');");
         Allure.addAttachment("В Local storage сохранился jwt_asu", jwt_asu);
         return jwt_asu;
     }
