@@ -226,4 +226,38 @@ public class LoginPage extends BasePage {
 
         return this;
     }
+
+    @Step("Очистить поля логина и пароля")
+    public LoginPage clearFields() {
+        try {
+            fieldLogin.clear();
+        } catch (Exception ignored) {}
+        try {
+            fieldPassword.clear();
+        } catch (Exception ignored) {}
+        return this;
+    }
+
+//    @Step("Получаю jwt_asu")
+//    public String getJwtAsu() {
+//        jwt_asu = (String) jsExecutor.executeScript("return localStorage.getItem('jwt_asu');");
+//        if (jwt_asu == null) {
+//            jwt_asu = "null";
+//        }
+//        Allure.addAttachment("В Local storage сохранился jwt_asu", jwt_asu);
+//        return jwt_asu;
+//    }
+//    @Step("Получаю user")
+//    public String getUser() {
+//        user = (String) jsExecutor.executeScript("return localStorage.getItem('user');");
+//        Allure.addAttachment("В Local storage сохранился user", user);
+//        return user;
+//    }
+//    @Step("Получаю settings")
+//    public String getSettings() {
+//        settings = (String) jsExecutor.executeScript("return localStorage.getItem('settings');");
+//        Allure.addAttachment("В Local storage сохранился settings", settings);
+//        return settings;
+//    }
+
 }

@@ -29,6 +29,7 @@ public abstract class BaseTest {
     private WebDriver driver;
     private final TestConfig config = new TestConfig();
     private WebDriverWait wait5;
+    private WebDriverWait wait10;
 
     protected WebDriver getDriver() {
 
@@ -62,6 +63,14 @@ public abstract class BaseTest {
         }
 
         return wait5;
+    }
+
+    public WebDriverWait getWait10() {
+        if (wait10 == null) {
+            wait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        }
+
+        return wait10;
     }
 
     @Parameters("browser")
