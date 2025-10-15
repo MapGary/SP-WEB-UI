@@ -3,6 +3,7 @@ package pages;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
@@ -12,6 +13,9 @@ public class BasePage {
 
     WebDriver driver;
     String refreshToken = null;
+    String jwt_asu = null;
+    String user = null;
+    String settings = null;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -26,14 +30,54 @@ public class BasePage {
     @Step("Получаю refresh_token")
     public String getRefreshToken() {
 
-        Set<Cookie> cookies = driver.manage().getCookies();
+        try {
+            Set<Cookie> cookies = driver.manage().getCookies();
 
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("refresh_token")) {
-                refreshToken = cookie.getValue();
-                Allure.addAttachment("В Cookies сохранился refresh_token", refreshToken);
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("refresh_token")) {
+                    refreshToken = cookie.getValue();
+                    Allure.addAttachment("В Cookies сохранился refresh_token", refreshToken);
+                }
             }
+        } catch (NullPointerException e) {
+            Allure.addAttachment("RefreshToken", "text/plain", "Поле refresh token не найдено: " + e.getMessage());
         }
         return refreshToken;
+    }
+
+    @Step("Получаю jwt_asu")
+    public String getJwtAsu() {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        try {
+            jwt_asu = (String) jsExecutor.executeScript("return localStorage.getItem('jwt_asu');");
+            Allure.addAttachment("В Local storage сохранился jwt_asu", jwt_asu);
+        } catch (NullPointerException e) {
+            Allure.addAttachment("JwtAsu", "text/plain", "Поле jwt asu не найдено: " + e.getMessage());
+        }
+        return jwt_asu;
+    }
+
+    @Step("Получаю user")
+    public String getUser() {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        try {
+            user = (String) jsExecutor.executeScript("return localStorage.getItem('user');");
+            Allure.addAttachment("В Local storage сохранился user", user);
+        } catch (NullPointerException e) {
+            Allure.addAttachment("User", "text/plain", "Поле user не найдено: " + e.getMessage());
+        }
+        return user;
+    }
+
+    @Step("Получаю settings")
+    public String getSettings() {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+        try {
+            settings = (String) jsExecutor.executeScript("return localStorage.getItem('settings');");
+            Allure.addAttachment("В Local storage сохранился settings", settings);
+        } catch (NullPointerException e) {
+            Allure.addAttachment("Settings", "text/plain", "Поле settings не найдено: " + e.getMessage());
+        }
+        return settings;
     }
 }
