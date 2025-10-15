@@ -98,14 +98,14 @@ public abstract class BaseTest {
                     break;
                 case "yandex":
                     System.setProperty("webdriver.chrome.driver", "driver/yandexdriver-25.8.0.1872-win64/yandexdriver.exe");
-                    ChromeOptions options = new ChromeOptions();
-                    options.addArguments("--disable-extensions");
-                    options.addArguments("--disable-notifications");
-                    options.addArguments("--disable-gpu");
-                    options.addArguments("--no-sandbox");
-                    options.addArguments("--disable-dev-shm-usage");
-                    options.addArguments("--remote-allow-origins=*");
-                    driver = new ChromeDriver(options);
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.addArguments("--disable-extensions");
+                    chromeOptions.addArguments("--disable-notifications");
+                    chromeOptions.addArguments("--disable-gpu");
+                    chromeOptions.addArguments("--no-sandbox");
+                    chromeOptions.addArguments("--disable-dev-shm-usage");
+                    chromeOptions.addArguments("--remote-allow-origins=*");
+                    driver = new ChromeDriver();
                     break;
                 default:
                     throw new IllegalArgumentException("Unsupported browser: " + browser);
