@@ -232,6 +232,7 @@ public class LoginPage extends BasePage {
 
     @Step("Получаю jwt_asu")
     public String getJwtAsu() {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         jwt_asu = (String) jsExecutor.executeScript("return localStorage.getItem('jwt_asu');");
         if (jwt_asu == null) {
             jwt_asu = "null";
