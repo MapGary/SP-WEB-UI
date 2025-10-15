@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
@@ -90,22 +89,6 @@ public abstract class BaseTest {
         } else {
             LoggerUtil.info("Local run");
 
-//            ChromeOptions chromeOptions = new ChromeOptions();
-//            chromeOptions.addArguments("--disable-gpu");
-//            chromeOptions.addArguments("--no-sandbox");
-//            chromeOptions.addArguments("--disable-dev-shm-usage");
-//            chromeOptions.addArguments("--disable-extensions");
-//            chromeOptions.addArguments("--disable-notifications");
-//            chromeOptions.addArguments("--remote-allow-origins=*");
-
-//            EdgeOptions edgeOptions = new EdgeOptions();
-//            edgeOptions.addArguments("--disable-gpu");
-//            edgeOptions.addArguments("--no-sandbox");
-//            edgeOptions.addArguments("--disable-dev-shm-usage");
-//            edgeOptions.addArguments("--disable-extensions");
-//            edgeOptions.addArguments("--disable-notifications");
-//            edgeOptions.addArguments("--remote-allow-origins=*");
-
             switch (browser.toLowerCase()) {
                 case "chrome":
                     driver = new ChromeDriver();
@@ -115,13 +98,13 @@ public abstract class BaseTest {
                     break;
                 case "yandex":
                     System.setProperty("webdriver.chrome.driver", "driver/yandexdriver-25.8.0.1872-win64/yandexdriver.exe");
-//                    ChromeOptions chromeOptions = new ChromeOptions();
-//                    chromeOptions.addArguments("--disable-extensions");
-//                    chromeOptions.addArguments("--disable-notifications");
-//                    chromeOptions.addArguments("--disable-gpu");
-//                    chromeOptions.addArguments("--no-sandbox");
-//                    chromeOptions.addArguments("--disable-dev-shm-usage");
-//                    chromeOptions.addArguments("--remote-allow-origins=*");
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.addArguments("--disable-extensions");
+                    chromeOptions.addArguments("--disable-notifications");
+                    chromeOptions.addArguments("--disable-gpu");
+                    chromeOptions.addArguments("--no-sandbox");
+                    chromeOptions.addArguments("--disable-dev-shm-usage");
+                    chromeOptions.addArguments("--remote-allow-origins=*");
                     driver = new ChromeDriver();
                     break;
                 default:

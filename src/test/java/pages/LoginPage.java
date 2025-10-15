@@ -180,9 +180,7 @@ public class LoginPage extends BasePage {
 
     @Step("Кликаю иконку 'Сменить язык'")
     public LoginPage clickSwitchLanguage() {
-        Actions actions = new Actions(driver);
-
-        actions.moveToElement(buttonLanguage).click().perform();
+        buttonLanguage.click();
         Allure.addAttachment("Появилось всплавающее меню с активным полем", activeLanguage.getText());
 
         return this;
@@ -190,10 +188,8 @@ public class LoginPage extends BasePage {
 
     @Step("Кликаю по неактивному языку")
     public LoginPage clickInactiveLanguage() {
-        Actions actions = new Actions(driver);
-
+        new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(inactiveLanguage)).click();
         Allure.addAttachment("Кликнул по неактивному языку", inactiveLanguage.getText());
-        actions.moveToElement(inactiveLanguage).click().perform();
 
         return this;
     }
