@@ -232,12 +232,21 @@ public class LoginPage extends BasePage {
 
     @Step("Получаю jwt_asu")
     public String getJwtAsu() {
-        jwt_asu = (String) jsExecutor.executeScript("return localStorage.getItem('jwt_asu');");
-        if (jwt_asu == null) {
-            jwt_asu = "null";
+//        jwt_asu = (String) jsExecutor.executeScript("return localStorage.getItem('jwt_asu');");
+//        if (jwt_asu == null) {
+//            jwt_asu = "null";
+//        }
+//        Allure.addAttachment("В Local storage сохранился jwt_asu", jwt_asu);
+//        return jwt_asu;
+
+        String value = (String) ((JavascriptExecutor) driver).executeScript("return localStorage.getItem('jwt_asu');");
+
+        if (value == null) {
+            value = "null";
         }
-        Allure.addAttachment("В Local storage сохранился jwt_asu", jwt_asu);
-        return jwt_asu;
+
+        Allure.addAttachment("В Local storage сохранился jwt_asu", value);
+        return value;
     }
 
     @Step("Получаю user")
