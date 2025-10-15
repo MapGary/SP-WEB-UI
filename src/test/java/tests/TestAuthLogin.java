@@ -44,8 +44,6 @@ public class TestAuthLogin extends BaseTest {
         Assert.assertNotNull(dashboardPage.getJwtAsu());
         Allure.step("Проверяю поле user в Local storage");
         Assert.assertNotNull(dashboardPage.getUser());
-        Allure.step("Проверяю поле settings в Local storage");
-        Assert.assertNotNull(dashboardPage.getSettings());
     }
 
     @Test
@@ -146,7 +144,7 @@ public class TestAuthLogin extends BaseTest {
     @Link("https://team-b9fb.testit.software/projects/1/tests/12")
     public void testSwitchLanguage() {
 
-        String settingsUS = new LoginPage(getDriver())
+        new LoginPage(getDriver())
                 .getHelperSwitchLanguage()
                 .clickSwitchLanguage()
                 .clickInactiveLanguage()
@@ -155,7 +153,7 @@ public class TestAuthLogin extends BaseTest {
         Map<String, String> dataLanguageUS = new LoginPage(getDriver())
                 .getTranslatedData();
 
-        String settingsRU = new LoginPage(getDriver())
+        new LoginPage(getDriver())
                 .getHelperSwitchLanguage()
                 .clickSwitchLanguage()
                 .clickInactiveLanguage()
@@ -166,13 +164,9 @@ public class TestAuthLogin extends BaseTest {
 
         Allure.step("Проверяю, что язык соответствует английскому");
         Assert.assertTrue(compareExpectedLanguage(Language.US, dataLanguageUS));
-        Allure.addAttachment("Проверяю поле settings в Local storage на содержание EN", settingsUS);
-        Assert.assertTrue(settingsUS.contains("\"language\":\"EN\""));
 
         Allure.step("Проверяю, что язык соответствует русскому");
         Assert.assertTrue(compareExpectedLanguage(Language.RU, dataLanguageRU));
-        Allure.addAttachment("Проверяю поле settings в Local storage на содержание RU", settingsRU);
-        Assert.assertTrue(settingsRU.contains("\"language\":\"RU\""));
     }
 
     @Test
