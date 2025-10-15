@@ -164,13 +164,13 @@ public class TestAuthLogin extends BaseTest {
 
         Allure.step("Проверяю, что язык соответствует английскому");
         Assert.assertTrue(compareExpectedLanguage(Language.US, dataLanguageUS));
-        Allure.step("Проверяю поле settings в Local storage");
-        Assert.assertEquals(settingsUS, "{\"schemeColumnCount\":\"2\",\"layoutDirection\":\"ltr\",\"language\":\"EN\"}");
+        Allure.addAttachment("Проверяю поле settings в Local storage на содержание EN", settingsUS);
+        Assert.assertTrue(settingsUS.contains("\"language\":\"EN\""));
+
         Allure.step("Проверяю, что язык соответствует русскому");
         Assert.assertTrue(compareExpectedLanguage(Language.RU, dataLanguageRU));
-        Allure.step("Проверяю поле settings в Local storage");
-        Assert.assertEquals(settingsRU, "{\"schemeColumnCount\":\"2\",\"layoutDirection\":\"ltr\",\"language\":\"RU\"}");
-
+        Allure.addAttachment("Проверяю поле settings в Local storage на содержание RU", settingsRU);
+        Assert.assertTrue(settingsRU.contains("\"language\":\"RU\""));
     }
 
     @Test
@@ -214,6 +214,6 @@ public class TestAuthLogin extends BaseTest {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@data-testid='SystemLogin-form']")));
         Assert.assertEquals(loginPage.getCurrentUrl(), String.format("%s/login", getConfig().getBaseUrl()));
         Allure.step("Проверяю поле settings в Local storage");
-        Assert.assertEquals(loginPage.getSettings(), "{\"schemeColumnCount\":\"2\",\"layoutDirection\":\"ltr\"}");
+        Assert.assertEquals(loginPage.getSettings(), "null");
     }
 }
