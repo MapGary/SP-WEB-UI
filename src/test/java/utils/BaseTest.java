@@ -77,7 +77,7 @@ public abstract class BaseTest {
             ChromeOptions chromeOptions = new ChromeOptions();
             Allure.addAttachment("RemoteUrl", remoteUrl);
             chromeOptions.addArguments("--headless");
-            chromeOptions.addArguments("--disable-gpu");
+//            chromeOptions.addArguments("--disable-gpu");
             chromeOptions.addArguments("--no-sandbox");
             chromeOptions.addArguments("--disable-dev-shm-usage");
             chromeOptions.addArguments("--window-size=1440,1080");
@@ -91,7 +91,7 @@ public abstract class BaseTest {
             LoggerUtil.info("Local run");
 
             ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--disable-gpu");
+//            chromeOptions.addArguments("--disable-gpu");
             chromeOptions.addArguments("--no-sandbox");
             chromeOptions.addArguments("--disable-dev-shm-usage");
 //            chromeOptions.addArguments("--disable-extensions");
@@ -99,7 +99,7 @@ public abstract class BaseTest {
 //            chromeOptions.addArguments("--remote-allow-origins=*");
 
             EdgeOptions edgeOptions = new EdgeOptions();
-            edgeOptions.addArguments("--disable-gpu");
+//            edgeOptions.addArguments("--disable-gpu");
             edgeOptions.addArguments("--no-sandbox");
             edgeOptions.addArguments("--disable-dev-shm-usage");
 //            edgeOptions.addArguments("--disable-extensions");
