@@ -13,6 +13,7 @@ public class BasePage {
 
     WebDriver driver;
     String refreshToken = null;
+    boolean httpOnlyRefreshToken = false;
     String jwt_asu = null;
     String user = null;
     String settings = null;
@@ -43,6 +44,24 @@ public class BasePage {
             Allure.addAttachment("RefreshToken", "text/plain", "Поле refresh token не найдено: " + e.getMessage());
         }
         return refreshToken;
+    }
+
+    @Step("Получаю занчение HttpOnly у refresh_token")
+    public boolean isHttpOnlyRefreshToken() {
+
+        try {
+            Set<Cookie> cookies = driver.manage().getCookies();
+
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("refresh_token")) {
+                    httpOnlyRefreshToken = cookie.isHttpOnly();
+                    Allure.addAttachment("В Cookies сохранился refresh_token со значением в HttpOnly", String.valueOf(httpOnlyRefreshToken));
+                }
+            }
+        } catch (NullPointerException e) {
+            Allure.addAttachment("RefreshToken", "text/plain", "Поле refresh token не найдено: " + e.getMessage());
+        }
+        return httpOnlyRefreshToken;
     }
 
     @Step("Получаю jwt_asu")
