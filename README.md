@@ -87,7 +87,7 @@
        mvn clean test -Dsuite=all       
    ```
 
-Команда для параллельного запуска тестов указанных в `parallel.xml` 3 потока в каждом из браузеров Chrome, Edge, Yandex:
+Команда для параллельного запуска (Пока работает не корректно!!!) тестов указанных в `parallel.xml` 3 потока в каждом из браузеров Chrome, Edge, Yandex:
 
    ```bash     
        mvn clean test -Dsuite=parallel       

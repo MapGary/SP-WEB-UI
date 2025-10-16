@@ -3,7 +3,7 @@
 
     <test name="Браузер">
         <classes>
-            <class name="tests.TestAuthLogin"/>
+            <class name="tests.AuthLoginTest"/>
         </classes>
     </test>
 

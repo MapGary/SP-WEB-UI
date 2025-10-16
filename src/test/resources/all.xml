@@ -4,7 +4,7 @@
     <test name="Браузер Chrome">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="tests.TestAuthLogin"/>
+            <class name="tests.AuthLoginTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
         </classes>
     </test>
@@ -12,7 +12,7 @@
     <test name="Браузер Edge">
         <parameter name="browser" value="edge"/>
         <classes>
-            <class name="tests.TestAuthLogin"/>
+            <class name="tests.AuthLoginTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
         </classes>
     </test>
@@ -20,7 +20,7 @@
     <test name="Браузер Yandex">
         <parameter name="browser" value="yandex"/>
         <classes>
-            <class name="tests.TestAuthLogin"/>
+            <class name="tests.AuthLoginTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
         </classes>
     </test>

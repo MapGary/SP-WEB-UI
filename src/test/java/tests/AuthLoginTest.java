@@ -17,7 +17,7 @@ import java.util.Map;
 import static utils.Assert.compareExpectedLanguage;
 import static utils.Assert.compareScreenshotsWithTolerance;
 
-public class TestAuthLogin extends BaseTest {
+public class AuthLoginTest extends BaseTest {
 
     @Test
     @Epic("Авторизация и аутентификация")
@@ -40,6 +40,8 @@ public class TestAuthLogin extends BaseTest {
         Assert.assertTrue(dashboardPage.getCurrentUrl().contains(String.format("%s/dashboard", getConfig().getBaseUrl())));
         Allure.step("Проверяю, что в Cookies записалось значение refresh_token");
         Assert.assertNotNull(dashboardPage.getRefreshToken());
+        Allure.step("Проверяю, что в refresh_token отмечен HttpOnly");
+        Assert.assertTrue(dashboardPage.isHttpOnlyRefreshToken());
         Allure.step("Проверяю поле jwt_asu в Local storage");
         Assert.assertNotNull(dashboardPage.getJwtAsu());
         Allure.step("Проверяю поле user в Local storage");
