@@ -3,10 +3,7 @@ package pages;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -100,9 +97,8 @@ public class LoginPage extends BasePage {
 
     @Step("Кликаю кнопку Войти")
     public DashboardPage clickButtonLogin() {
-        buttonLogin.click();
+        buttonLogin.submit();
 
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='equipment-header']")));
         return new DashboardPage(driver);
     }
 

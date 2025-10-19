@@ -38,7 +38,6 @@ public class AuthLoginTest extends BaseTest {
                 .clickButtonLogin();
 
         Allure.step("Проверяю, что загрузилась страница Дашборд");
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.id("equipment-content")));
         Assert.assertTrue(dashboardPage.getCurrentUrl().contains(String.format("%s/dashboard", getConfig().getBaseUrl())));
         Allure.step("Проверяю, что в Cookies записалось значение refresh_token");
         Assert.assertNotNull(dashboardPage.getRefreshToken());

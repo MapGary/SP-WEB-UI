@@ -1,10 +1,7 @@
 package utils;
 
 import io.qameta.allure.Allure;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -108,11 +105,11 @@ public abstract class BaseTest {
                 case "yandex":
                     System.setProperty("webdriver.chrome.driver", "driver/yandexdriver-25.8.0.1872-win64/yandexdriver.exe");
                     ChromeOptions chromeOptions = new ChromeOptions();
-                    chromeOptions.addArguments("--disable-extensions");
-                    chromeOptions.addArguments("--disable-notifications");
                     chromeOptions.addArguments("--disable-gpu");
                     chromeOptions.addArguments("--no-sandbox");
                     chromeOptions.addArguments("--disable-dev-shm-usage");
+                    chromeOptions.addArguments("--disable-extensions");
+                    chromeOptions.addArguments("--disable-notifications");
                     chromeOptions.addArguments("--remote-allow-origins=*");
                     driver = new ChromeDriver();
                     break;
