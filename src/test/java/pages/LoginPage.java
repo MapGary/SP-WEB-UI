@@ -85,13 +85,13 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    @Step("Взять значение поля Логин")
+    @Step("Беру значение поля Логин")
     public String getValueToFieldLogin() {
 
         return fieldLogin.getDomAttribute("value");
     }
 
-    @Step("Взять значение поля  Пароль")
+    @Step("Беру значение поля  Пароль")
     public String getValueToFieldPassword() {
 
         return fieldPassword.getDomAttribute("value");
@@ -104,28 +104,28 @@ public class LoginPage extends BasePage {
         return new DashboardPage(driver);
     }
 
-    @Step("Кликнуть в поле Логин")
+    @Step("Кликаю в поле Логин")
     public LoginPage clickToFieldLogin() {
         fieldLogin.click();
 
         return this;
     }
 
-    @Step("Кликнуть в поле Пароль")
+    @Step("Кликаю в поле Пароль")
     public LoginPage clickToFieldPassword() {
         fieldPassword.click();
 
         return this;
     }
 
-    @Step("Кликаю кнопку Войти с подсказкой")
+    @Step("Кликаю кнопку Войти без перехода на другую страницу")
     public LoginPage clickButtonLoginWithHelper() {
         buttonLogin.click();
 
         return this;
     }
 
-    @Step("Проверить текст подсказки для поля Логин")
+    @Step("Получаю текст подсказки для поля Логин")
     public String getHelperTextLogin() {
         return helperLogin.getText();
     }
@@ -181,7 +181,7 @@ public class LoginPage extends BasePage {
     @Step("Кликаю иконку 'Сменить язык'")
     public LoginPage clickSwitchLanguage() {
         buttonLanguage.click();
-        Allure.addAttachment("Появилось всплавающее меню с активным полем", activeLanguage.getText());
+        Allure.addAttachment("Появилось всплывающее меню с активным полем", activeLanguage.getText());
 
         return this;
     }
@@ -220,14 +220,14 @@ public class LoginPage extends BasePage {
         return data;
     }
 
-    @Step("Кликнул по лого")
+    @Step("Кликаю по лого")
     public LoginPage clickLogo() {
         logo.click();
 
         return this;
     }
 
-    @Step("Очистить поля логина и пароля")
+    @Step("Очищаю поля логина и пароля")
     public LoginPage clearFields() {
         try {
             fieldLogin.clear();
@@ -237,27 +237,4 @@ public class LoginPage extends BasePage {
         } catch (Exception ignored) {}
         return this;
     }
-
-//    @Step("Получаю jwt_asu")
-//    public String getJwtAsu() {
-//        jwt_asu = (String) jsExecutor.executeScript("return localStorage.getItem('jwt_asu');");
-//        if (jwt_asu == null) {
-//            jwt_asu = "null";
-//        }
-//        Allure.addAttachment("В Local storage сохранился jwt_asu", jwt_asu);
-//        return jwt_asu;
-//    }
-//    @Step("Получаю user")
-//    public String getUser() {
-//        user = (String) jsExecutor.executeScript("return localStorage.getItem('user');");
-//        Allure.addAttachment("В Local storage сохранился user", user);
-//        return user;
-//    }
-//    @Step("Получаю settings")
-//    public String getSettings() {
-//        settings = (String) jsExecutor.executeScript("return localStorage.getItem('settings');");
-//        Allure.addAttachment("В Local storage сохранился settings", settings);
-//        return settings;
-//    }
-
 }

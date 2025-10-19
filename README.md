@@ -3,7 +3,7 @@
 [![Java](https://img.shields.io/badge/Java-17-%23ED8B00?logo=coffee)](https://www.java.com/)
 [![Maven](https://img.shields.io/badge/Maven-3.9.8-%23ED8B00?logo=apachemaven)](https://maven.apache.org/)
 [![TestNG](https://img.shields.io/badge/TestNG-7.11.0-%23ED8B00?logo=testng)](https://testng.org/)
-[![Selenium](https://img.shields.io/badge/Selenium-4.33-%23ED8B00?logo=selenium)](https://www.selenium.dev/)
+[![Selenium](https://img.shields.io/badge/Selenium-4.35-%23ED8B00?logo=selenium)](https://www.selenium.dev/)
 [![Allure](https://img.shields.io/badge/Allure-Report-%23FF6A00?logo=allure)](https://allurereport.org/)
 
 ---
@@ -61,8 +61,8 @@
 ```
 2. На основе шаблона `defauilt.properties.TAMPLATE` создать файл `demo.properties` с данными для входа без vpn
 3. Обязательно локально установить Yandex браузер
-4. Подгрузить / обновить файл зависимостей для Maven pom.xml
-<p align="center"> <img src="images/pom/img.png" alt="Press to Actions tab" width="400"/> </p>
+4. Подгрузить / обновить файл зависимостей для Maven pom.xml <p align="center"> <img src="images/pom/img.png" alt="Press to Actions tab" width="400"/> </p>
+5. Если pom.xml обновить не получилось, запускаем принудительное обновление. <p align="center"> <img src="images/pom/img_1.png" alt="Press to Actions tab" width="400"/> </p>
 
 
 ## 🚀 Запуск тестов

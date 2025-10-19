@@ -146,23 +146,33 @@ public class AuthLoginTest extends BaseTest {
     @Link("https://team-b9fb.testit.software/projects/1/tests/12")
     public void testSwitchLanguage() {
 
-        Map<String, String> dataLanguageUS = new LoginPage(getDriver())
+        String settingsEN = new LoginPage(getDriver())
                 .getHelperSwitchLanguage()
                 .clickSwitchLanguage()
                 .clickInactiveLanguage()
+                .getSettings();
+
+        Map<String, String> dataLanguageUS = new LoginPage(getDriver())
                 .getTranslatedData();
 
-        Map<String, String> dataLanguageRU = new LoginPage(getDriver())
+        String settingsRU = new LoginPage(getDriver())
                 .getHelperSwitchLanguage()
                 .clickSwitchLanguage()
                 .clickInactiveLanguage()
+                .getSettings();
+
+        Map<String, String> dataLanguageRU = new LoginPage(getDriver())
                 .getTranslatedData();
 
         Allure.step("Проверяю, что язык соответствует английскому");
         Assert.assertTrue(compareExpectedLanguage(Language.US, dataLanguageUS));
+        Allure.step("Проверяю, что в Local storage в settings указано EN");
+        Assert.assertTrue(settingsEN.contains("\"language\":\"EN\""));
 
         Allure.step("Проверяю, что язык соответствует русскому");
         Assert.assertTrue(compareExpectedLanguage(Language.RU, dataLanguageRU));
+        Allure.step("Проверяю, что в Local storage в settings указано RU");
+        Assert.assertTrue(settingsRU.contains("\"language\":\"RU\""));
     }
 
     @Test

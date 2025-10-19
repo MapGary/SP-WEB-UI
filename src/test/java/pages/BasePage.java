@@ -92,7 +92,7 @@ public class BasePage {
     public String getSettings() {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         try {
-            settings = (String) jsExecutor.executeScript("return localStorage.getItem('settings');");
+            settings = (String) jsExecutor.executeScript("return localStorage.getItem('settings_guest');");
             Allure.addAttachment("В Local storage сохранился settings", settings);
         } catch (NullPointerException e) {
             Allure.addAttachment("Settings", "text/plain", "Поле settings не найдено: " + e.getMessage());
