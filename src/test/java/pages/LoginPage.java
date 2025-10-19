@@ -97,9 +97,7 @@ public class LoginPage extends BasePage {
 
     @Step("Кликаю кнопку Войти")
     public DashboardPage clickButtonLogin() {
-//        buttonLogin.submit();
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].click();", buttonLogin);
+        buttonLogin.submit();
 
         return new DashboardPage(driver);
     }
@@ -121,6 +119,12 @@ public class LoginPage extends BasePage {
     @Step("Кликаю кнопку Войти без перехода на другую страницу")
     public LoginPage clickButtonLoginWithHelper() {
         buttonLogin.click();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         return this;
     }

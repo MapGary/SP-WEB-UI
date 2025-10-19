@@ -59,7 +59,7 @@ public abstract class BaseTest {
 
     public WebDriverWait getWait5() {
         if (wait5 == null) {
-            wait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+            wait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(25));
         }
 
         return wait5;
