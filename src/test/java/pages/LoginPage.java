@@ -97,13 +97,7 @@ public class LoginPage extends BasePage {
 
     @Step("Кликаю кнопку Войти")
     public DashboardPage clickButtonLogin() {
-        buttonLogin.submit();
-
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        buttonLogin.click();
 
         return new DashboardPage(driver);
     }
