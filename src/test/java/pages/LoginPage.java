@@ -231,10 +231,12 @@ public class LoginPage extends BasePage {
     public LoginPage clearFields() {
         try {
             fieldLogin.clear();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         try {
             fieldPassword.clear();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return this;
     }
 }

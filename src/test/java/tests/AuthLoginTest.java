@@ -3,6 +3,7 @@ package tests;
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
@@ -12,6 +13,7 @@ import utils.BaseTest;
 import utils.Language;
 
 import java.io.File;
+import java.time.Duration;
 import java.util.Map;
 
 import static utils.Assert.compareExpectedLanguage;
@@ -36,7 +38,7 @@ public class AuthLoginTest extends BaseTest {
                 .clickButtonLogin();
 
         Allure.step("Проверяю, что загрузилась страница Дашборд");
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='equipment-header']")));
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.id("equipment-content")));
         Assert.assertTrue(dashboardPage.getCurrentUrl().contains(String.format("%s/dashboard", getConfig().getBaseUrl())));
         Allure.step("Проверяю, что в Cookies записалось значение refresh_token");
         Assert.assertNotNull(dashboardPage.getRefreshToken());
