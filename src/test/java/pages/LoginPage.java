@@ -99,6 +99,12 @@ public class LoginPage extends BasePage {
     public DashboardPage clickButtonLogin() {
         buttonLogin.submit();
 
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         return new DashboardPage(driver);
     }
 

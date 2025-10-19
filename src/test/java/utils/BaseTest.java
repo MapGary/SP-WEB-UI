@@ -59,7 +59,7 @@ public abstract class BaseTest {
 
     public WebDriverWait getWait5() {
         if (wait5 == null) {
-            wait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(25));
+            wait5 = new WebDriverWait(getDriver(), Duration.ofSeconds(5));
         }
 
         return wait5;
@@ -88,6 +88,9 @@ public abstract class BaseTest {
             chromeOptions.addArguments("--disable-gpu");
             chromeOptions.addArguments("--no-sandbox");
             chromeOptions.addArguments("--disable-dev-shm-usage");
+            chromeOptions.addArguments("--disable-extensions");
+            chromeOptions.addArguments("--disable-notifications");
+            chromeOptions.addArguments("--remote-allow-origins=*");
             chromeOptions.addArguments("--window-size=1440,1080");
             chromeOptions.setCapability("goog:loggingPrefs", Map.of("browser", "ALL"));
             try {
