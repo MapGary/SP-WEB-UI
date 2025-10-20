@@ -6,8 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.DashboardPage;
 import pages.LoginPage;
-import pages.StaticElementsPage;
 import utils.BaseTest;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     );
 
     //логин
-    private void loginToApp() {
+    private DashboardPage loginToApp() {
         String login = getConfig().getUserName();
         String password = getConfig().getPassword();
 
@@ -36,11 +36,13 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         // ждём, пока появится дашборд
         getWait10().until(ExpectedConditions.urlContains("/dashboard"));
+
+        return new DashboardPage(getDriver(), this);
     }
 
     //выбор интервала
     private void selectIntervalByDataValue(String dataValue) {
-        StaticElementsPage staticPage = new StaticElementsPage(getDriver(), this);
+        DashboardPage staticPage = new DashboardPage(getDriver(), this);
 
         staticPage.openTimeIntervalDropdown();
 
@@ -51,7 +53,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
     //выбранный текст
     private String getSelectedIntervalText() {
-        StaticElementsPage staticPage = new StaticElementsPage(getDriver(), this);
+        DashboardPage staticPage = new DashboardPage(getDriver(), this);
         return staticPage.timeIntervalSelected();
     }
 
@@ -64,7 +66,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         loginToApp();
 
-        StaticElementsPage staticPage = new StaticElementsPage(getDriver(), this);
+        DashboardPage staticPage = new DashboardPage(getDriver(), this);
 
         String selected = staticPage.timeIntervalSelected();
 
@@ -81,7 +83,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     public void testDropdownContainsAllExpectedOptions() {
         loginToApp();
 
-        StaticElementsPage staticPage = new StaticElementsPage(getDriver(), this);
+        DashboardPage staticPage = new DashboardPage(getDriver(), this);
         staticPage.openTimeIntervalDropdown();
 
         List<String> actualOptions = staticPage.getAllOptions();
