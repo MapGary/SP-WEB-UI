@@ -26,7 +26,6 @@ public class AuthLoginTest extends BaseTest {
     @Description("Вход с валидными логином и паролем")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/8")
-    @Ignore
     public void testLoginWithValidUsernameAndPassword() {
 
         String login = getConfig().getUserName();
@@ -38,7 +37,7 @@ public class AuthLoginTest extends BaseTest {
                 .clickButtonLogin();
 
         Allure.step("Проверяю, что загрузилась страница Дашборд");
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("equipment-content")));
+        getWait10().until(ExpectedConditions.urlContains("/dashboard"));
         Assert.assertTrue(dashboardPage.getCurrentUrl().contains(String.format("%s/dashboard", getConfig().getBaseUrl())));
         Allure.step("Проверяю, что в Cookies записалось значение refresh_token");
         Assert.assertNotNull(dashboardPage.getRefreshToken());
