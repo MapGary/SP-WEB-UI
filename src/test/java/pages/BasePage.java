@@ -46,7 +46,7 @@ public class BasePage {
         return refreshToken;
     }
 
-    @Step("Получаю занчение HttpOnly у refresh_token")
+    @Step("Получаю значение HttpOnly у refresh_token")
     public boolean isHttpOnlyRefreshToken() {
 
         try {
