@@ -38,12 +38,21 @@ public class Assert {
         return diffPercentage <= tolerance;
     }
 
-    public static boolean compareExpectedLanguage(Language language, Map<String, String> map) {
+    public static boolean compareExpectedLanguageLoginPage(Language language, Map<String, String> map) {
         return language.getNameForm().toLowerCase().equals(map.get("nameForm").toLowerCase()) ||
                 language.getLogin().toLowerCase().equals(map.get("login").toLowerCase()) ||
                 language.getPassword().toLowerCase().equals(map.get("password").toLowerCase()) ||
                 language.getButtonNewPassword().toLowerCase().equals(map.get("buttonNewPassword").toLowerCase()) ||
                 language.getButtonLogin().toLowerCase().equals(map.get("buttonLogin").toLowerCase()) ||
+                language.getHelperLanguage().toLowerCase().equals(map.get("helperLanguage").toLowerCase());
+    }
+
+    public static boolean compareExpectedLanguageSetNewPasswordPage(Language language, Map<String, String> map) {
+        return language.getNameForm().toLowerCase().equals(map.get("nameForm").toLowerCase()) ||
+                language.getLogin().toLowerCase().equals(map.get("login").toLowerCase()) ||
+                language.getCurrentPassword().toLowerCase().equals(map.get("currentPassword").toLowerCase()) ||
+                language.getNewPassword().toLowerCase().equals(map.get("newPassword").toLowerCase()) ||
+                language.getButtonSubmit().toLowerCase().equals(map.get("buttonSubmit").toLowerCase()) ||
                 language.getHelperLanguage().toLowerCase().equals(map.get("helperLanguage").toLowerCase());
     }
 }

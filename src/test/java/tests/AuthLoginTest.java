@@ -15,7 +15,7 @@ import utils.Language;
 import java.io.File;
 import java.util.Map;
 
-import static utils.Assert.compareExpectedLanguage;
+import static utils.Assert.compareExpectedLanguageLoginPage;
 import static utils.Assert.compareScreenshotsWithTolerance;
 
 public class AuthLoginTest extends BaseTest {
@@ -161,10 +161,10 @@ public class AuthLoginTest extends BaseTest {
                 .getTranslatedData();
 
         Allure.step("Проверяю, что язык соответствует английскому");
-        Assert.assertTrue(compareExpectedLanguage(Language.US, dataLanguageUS));
+        Assert.assertTrue(compareExpectedLanguageLoginPage(Language.US, dataLanguageUS));
 
         Allure.step("Проверяю, что язык соответствует русскому");
-        Assert.assertTrue(compareExpectedLanguage(Language.RU, dataLanguageRU));
+        Assert.assertTrue(compareExpectedLanguageLoginPage(Language.RU, dataLanguageRU));
     }
 
     @Test
