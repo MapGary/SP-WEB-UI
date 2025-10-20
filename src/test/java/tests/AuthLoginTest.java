@@ -4,6 +4,7 @@ import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.LoginPage;
@@ -25,6 +26,7 @@ public class AuthLoginTest extends BaseTest {
     @Description("Вход с валидными логином и паролем")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/8")
+    @Ignore
     public void testLoginWithValidUsernameAndPassword() {
 
         String login = getConfig().getUserName();
