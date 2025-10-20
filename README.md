@@ -61,9 +61,8 @@
 ```
 2. На основе шаблона `defauilt.properties.TAMPLATE` создать файл `demo.properties` с данными для входа без vpn
 3. Обязательно локально установить Yandex браузер
-4. Подгрузить / обновить файл зависимостей для Maven pom.xml
-<p align="center"> <img src="images/pom/img.png" alt="Press to Actions tab" width="400"/> </p>
-
+4. Подгрузить / обновить файл зависимостей для Maven pom.xml <p align="center"> <img src="images/pom/img.png" alt="Press to Actions tab" width="400"/> </p>
+5. Если pom.xml обновить не получилось, запускаем принудительное обновление. <p align="center"> <img src="images/pom/img_1.png" alt="Press to Actions tab" width="300"/> </p>
 
 ## 🚀 Запуск тестов
 
