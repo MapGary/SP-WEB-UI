@@ -34,26 +34,27 @@ public class TimeIntervalPannelTest extends BaseTest {
                 .addValueToFieldPassword(password)
                 .clickButtonLoginWithHelper();
 
+        DashboardPage dashboardPage = new DashboardPage(getDriver());
         // ждём, пока появится дашборд
-        getWait10().until(ExpectedConditions.urlContains("/dashboard"));
+        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
 
-        return new DashboardPage(getDriver(), this);
+        return new DashboardPage(getDriver());
     }
 
     //выбор интервала
     private void selectIntervalByDataValue(String dataValue) {
-        DashboardPage staticPage = new DashboardPage(getDriver(), this);
+        DashboardPage dashboardPage = new DashboardPage(getDriver());
 
-        staticPage.openTimeIntervalDropdown();
+        dashboardPage.openTimeIntervalDropdown();
 
         By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
-        WebElement option = getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator));
+        WebElement option = dashboardPage.getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator));
         option.click();
     }
 
     //выбранный текст
     private String getSelectedIntervalText() {
-        DashboardPage staticPage = new DashboardPage(getDriver(), this);
+        DashboardPage staticPage = new DashboardPage(getDriver());
         return staticPage.timeIntervalSelected();
     }
 
@@ -64,11 +65,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.MINOR)
     public void testDefaultTimeIntervalIsWorkDay() {
 
-        loginToApp();
-
-        DashboardPage staticPage = new DashboardPage(getDriver(), this);
-
-        String selected = staticPage.timeIntervalSelected();
+        String selected = loginToApp().timeIntervalSelected();
 
         Allure.step("Выбранный временной интервал: " + selected);
         Assert.assertEquals(selected, "За смену (8 часов)",
@@ -81,12 +78,10 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что при открытии выпадающего списка отображаются все ожидаемые варианты")
     @Severity(SeverityLevel.NORMAL)
     public void testDropdownContainsAllExpectedOptions() {
-        loginToApp();
 
-        DashboardPage staticPage = new DashboardPage(getDriver(), this);
-        staticPage.openTimeIntervalDropdown();
-
-        List<String> actualOptions = staticPage.getAllOptions();
+        List<String> actualOptions = loginToApp()
+                .openTimeIntervalDropdown()
+                .getAllOptions();
 
         Allure.step("Фактические значения выпадающего списка: " + actualOptions);
 
@@ -130,6 +125,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     public void testSelectFullDay() {
         loginToApp();
         selectIntervalByDataValue("FULL_DAY");
+
 
         waitForSeconds(5);
 

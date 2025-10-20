@@ -14,14 +14,6 @@ public class DashboardPage extends BasePage {
 
     public DashboardPage(WebDriver driver) {
         super(driver);
-        this.baseTest = null; //когда BaseTest Не нужен
-    }
-
-    private final BaseTest baseTest;
-
-    public DashboardPage(WebDriver driver, BaseTest baseTest) {
-        super(driver);
-        this.baseTest = baseTest;
     }
 
     //кнопка выбора временного интервала
@@ -39,15 +31,18 @@ public class DashboardPage extends BasePage {
     private By selectedOption = By.xpath("//ul[@role='listbox']/li[@role='option' and @aria-selected='true']");
 
     @Step("Открываю выпадающий список временных интервалов")
-    public void openTimeIntervalDropdown() {
-        WebElement dropdown = baseTest.getWait10().until(ExpectedConditions.elementToBeClickable(selectedInterval));
+    public DashboardPage openTimeIntervalDropdown() {
+        WebElement dropdown = getWait10().until(ExpectedConditions.elementToBeClickable(selectedInterval));
         dropdown.click();
-        baseTest.getWait10().until(ExpectedConditions.visibilityOfElementLocated(listBox));
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(listBox));
+
+        return this;
+
     }
 
     @Step("Получаю выбранный временной интервал (текст)")
     public String timeIntervalSelected() {
-        WebElement element = baseTest.getWait10().until(ExpectedConditions.visibilityOfElementLocated(selectedInterval));
+        WebElement element = getWait10().until(ExpectedConditions.visibilityOfElementLocated(selectedInterval));
         String text = element.getText();
         if (text == null) text = "";
         return text.trim();
@@ -55,7 +50,7 @@ public class DashboardPage extends BasePage {
 
     @Step("Получаю все значения выпадающего списка")
     public List<String> getAllOptions() {
-        List<WebElement> elements = baseTest.getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(listOptions));
+        List<WebElement> elements = getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(listOptions));
 
         List<String> result = new ArrayList<>();
         for (WebElement e : elements) {

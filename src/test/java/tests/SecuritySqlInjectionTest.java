@@ -24,7 +24,7 @@ public class SecuritySqlInjectionTest extends BaseTest {
         loginPage.clearFields();
         loginPage.addValueToFieldLogin(payload);
         loginPage.addValueToFieldPassword(payload);
-        getWait10().until(ExpectedConditions.textToBePresentInElementValue(By.name("login"), payload));
+        getWait5().until(ExpectedConditions.textToBePresentInElementValue(By.name("login"), payload));
 
         loginPage.clickButtonLoginWithHelper(); // остаёмся на LoginPage
 

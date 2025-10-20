@@ -29,7 +29,6 @@ public abstract class BaseTest {
     private WebDriver driver;
     private final TestConfig config = new TestConfig();
     private WebDriverWait wait5;
-    private WebDriverWait wait10;
 
     protected WebDriver getDriver() {
 
@@ -63,22 +62,6 @@ public abstract class BaseTest {
         }
 
         return wait5;
-    }
-
-    public WebDriverWait getWait10() {
-        if (wait10 == null) {
-            wait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        }
-
-        return wait10;
-    }
-
-    protected void waitForSeconds(int seconds) {
-        try {
-            Thread.sleep(seconds * 1000L);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 
     @Parameters("browser")
@@ -159,5 +142,13 @@ public abstract class BaseTest {
         closeDriver();
 
         LoggerUtil.info(String.format("Execution time is %.3f sec%n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000.0));
+    }
+
+    protected void waitForSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000L);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
