@@ -122,6 +122,12 @@ public class LoginPage extends BasePage {
     public LoginPage clickButtonLoginWithHelper() {
         buttonLogin.click();
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         return this;
     }
 
