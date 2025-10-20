@@ -32,7 +32,7 @@ public class TimeIntervalPannelTest extends BaseTest {
         new LoginPage(getDriver())
                 .addValueToFieldLogin(login)
                 .addValueToFieldPassword(password)
-                .clickButtonLogin();
+                .clickButtonLoginWithHelper();
 
         // ждём, пока появится дашборд
         getWait10().until(ExpectedConditions.urlContains("/dashboard"));
@@ -62,13 +62,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.MINOR)
     public void testDefaultTimeIntervalIsWorkDay() {
 
-        String login = getConfig().getUserName();
-        String password = getConfig().getPassword();
-
-        new LoginPage(getDriver())
-                .addValueToFieldLogin(login)
-                .addValueToFieldPassword(password)
-                .clickButtonLogin();
+        loginToApp();
 
         StaticElementsPage staticPage = new StaticElementsPage(getDriver(), this);
 
@@ -117,6 +111,8 @@ public class TimeIntervalPannelTest extends BaseTest {
         loginToApp();
         selectIntervalByDataValue("WORK_DAY");
 
+        waitForSeconds(5);
+
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
@@ -132,6 +128,8 @@ public class TimeIntervalPannelTest extends BaseTest {
     public void testSelectFullDay() {
         loginToApp();
         selectIntervalByDataValue("FULL_DAY");
+
+        waitForSeconds(5);
 
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
@@ -149,6 +147,8 @@ public class TimeIntervalPannelTest extends BaseTest {
         loginToApp();
         selectIntervalByDataValue("WEEK");
 
+        waitForSeconds(5);
+
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
@@ -164,6 +164,8 @@ public class TimeIntervalPannelTest extends BaseTest {
     public void testSelectMonth() {
         loginToApp();
         selectIntervalByDataValue("MONTH");
+
+        waitForSeconds(5);
 
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
@@ -181,6 +183,8 @@ public class TimeIntervalPannelTest extends BaseTest {
         loginToApp();
         selectIntervalByDataValue("YEAR");
 
+        waitForSeconds(5);
+
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
@@ -196,6 +200,8 @@ public class TimeIntervalPannelTest extends BaseTest {
     public void testSelectCustomRange() {
         loginToApp();
         selectIntervalByDataValue("SELECTED_RANGE");
+
+        waitForSeconds(5);
 
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);

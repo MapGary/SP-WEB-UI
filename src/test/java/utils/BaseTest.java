@@ -73,6 +73,14 @@ public abstract class BaseTest {
         return wait10;
     }
 
+    protected void waitForSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000L);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     @Parameters("browser")
     @BeforeMethod
     protected void beforeMethod(Method method, @Optional("yandex") String browser) {
