@@ -6,8 +6,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.LoginPage;
-import utils.SecurityUtils;
 import utils.BaseTest;
+import utils.SecurityUtils;
 
 public class SecuritySqlInjectionTest extends BaseTest {
 

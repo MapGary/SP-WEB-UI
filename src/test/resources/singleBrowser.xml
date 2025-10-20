@@ -4,6 +4,8 @@
     <test name="Браузер">
         <classes>
             <class name="tests.AuthLoginTest"/>
+            <class name="tests.SecuritySqlInjectionTest"/>
+            <class name="tests.SetNewPasswordTest"/>
         </classes>
     </test>
 

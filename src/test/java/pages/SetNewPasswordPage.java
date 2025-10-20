@@ -47,6 +47,9 @@ public class SetNewPasswordPage extends BasePage {
     @FindBy(xpath = "//div[@id=':r0:']")
     private WebElement helperLanguage;
 
+    @FindBy(xpath = "//form[@data-testid='SetNewPassword-form']/span")
+    private WebElement helperCurrentPassword;
+
     @Step("Навожу мышку на иконку 'Сменить язык'")
     public SetNewPasswordPage getHelperSwitchLanguage() {
         Actions actions = new Actions(driver);
@@ -85,6 +88,7 @@ public class SetNewPasswordPage extends BasePage {
         data.put("currentPassword", labelFieldCurrentPassword.getText());
         data.put("newPassword", labelFieldNewPassword.getText());
         data.put("buttonSubmit", buttonSubmit.getText());
+        data.put("helperCurrentPassword", helperCurrentPassword.getText());
         data.put("helperLanguage", new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOf(helperLanguage)).getText());
 
         try {
@@ -97,5 +101,13 @@ public class SetNewPasswordPage extends BasePage {
         }
 
         return data;
+    }
+
+    @Step("Получаю подсказку для поля Текущий пароль")
+    public String getHelperCurrentPassword() {
+        String helper = helperCurrentPassword.getText();
+        Allure.addAttachment("helper Current Password: ", helper);
+
+        return helper;
     }
 }

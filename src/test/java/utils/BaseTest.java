@@ -114,7 +114,7 @@ public abstract class BaseTest {
                     chromeOptions.addArguments("--no-sandbox");
                     chromeOptions.addArguments("--disable-dev-shm-usage");
                     chromeOptions.addArguments("--remote-allow-origins=*");
-                    driver = new ChromeDriver();
+                    driver = new ChromeDriver(chromeOptions);
                     break;
                 default:
                     throw new IllegalArgumentException("Unsupported browser: " + browser);
@@ -122,8 +122,8 @@ public abstract class BaseTest {
         }
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().setSize(new Dimension(1440, 1080));
         LoggerUtil.info(String.format("Open browser: %s", browser));
+        driver.manage().window().setSize(new Dimension(1440, 1080));
 
         driver.get(config.getBaseUrl());
 

@@ -11,6 +11,7 @@ import utils.Language;
 import java.util.Map;
 
 import static utils.Assert.compareExpectedLanguageLoginPage;
+import static utils.Assert.compareExpectedLanguageSetNewPasswordPage;
 
 public class SetNewPasswordTest extends BaseTest {
 
@@ -36,9 +37,24 @@ public class SetNewPasswordTest extends BaseTest {
                 .getTranslatedData();
 
         Allure.step("Проверяю, что язык соответствует английскому");
-        Assert.assertTrue(compareExpectedLanguageLoginPage(Language.US, dataLanguageUS));
+        Assert.assertTrue(compareExpectedLanguageSetNewPasswordPage(Language.US, dataLanguageUS));
 
         Allure.step("Проверяю, что язык соответствует русскому");
-        Assert.assertTrue(compareExpectedLanguageLoginPage(Language.RU, dataLanguageRU));
+        Assert.assertTrue(compareExpectedLanguageSetNewPasswordPage(Language.RU, dataLanguageRU));
+    }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Отображение подсказки под полем 'Текущий пароль' в форме смены пароля")
+    @Description("Отображение подсказки под полем 'Текущий пароль' в форме смены пароля")
+    @Severity(SeverityLevel.MINOR)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/21")
+    public void testHelperCurrentPassword() {
+        String helperCurrentPassword = new LoginPage(getDriver())
+                .clickButtonNewPassword()
+                .getHelperCurrentPassword();
+
+        Allure.step("Проверяю, что helper соответствует значению");
+        Assert.assertEquals(helperCurrentPassword, Language.RU.getHelperCurrentPassword());
     }
 }
