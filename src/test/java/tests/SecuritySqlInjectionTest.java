@@ -34,8 +34,8 @@ public class SecuritySqlInjectionTest extends BaseTest {
         Assert.assertEquals(loginPage.getCurrentUrl(), expectedLoginUrl, "После попытки SQL-injection не должно быть редиректа на защищённую страницу");
 
         // assert 2: в LocalStorage не появилось jwt/user (как в существующих тестах проекта)
-//        Allure.step("Проверяю, что в LocalStorage jwt_asu == null");
-//        Assert.assertEquals(loginPage.getJwtAsu(), "null", "После попытки SQL-injection не должно быть jwt в localStorage");
+        Allure.step("Проверяю, что в LocalStorage jwt_asu == null");
+        Assert.assertEquals(loginPage.getJwtAsu(), "null", "После попытки SQL-injection не должно быть jwt в localStorage");
         Allure.step("Проверяю, что в LocalStorage user == null");
         Assert.assertEquals(loginPage.getUser(), "null", "После попытки SQL-injection не должно быть user в localStorage");
     }
