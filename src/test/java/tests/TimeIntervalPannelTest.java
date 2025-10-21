@@ -4,12 +4,14 @@ import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.LoginPage;
 import utils.BaseTest;
 
+import java.time.Duration;
 import java.util.List;
 
 public class TimeIntervalPannelTest extends BaseTest {
@@ -36,9 +38,21 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         DashboardPage dashboardPage = new DashboardPage(getDriver());
         // ждём, пока появится дашборд
-        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
+//        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
+//
+//        return new DashboardPage(getDriver());
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.urlContains("/dashboard"));
 
-        return new DashboardPage(getDriver());
+        // проверяем, что действительно перешли
+        String currentUrl = getDriver().getCurrentUrl();
+        if (!currentUrl.contains("/dashboard")) {
+            Allure.addAttachment("After-login URL", currentUrl);
+            Allure.addAttachment("Page HTML (after failed login)", "text/html", getDriver().getPageSource(), ".html");
+            throw new AssertionError("Не удалось перейти на /dashboard. Текущий URL: " + currentUrl);
+        }
+
+        return dashboardPage;
     }
 
     //выбор интервала
