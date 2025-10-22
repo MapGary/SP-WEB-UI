@@ -2,11 +2,11 @@ package pages;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.Set;
 
 public class BasePage {
@@ -98,5 +98,19 @@ public class BasePage {
             Allure.addAttachment("Settings", "text/plain", "Поле settings не найдено: " + e.getMessage());
         }
         return settings;
+    }
+
+    public File getScreenshotWebElement(WebElement webElement) {
+        File screenshot = null;
+        try {
+            Thread.sleep(1000);
+            byte[] screen = webElement.getScreenshotAs(OutputType.BYTES);
+            Allure.addAttachment("Скрин поля пароль", new ByteArrayInputStream(screen));
+            screenshot = webElement.getScreenshotAs(OutputType.FILE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return screenshot;
     }
 }

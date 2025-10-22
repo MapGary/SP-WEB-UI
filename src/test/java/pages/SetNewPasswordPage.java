@@ -10,6 +10,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +50,24 @@ public class SetNewPasswordPage extends BasePage {
 
     @FindBy(xpath = "//form[@data-testid='SetNewPassword-form']/span")
     private WebElement helperCurrentPassword;
+
+    @FindBy(name = "currentPassword")
+    private WebElement fieldCurrentPassword;
+
+    @FindBy(name = "newPassword")
+    private WebElement fieldNewPassword;
+
+    @FindBy(xpath = "//input[@name='currentPassword']/..")
+    private WebElement elementFieldCurrentPassword;
+
+    @FindBy(xpath = "//input[@name='newPassword']/..")
+    private WebElement elementFieldNewPassword;
+
+    @FindBy(xpath = "//input[@name='currentPassword']/../div/a")
+    private WebElement iconEyeCurrentPassword;
+
+    @FindBy(xpath = "//input[@name='newPassword']/../div/a")
+    private WebElement iconEyeNewPassword;
 
     @Step("Навожу мышку на иконку 'Сменить язык'")
     public SetNewPasswordPage getHelperSwitchLanguage() {
@@ -109,5 +128,71 @@ public class SetNewPasswordPage extends BasePage {
         Allure.addAttachment("helper Current Password: ", helper);
 
         return helper;
+    }
+
+    @Step("Добавляю значение в поле Текущий пароль")
+    public SetNewPasswordPage addValueToFieldCurrentPassword(String currentPassword) {
+        fieldCurrentPassword.sendKeys(currentPassword);
+
+        return this;
+    }
+
+    @Step("Добавляю значение в поле Новый пароль")
+    public SetNewPasswordPage addValueToFieldNewPassword(String newPassword) {
+        fieldNewPassword.sendKeys(newPassword);
+
+        return this;
+    }
+
+    @Step("Получаю скриншот поля Текущий пароль")
+    public File getScreenshotFieldCurrentPassword() {
+
+        return getScreenshotWebElement(elementFieldCurrentPassword);
+    }
+
+    @Step("Получаю скриншот поля Новый пароль")
+    public File getScreenshotFieldNewPassword() {
+
+        return getScreenshotWebElement(elementFieldNewPassword);
+    }
+
+    @Step("Кликаю иконку 'глаз' для поля Текущий пароль")
+    public SetNewPasswordPage clickEyeIconCurrentPassword() {
+        iconEyeCurrentPassword.click();
+
+        return this;
+    }
+
+    @Step("Кликаю иконку 'глаз' для поля Новый пароль")
+    public SetNewPasswordPage clickEyeIconNewPassword() {
+        iconEyeNewPassword.click();
+
+        return this;
+    }
+
+    @Step("Получаю значение атрибута 'type' для поля Текущий пароль")
+    public String getAttributeFieldCurrentPassword() {
+
+        return fieldCurrentPassword.getDomAttribute("type");
+    }
+
+    @Step("Получаю значение атрибута 'type' для поля Новый пароль")
+    public String getAttributeFieldNewPassword() {
+
+        return fieldNewPassword.getDomAttribute("type");
+    }
+
+    @Step("Кликаю в поле Текущий пароль")
+    public SetNewPasswordPage clickToFieldCurrentPassword() {
+        fieldCurrentPassword.click();
+
+        return this;
+    }
+
+    @Step("Кликаю в поле Новый пароль")
+    public SetNewPasswordPage clickToFieldNewPassword() {
+        fieldNewPassword.click();
+
+        return this;
     }
 }

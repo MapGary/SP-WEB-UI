@@ -4,7 +4,6 @@ import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.LoginPage;
@@ -132,7 +131,7 @@ public class AuthLoginTest extends BaseTest {
     public void testClickChangePasswordButton() {
 
         SetNewPasswordPage setNewPasswordPage = new LoginPage(getDriver())
-                .clickButtonNewPassword();
+                .clickButtonSetNewPassword();
 
         Allure.step("Проверяю, что загрузилась страница Сменить пароль");
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@data-testid='SetNewPassword-form']")));
