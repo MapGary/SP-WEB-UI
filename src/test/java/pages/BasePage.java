@@ -6,8 +6,12 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Set;
+
+import static java.sql.DriverManager.getDriver;
 
 public class BasePage {
 
@@ -17,6 +21,7 @@ public class BasePage {
     String jwt_asu = null;
     String user = null;
     String settings = null;
+    private WebDriverWait wait10;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -99,4 +104,13 @@ public class BasePage {
         }
         return settings;
     }
+
+    public WebDriverWait getWait10() {
+        if (wait10 == null) {
+            wait10 = new WebDriverWait(driver, Duration.ofSeconds(10));
+        }
+
+        return wait10;
+    }
+
 }
