@@ -41,13 +41,21 @@ public class GettingAggregateDataLoadTimeTest extends BaseTest {
         // перебираю все агрегаты для первой станции
         Allure.step("перебираю все агрегаты для первой станции");
         for (int i = 0; i < elements.size(); i++) {
-
+            // засекаю время загрузки рабочего окна
             long startTime = System.currentTimeMillis();
             List<WebElement> eles = getDriver().findElements(By.xpath("//div[contains(@class, 'MuiTabPanel-root')]//p/.."));
             eles.get(i).click();
+            // ожидаю загрузку рабочей области
             getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'MuiContainer-root')]")));
+            // получаю 4 окна
+            List<WebElement> windows = getDriver().findElements(By.xpath("//div[@id='panel1a-content']"));
+            // проверяю, что каждое окно загрузилось
+            for (int j = 0; j < windows.size(); j++) {
+                getWait10().until(ExpectedConditions.visibilityOf(windows.get(j)));
+            }
+            // название агрегата
             String unit = getDriver().findElement(By.xpath("//div[contains(@class, 'MuiContainer-root')]//p[contains(@class, 'MuiTypography-root')]")).getText();
-
+            // останавливаю время загрузки рабочего окна
             long endTime = System.currentTimeMillis();
             // вывожу время теста
             LoggerUtil.info(String.format("Время выполнения =  %s мс", (endTime1 - startTime1) + (endTime - startTime)));
