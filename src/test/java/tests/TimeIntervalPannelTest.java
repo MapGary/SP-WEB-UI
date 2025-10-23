@@ -121,7 +121,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void testSelectWorkDay() {
         loginToApp();
-        getWait5().until(ExpectedConditions.urlContains("precision="));
+        getWait10().until(ExpectedConditions.urlContains("precision="));
         selectIntervalByDataValue("WORK_DAY");
 
 //        waitForSeconds(5);
@@ -140,7 +140,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void testSelectFullDay() {
         loginToApp();
-        getWait5().until(ExpectedConditions.urlContains("precision="));
+        getWait10().until(ExpectedConditions.urlContains("precision="));
         selectIntervalByDataValue("FULL_DAY");
 
 
@@ -160,7 +160,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void testSelectWeek() {
         loginToApp();
-        getWait5().until(ExpectedConditions.urlContains("precision="));
+        getWait10().until(ExpectedConditions.urlContains("precision="));
         selectIntervalByDataValue("WEEK");
 
 //        waitForSeconds(5);
@@ -179,7 +179,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void testSelectMonth() {
         loginToApp();
-        getWait5().until(ExpectedConditions.urlContains("precision="));
+        getWait10().until(ExpectedConditions.urlContains("precision="));
         selectIntervalByDataValue("MONTH");
 
 //        waitForSeconds(5);
@@ -198,7 +198,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void testSelectYear() {
         loginToApp();
-        getWait5().until(ExpectedConditions.urlContains("precision="));
+        getWait10().until(ExpectedConditions.urlContains("precision="));
         selectIntervalByDataValue("YEAR");
 
 //        waitForSeconds(5);
@@ -217,7 +217,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void testSelectCustomRange() {
         loginToApp();
-        getWait5().until(ExpectedConditions.urlContains("precision="));
+        getWait10().until(ExpectedConditions.urlContains("precision="));
         selectIntervalByDataValue("SELECTED_RANGE");
 
 //        waitForSeconds(5);
