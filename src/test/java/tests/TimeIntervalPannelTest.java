@@ -26,34 +26,34 @@ public class TimeIntervalPannelTest extends BaseTest {
             "За выбранный интервал"
     );
 
-    //логин
-    private DashboardPage loginToApp() {
-        String login = getConfig().getUserName();
-        String password = getConfig().getPassword();
-
-        new LoginPage(getDriver())
-                .addValueToFieldLogin(login)
-                .addValueToFieldPassword(password)
-                .clickButtonLoginWithHelper();
-
-        DashboardPage dashboardPage = new DashboardPage(getDriver());
-        // ждём, пока появится дашборд
-//        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
+//    //логин
+//    private DashboardPage loginToApp() {
+//        String login = getConfig().getUserName();
+//        String password = getConfig().getPassword();
 //
-//        return new DashboardPage(getDriver());
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.urlContains("/dashboard"));
-
-        // проверяем, что действительно перешли
-        String currentUrl = getDriver().getCurrentUrl();
-        if (!currentUrl.contains("/dashboard")) {
-            Allure.addAttachment("After-login URL", currentUrl);
-            Allure.addAttachment("Page HTML (after failed login)", "text/html", getDriver().getPageSource(), ".html");
-            throw new AssertionError("Не удалось перейти на /dashboard. Текущий URL: " + currentUrl);
-        }
-
-        return dashboardPage;
-    }
+//        new LoginPage(getDriver())
+//                .addValueToFieldLogin(login)
+//                .addValueToFieldPassword(password)
+//                .clickButtonLoginWithHelper();
+//
+//        DashboardPage dashboardPage = new DashboardPage(getDriver());
+//        // ждём, пока появится дашборд
+////        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
+////
+////        return new DashboardPage(getDriver());
+//        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
+//        wait.until(ExpectedConditions.urlContains("/dashboard"));
+//
+//        // проверяем, что действительно перешли
+//        String currentUrl = getDriver().getCurrentUrl();
+//        if (!currentUrl.contains("/dashboard")) {
+//            Allure.addAttachment("After-login URL", currentUrl);
+//            Allure.addAttachment("Page HTML (after failed login)", "text/html", getDriver().getPageSource(), ".html");
+//            throw new AssertionError("Не удалось перейти на /dashboard. Текущий URL: " + currentUrl);
+//        }
+//
+//        return dashboardPage;
+//    }
 
     //выбор интервала
     private void selectIntervalByDataValue(String dataValue) {

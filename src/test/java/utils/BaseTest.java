@@ -6,12 +6,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
+import pages.DashboardPage;
+import pages.LoginPage;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -157,5 +160,33 @@ public abstract class BaseTest {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    protected DashboardPage loginToApp() {
+        String login = getConfig().getUserName();
+        String password = getConfig().getPassword();
+
+        DashboardPage dashboardPage = new LoginPage(getDriver())
+                .addValueToFieldLogin(login)
+                .addValueToFieldPassword(password)
+                .clickButtonLogin();
+
+//        DashboardPage dashboardPage = new DashboardPage(getDriver());
+        // ждём, пока появится дашборд
+//        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
+//
+//        return new DashboardPage(getDriver());
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.urlContains("/dashboard"));
+
+        // проверяем, что действительно перешли
+        String currentUrl = getDriver().getCurrentUrl();
+        if (!currentUrl.contains("/dashboard")) {
+            Allure.addAttachment("After-login URL", currentUrl);
+            Allure.addAttachment("Page HTML (after failed login)", "text/html", getDriver().getPageSource(), ".html");
+            throw new AssertionError("Не удалось перейти на /dashboard. Текущий URL: " + currentUrl);
+        }
+
+        return dashboardPage;
     }
 }

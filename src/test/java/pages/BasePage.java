@@ -6,12 +6,10 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.time.Duration;
 import java.util.Set;
-
-import static java.sql.DriverManager.getDriver;
 
 public class BasePage {
 
@@ -112,7 +110,6 @@ public class BasePage {
 
         return wait10;
     }
-
 
     public File getScreenshotWebElement(WebElement webElement) {
         File screenshot = null;
