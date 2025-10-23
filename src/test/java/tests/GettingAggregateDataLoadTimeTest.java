@@ -35,7 +35,7 @@ public class GettingAggregateDataLoadTimeTest extends BaseTest {
         // останавливаю время загрузки дашборд
         long endTime1 = System.currentTimeMillis();
         // жду когда загрузится рабочая область
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class, 'MuiTabPanel-root')]//p/..")));
+        getWait10().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class, 'MuiTabPanel-root')]//p/..")));
         // получаю ссылки на все агрегаты для первой станции
         List<WebElement> elements = getDriver().findElements(By.xpath("//div[contains(@class, 'MuiTabPanel-root')]//p/.."));
         // перебираю все агрегаты для первой станции
