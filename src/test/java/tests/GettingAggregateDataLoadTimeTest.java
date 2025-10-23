@@ -59,18 +59,16 @@ public class GettingAggregateDataLoadTimeTest extends BaseTest {
             long endTime = System.currentTimeMillis();
             // вывожу время теста
             LoggerUtil.info(String.format("Время выполнения =  %s мс", (endTime1 - startTime1) + (endTime - startTime)));
-
+            // делаю скрин рабочего окна
             WebElement webElement = getDriver().findElement(By.xpath("//div[contains(@class, 'MuiContainer-root')]"));
             byte[] screen = null;
             try {
-//                Thread.sleep(1000);
                 screen = webElement.getScreenshotAs(OutputType.BYTES);
                 Allure.addAttachment(String.format("Агрегат - %s, Время выполнения -> %s", unit, String.valueOf((endTime1 - startTime1) + (endTime - startTime))), new ByteArrayInputStream(screen));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
+            // перехожу к виду первой станции и всех ее агрегатов
             getWait5().until(ExpectedConditions.elementToBeClickable(By.xpath("//li[contains(@class, 'MuiTreeItem-root')]/div"))).click();
         }
     }
