@@ -31,7 +31,7 @@ public class GettingAggregateDataLoadTimeTest extends BaseTest {
         // засекаю время загрузки дашборд
         long startTime1 = System.currentTimeMillis();
         // жду обновления дашборд согласно дефолтного временного периода
-        getWait5().until(ExpectedConditions.urlContains("precision="));
+        getWait10().until(ExpectedConditions.urlContains("precision="));
         // останавливаю время загрузки дашборд
         long endTime1 = System.currentTimeMillis();
         // жду когда загрузится рабочая область
