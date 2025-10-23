@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","6064","testReceivingDataForShift","Мультибраузерное тестирование","Thu Oct 23 16:07:21 UTC 2025","broken","Thu Oct 23 16:07:27 UTC 2025","tests.GettingAggregateDataLoadTimeTest","Браузер Edge","tests.GettingAggregateDataLoadTimeTest","testReceivingDataForShift"
+"","6111","testReceivingDataForShift","Мультибраузерное тестирование","Thu Oct 23 16:07:39 UTC 2025","broken","Thu Oct 23 16:07:45 UTC 2025","tests.GettingAggregateDataLoadTimeTest","Браузер Yandex","tests.GettingAggregateDataLoadTimeTest","testReceivingDataForShift"
+"","75047","testReceivingDataForShift","Мультибраузерное тестирование","Thu Oct 23 16:05:56 UTC 2025","passed","Thu Oct 23 16:07:11 UTC 2025","tests.GettingAggregateDataLoadTimeTest","Браузер Chrome","tests.GettingAggregateDataLoadTimeTest","testReceivingDataForShift"
