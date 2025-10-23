@@ -6,6 +6,7 @@
         <classes>
             <class name="tests.AuthLoginTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
+            <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
         </classes>
     </test>
@@ -15,6 +16,7 @@
         <classes>
             <class name="tests.AuthLoginTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
+            <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
         </classes>
     </test>
@@ -24,6 +26,7 @@
         <classes>
             <class name="tests.AuthLoginTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
+            <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
         </classes>
     </test>

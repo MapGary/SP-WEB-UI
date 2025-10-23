@@ -4,7 +4,6 @@ import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.LoginPage;
@@ -15,7 +14,7 @@ import utils.Language;
 import java.io.File;
 import java.util.Map;
 
-import static utils.Assert.compareExpectedLanguage;
+import static utils.Assert.compareExpectedLanguageLoginPage;
 import static utils.Assert.compareScreenshotsWithTolerance;
 
 public class AuthLoginTest extends BaseTest {
@@ -26,7 +25,6 @@ public class AuthLoginTest extends BaseTest {
     @Description("Вход с валидными логином и паролем")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/8")
-    @Ignore
     public void testLoginWithValidUsernameAndPassword() {
 
         String login = getConfig().getUserName();
@@ -38,7 +36,7 @@ public class AuthLoginTest extends BaseTest {
                 .clickButtonLogin();
 
         Allure.step("Проверяю, что загрузилась страница Дашборд");
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("equipment-content")));
+        getWait5().until(ExpectedConditions.urlContains("/dashboard"));
         Assert.assertTrue(dashboardPage.getCurrentUrl().contains(String.format("%s/dashboard", getConfig().getBaseUrl())));
         Allure.step("Проверяю, что в Cookies записалось значение refresh_token");
         Assert.assertNotNull(dashboardPage.getRefreshToken());
@@ -133,7 +131,7 @@ public class AuthLoginTest extends BaseTest {
     public void testClickChangePasswordButton() {
 
         SetNewPasswordPage setNewPasswordPage = new LoginPage(getDriver())
-                .clickButtonNewPassword();
+                .clickButtonSetNewPassword();
 
         Allure.step("Проверяю, что загрузилась страница Сменить пароль");
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@data-testid='SetNewPassword-form']")));
@@ -161,10 +159,10 @@ public class AuthLoginTest extends BaseTest {
                 .getTranslatedData();
 
         Allure.step("Проверяю, что язык соответствует английскому");
-        Assert.assertTrue(compareExpectedLanguage(Language.US, dataLanguageUS));
+        Assert.assertTrue(compareExpectedLanguageLoginPage(Language.US, dataLanguageUS));
 
         Allure.step("Проверяю, что язык соответствует русскому");
-        Assert.assertTrue(compareExpectedLanguage(Language.RU, dataLanguageRU));
+        Assert.assertTrue(compareExpectedLanguageLoginPage(Language.RU, dataLanguageRU));
     }
 
     @Test

@@ -2,13 +2,13 @@ package pages;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.Set;
 
 import static java.sql.DriverManager.getDriver;
@@ -51,7 +51,7 @@ public class BasePage {
         return refreshToken;
     }
 
-    @Step("Получаю занчение HttpOnly у refresh_token")
+    @Step("Получаю значение HttpOnly у refresh_token")
     public boolean isHttpOnlyRefreshToken() {
 
         try {
@@ -113,4 +113,18 @@ public class BasePage {
         return wait10;
     }
 
+
+    public File getScreenshotWebElement(WebElement webElement) {
+        File screenshot = null;
+        try {
+            Thread.sleep(1000);
+            byte[] screen = webElement.getScreenshotAs(OutputType.BYTES);
+            Allure.addAttachment("Скрин поля пароль", new ByteArrayInputStream(screen));
+            screenshot = webElement.getScreenshotAs(OutputType.FILE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return screenshot;
+    }
 }
