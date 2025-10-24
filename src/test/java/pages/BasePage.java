@@ -6,6 +6,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.LoggerUtil;
+import utils.TestConfig;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -22,6 +24,14 @@ public class BasePage {
     String settings = null;
     private WebDriverWait wait10;
     private WebDriverWait wait5;
+    private final TestConfig config = new TestConfig();
+
+    protected TestConfig getConfig() {
+
+        LoggerUtil.info("Configuration received");
+
+        return config;
+    }
 
     public BasePage(WebDriver driver) {
         this.driver = driver;

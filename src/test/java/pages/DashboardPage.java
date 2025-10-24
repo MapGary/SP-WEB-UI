@@ -112,7 +112,7 @@ public class DashboardPage extends BasePage {
 
         String endTimestamp = OffsetDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.'0Z'")).replace(":", "%3A");
-        String url = String.format("http://10.0.0.238/dashboard?view=0&measureType=0&object=0&precision=hour&tab=1&stationId=136&startTimestamp=%s&endTimestamp=%s&rangeType=SELECTED_RANGE", startTimestamp, endTimestamp);
+        String url = String.format("%s/dashboard?view=0&measureType=0&object=0&precision=hour&tab=1&stationId=136&startTimestamp=%s&endTimestamp=%s&rangeType=SELECTED_RANGE", getConfig().getBaseUrl(), startTimestamp, endTimestamp);
         driver.get(url);
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'MuiTabPanel-root')]//p[contains(@class, 'MuiTypography-root')]/../..")));
 // останавливаю время загрузки дашборд
