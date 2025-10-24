@@ -9,16 +9,29 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.LoggerUtil;
+import utils.TestConfig;
 
 import java.io.File;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.sql.DriverManager.getDriver;
+
 public class LoginPage extends BasePage {
+
+    private final TestConfig config = new TestConfig();
 
     public LoginPage(WebDriver driver) {
         super(driver);
+    }
+
+    protected TestConfig getConfig() {
+
+        LoggerUtil.info("Configuration received");
+
+        return config;
     }
 
     @FindBy(xpath = "//header//a")
@@ -235,4 +248,35 @@ public class LoginPage extends BasePage {
 
         return getScreenshotWebElement(elementFieldPassword);
     }
+
+    public DashboardPage loginToApp() {
+        String login = getConfig().getUserName();
+        String password = getConfig().getPassword();
+
+        new LoginPage(driver)
+                .addValueToFieldLogin(login)
+                .addValueToFieldPassword(password)
+                .clickButtonLogin();
+
+        // жду обновления дашборд на вкладке Схема
+        getWait10().until(ExpectedConditions.urlContains("tab=1"));
+//        DashboardPage dashboardPage = new DashboardPage(getDriver());
+        // ждём, пока появится дашборд
+//        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
+//
+//        return new DashboardPage(getDriver());
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+//        wait.until(ExpectedConditions.urlContains("/dashboard"));
+//
+//        // проверяем, что действительно перешли
+//        String currentUrl = getDriver().getCurrentUrl();
+//        if (!currentUrl.contains("/dashboard")) {
+//            Allure.addAttachment("After-login URL", currentUrl);
+//            Allure.addAttachment("Page HTML (after failed login)", "text/html", getDriver().getPageSource(), ".html");
+//            throw new AssertionError("Не удалось перейти на /dashboard. Текущий URL: " + currentUrl);
+//        }
+
+        return new DashboardPage(driver);
+    }
+
 }

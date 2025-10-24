@@ -8,6 +8,7 @@
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
+            <class name="tests.GettingAggregateDataLoadTimeTest"/>
         </classes>
     </test>
 
@@ -18,6 +19,7 @@
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
+            <class name="tests.GettingAggregateDataLoadTimeTest"/>
         </classes>
     </test>
 
@@ -28,6 +30,7 @@
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
+            <class name="tests.GettingAggregateDataLoadTimeTest"/>
         </classes>
     </test>
 
