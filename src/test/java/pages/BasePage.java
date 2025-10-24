@@ -4,6 +4,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.ByteArrayInputStream;
@@ -123,5 +124,20 @@ public class BasePage {
             e.printStackTrace();
         }
         return screenshot;
+    }
+
+    //выбор интервала
+    public DashboardPage selectIntervalByDataValue(String dataValue) {
+        DashboardPage dashboardPage = new DashboardPage(driver);
+
+        dashboardPage.openTimeIntervalDropdown();
+
+        By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
+        WebElement option = dashboardPage.getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator));
+        option.click();
+        // жду обновления дашборд на вкладке Схема
+        getWait10().until(ExpectedConditions.urlContains("tab=1"));
+
+        return new DashboardPage(driver);
     }
 }

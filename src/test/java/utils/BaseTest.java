@@ -74,6 +74,14 @@ public abstract class BaseTest {
         return wait10;
     }
 
+    protected void waitForSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000L);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     @Parameters("browser")
     @BeforeMethod
     protected void beforeMethod(Method method, @Optional("yandex") String browser) {
@@ -152,41 +160,5 @@ public abstract class BaseTest {
         closeDriver();
 
         LoggerUtil.info(String.format("Execution time is %.3f sec%n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000.0));
-    }
-
-    protected void waitForSeconds(int seconds) {
-        try {
-            Thread.sleep(seconds * 1000L);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    protected DashboardPage loginToApp() {
-        String login = getConfig().getUserName();
-        String password = getConfig().getPassword();
-
-        DashboardPage dashboardPage = new LoginPage(getDriver())
-                .addValueToFieldLogin(login)
-                .addValueToFieldPassword(password)
-                .clickButtonLogin();
-
-//        DashboardPage dashboardPage = new DashboardPage(getDriver());
-        // ждём, пока появится дашборд
-//        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
-//
-//        return new DashboardPage(getDriver());
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.urlContains("/dashboard"));
-
-        // проверяем, что действительно перешли
-        String currentUrl = getDriver().getCurrentUrl();
-        if (!currentUrl.contains("/dashboard")) {
-            Allure.addAttachment("After-login URL", currentUrl);
-            Allure.addAttachment("Page HTML (after failed login)", "text/html", getDriver().getPageSource(), ".html");
-            throw new AssertionError("Не удалось перейти на /dashboard. Текущий URL: " + currentUrl);
-        }
-
-        return dashboardPage;
     }
 }

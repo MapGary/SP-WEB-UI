@@ -26,6 +26,7 @@ public class TimeIntervalPannelTest extends BaseTest {
             "За выбранный интервал"
     );
 
+//                   ПЕРЕЕХАЛ В LOGINPAGE
 //    //логин
 //    private DashboardPage loginToApp() {
 //        String login = getConfig().getUserName();
@@ -55,16 +56,17 @@ public class TimeIntervalPannelTest extends BaseTest {
 //        return dashboardPage;
 //    }
 
-    //выбор интервала
-    private void selectIntervalByDataValue(String dataValue) {
-        DashboardPage dashboardPage = new DashboardPage(getDriver());
-
-        dashboardPage.openTimeIntervalDropdown();
-
-        By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
-        WebElement option = dashboardPage.getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator));
-        option.click();
-    }
+                             //                   ПЕРЕЕХАЛ В DASHBOARDPAGE
+//    //выбор интервала
+//    private void selectIntervalByDataValue(String dataValue) {
+//        DashboardPage dashboardPage = new DashboardPage(getDriver());
+//
+//        dashboardPage.openTimeIntervalDropdown();
+//
+//        By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
+//        WebElement option = dashboardPage.getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator));
+//        option.click();
+//    }
 
     //выбранный текст
     private String getSelectedIntervalText() {
@@ -79,7 +81,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.MINOR)
     public void testDefaultTimeIntervalIsWorkDay() {
 
-        String selected = loginToApp().timeIntervalSelected();
+        String selected = new LoginPage(getDriver()).loginToApp().timeIntervalSelected();
 
         Allure.step("Выбранный временной интервал: " + selected);
         Assert.assertEquals(selected, "За смену (8 часов)",
@@ -93,7 +95,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void testDropdownContainsAllExpectedOptions() {
 
-        List<String> actualOptions = loginToApp()
+        List<String> actualOptions = new LoginPage(getDriver()).loginToApp()
                 .openTimeIntervalDropdown()
                 .getAllOptions();
 
@@ -119,8 +121,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За смену (8 часов)'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectWorkDay() {
-        loginToApp();
-        selectIntervalByDataValue("WORK_DAY");
+        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("WORK_DAY");
 
         waitForSeconds(5);
 
@@ -137,8 +138,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За сутки'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectFullDay() {
-        loginToApp();
-        selectIntervalByDataValue("FULL_DAY");
+        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("FULL_DAY");
 
 
         waitForSeconds(5);
@@ -156,8 +156,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За неделю'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectWeek() {
-        loginToApp();
-        selectIntervalByDataValue("WEEK");
+        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("WEEK");
 
         waitForSeconds(5);
 
@@ -174,8 +173,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За месяц'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectMonth() {
-        loginToApp();
-        selectIntervalByDataValue("MONTH");
+        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("MONTH");
 
         waitForSeconds(5);
 
@@ -192,8 +190,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За год'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectYear() {
-        loginToApp();
-        selectIntervalByDataValue("YEAR");
+        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("YEAR");
 
         waitForSeconds(5);
 
@@ -210,8 +207,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За выбранный интервал'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectCustomRange() {
-        loginToApp();
-        selectIntervalByDataValue("SELECTED_RANGE");
+        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("SELECTED_RANGE");
 
         waitForSeconds(5);
 
