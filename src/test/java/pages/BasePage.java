@@ -21,6 +21,7 @@ public class BasePage {
     String user = null;
     String settings = null;
     private WebDriverWait wait10;
+    private WebDriverWait wait5;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -110,6 +111,14 @@ public class BasePage {
         }
 
         return wait10;
+    }
+
+    public WebDriverWait getWait5() {
+        if (wait5 == null) {
+            wait5 = new WebDriverWait(driver, Duration.ofSeconds(5));
+        }
+
+        return wait5;
     }
 
     public File getScreenshotWebElement(WebElement webElement) {
