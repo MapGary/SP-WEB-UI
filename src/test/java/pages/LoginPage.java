@@ -17,8 +17,6 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.sql.DriverManager.getDriver;
-
 public class LoginPage extends BasePage {
 
     private final TestConfig config = new TestConfig();
@@ -249,6 +247,7 @@ public class LoginPage extends BasePage {
         return getScreenshotWebElement(elementFieldPassword);
     }
 
+    @Step("Авторизуюсь")
     public DashboardPage loginToApp() {
         String login = getConfig().getUserName();
         String password = getConfig().getPassword();
@@ -259,24 +258,8 @@ public class LoginPage extends BasePage {
                 .clickButtonLogin();
 
         // жду обновления дашборд на вкладке Схема
-        getWait10().until(ExpectedConditions.urlContains("tab=1"));
-//        DashboardPage dashboardPage = new DashboardPage(getDriver());
-        // ждём, пока появится дашборд
-//        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
-//
-//        return new DashboardPage(getDriver());
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-//        wait.until(ExpectedConditions.urlContains("/dashboard"));
-//
-//        // проверяем, что действительно перешли
-//        String currentUrl = getDriver().getCurrentUrl();
-//        if (!currentUrl.contains("/dashboard")) {
-//            Allure.addAttachment("After-login URL", currentUrl);
-//            Allure.addAttachment("Page HTML (after failed login)", "text/html", getDriver().getPageSource(), ".html");
-//            throw new AssertionError("Не удалось перейти на /dashboard. Текущий URL: " + currentUrl);
-//        }
+        getWait5().until(ExpectedConditions.urlContains("tab=1"));
 
         return new DashboardPage(driver);
     }
-
 }
