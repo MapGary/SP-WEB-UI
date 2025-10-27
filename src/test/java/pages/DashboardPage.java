@@ -313,7 +313,7 @@ public class DashboardPage extends BasePage {
 
         // жду пока окно табличные данные загрузится
         try {
-            getWait5().until(ExpectedConditions.elementToBeClickable(workspaceWindows.get(2).findElement(By.xpath("//div[@id='panel1a-content']//div[@class='MuiDataGrid-main css-opb0c2']"))));
+            getWait5().until(ExpectedConditions.elementToBeClickable(workspaceWindows.get(2).findElement(By.xpath("//div[@id='panel1a-content']//div[contains(@class, 'MuiDataGrid-main')]/.."))));
         } catch (Exception e) {
             time3 = 5000;
         }
