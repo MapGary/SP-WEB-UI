@@ -1,76 +1,34 @@
 package tests;
 
 import io.qameta.allure.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.DashboardPage;
-import pages.LoginPage;
+import pages.DateTimeAndEquipmentListPage;
 import utils.BaseTest;
+import utils.TimeUtils;
 
-import java.time.Duration;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
+
+import static pages.DateTimeAndEquipmentListPage.EXPECTED_INTERVALS;
+import static utils.TimeUtils.assertTimestampClose;
+import pages.DateTimeAndEquipmentListPage;
 
 public class TimeIntervalPannelTest extends BaseTest {
 
-    // список ожидаемых названий интервалов в выпадающем списке
-    private final List<String> expectedIntervals = List.of(
-            "За смену (8 часов)",
-            "За сутки",
-            "За неделю",
-            "За месяц",
-            "За год",
-            "За выбранный интервал"
-    );
-
-    //логин
-    private DashboardPage loginToApp() {
-        String login = getConfig().getUserName();
-        String password = getConfig().getPassword();
-
-        new LoginPage(getDriver())
-                .addValueToFieldLogin(login)
-                .addValueToFieldPassword(password)
-                .clickButtonLoginWithHelper();
-
-        DashboardPage dashboardPage = new DashboardPage(getDriver());
-        // ждём, пока появится дашборд
-//        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
-//
-//        return new DashboardPage(getDriver());
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
-        wait.until(ExpectedConditions.urlContains("/dashboard"));
-
-        // проверяем, что действительно перешли
-        String currentUrl = getDriver().getCurrentUrl();
-        if (!currentUrl.contains("/dashboard")) {
-            Allure.addAttachment("After-login URL", currentUrl);
-            Allure.addAttachment("Page HTML (after failed login)", "text/html", getDriver().getPageSource(), ".html");
-            throw new AssertionError("Не удалось перейти на /dashboard. Текущий URL: " + currentUrl);
-        }
-
-        return dashboardPage;
+    @BeforeMethod
+    protected void initPageObject() {
+        page = new DateTimeAndEquipmentListPage(getDriver(), getConfig());
     }
 
-    //выбор интервала
-    private void selectIntervalByDataValue(String dataValue) {
-        DashboardPage dashboardPage = new DashboardPage(getDriver());
 
-        dashboardPage.openTimeIntervalDropdown();
-
-        By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
-        WebElement option = dashboardPage.getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator));
-        option.click();
-    }
-
-    //выбранный текст
-    private String getSelectedIntervalText() {
-        DashboardPage staticPage = new DashboardPage(getDriver());
-        return staticPage.timeIntervalSelected();
-    }
+    private DateTimeAndEquipmentListPage page;
 
     @Test
     @Epic("Статичные элементы")
@@ -79,7 +37,7 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.MINOR)
     public void testDefaultTimeIntervalIsWorkDay() {
 
-        String selected = loginToApp().timeIntervalSelected();
+        String selected = page.loginToApp().timeIntervalSelected();
 
         Allure.step("Выбранный временной интервал: " + selected);
         Assert.assertEquals(selected, "За смену (8 часов)",
@@ -93,13 +51,13 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void testDropdownContainsAllExpectedOptions() {
 
-        List<String> actualOptions = loginToApp()
+        List<String> actualOptions = page.loginToApp()
                 .openTimeIntervalDropdown()
                 .getAllOptions();
 
         Allure.step("Фактические значения выпадающего списка: " + actualOptions);
 
-        for (String expected : expectedIntervals) {
+        for (String expected : EXPECTED_INTERVALS) {
             boolean found = false;
 
             for (String actual : actualOptions) {
@@ -119,12 +77,12 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За смену (8 часов)'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectWorkDay() {
-        loginToApp();
-        selectIntervalByDataValue("WORK_DAY");
+        page.loginToApp();
+        page.selectIntervalByDataValue("WORK_DAY");
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За смену (8 часов)",
@@ -137,13 +95,13 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За сутки'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectFullDay() {
-        loginToApp();
-        selectIntervalByDataValue("FULL_DAY");
+        page.loginToApp();
+        page.selectIntervalByDataValue("FULL_DAY");
 
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За сутки",
@@ -156,12 +114,12 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За неделю'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectWeek() {
-        loginToApp();
-        selectIntervalByDataValue("WEEK");
+        page.loginToApp();
+        page.selectIntervalByDataValue("WEEK");
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За неделю",
@@ -174,12 +132,12 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За месяц'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectMonth() {
-        loginToApp();
-        selectIntervalByDataValue("MONTH");
+        page.loginToApp();
+        page.selectIntervalByDataValue("MONTH");
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За месяц",
@@ -192,16 +150,45 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За год'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectYear() {
-        loginToApp();
-        selectIntervalByDataValue("YEAR");
+        page.loginToApp();
+        page.selectIntervalByDataValue("YEAR");
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
+
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
 
         Assert.assertEquals(selectedText, "За год",
                 "После выбора YEAR должен отображаться 'За год'");
+
+        String startRaw = page.getUrlParam(url, "startTimestamp");
+        String endRaw = page.getUrlParam(url, "endTimestamp");
+
+        Assert.assertNotNull(startRaw, "startTimestamp не найден в URL");
+        Assert.assertNotNull(endRaw, "endTimestamp не найден в URL");
+
+        Instant startInstant = Instant.parse(URLDecoder.decode(startRaw, StandardCharsets.UTF_8));
+        Instant endInstant = Instant.parse(URLDecoder.decode(endRaw, StandardCharsets.UTF_8));
+
+        // задаём таймзону (РФ = Africa/Addis_Ababa??) и ожидаемое начало
+//        ZoneId zone = ZoneId.of("Africa/Addis_Ababa");
+//        Instant expectedStart = expectedStartInstantFor(Interval.YEAR, zone);
+//        Instant expectedEnd = ZonedDateTime.now(zone).toInstant();
+
+        // используем UTC, потому что URL имеет Z (UTC)
+        ZoneId zone = ZoneOffset.UTC;
+
+        Instant expectedStart = TimeUtils.expectedStartInstantFor(TimeUtils.Interval.YEAR, zone);
+        Instant expectedEnd = ZonedDateTime.now(zone).toInstant();
+
+        // tolerance 4 часа??
+        long toleranceSeconds = 14400L;
+
+        assertTimestampClose(startInstant, expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(endInstant, expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
     @Test
@@ -210,12 +197,12 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За выбранный интервал'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectCustomRange() {
-        loginToApp();
-        selectIntervalByDataValue("SELECTED_RANGE");
+        page.loginToApp();
+        page.selectIntervalByDataValue("SELECTED_RANGE");
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За выбранный интервал",
