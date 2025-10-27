@@ -62,7 +62,7 @@ public class LoginPage extends BasePage {
     @FindBy(id = ":r2:-helper-text")
     private WebElement helperPassword;
 
-    @FindBy(xpath = "//input[@name='password']/../div/a")
+    @FindBy(xpath = "//input[@name='password']/../div/button")
     private WebElement iconEye;
 
     @FindBy(xpath = "//a[@data-testid='SetNewPasswordButton']")

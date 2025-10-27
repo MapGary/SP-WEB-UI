@@ -63,10 +63,10 @@ public class SetNewPasswordPage extends BasePage {
     @FindBy(xpath = "//input[@name='newPassword']/..")
     private WebElement elementFieldNewPassword;
 
-    @FindBy(xpath = "//input[@name='currentPassword']/../div/a")
+    @FindBy(xpath = "//input[@name='currentPassword']/../div/button")
     private WebElement iconEyeCurrentPassword;
 
-    @FindBy(xpath = "//input[@name='newPassword']/../div/a")
+    @FindBy(xpath = "//input[@name='newPassword']/../div/button")
     private WebElement iconEyeNewPassword;
 
     @Step("Навожу мышку на иконку 'Сменить язык'")
