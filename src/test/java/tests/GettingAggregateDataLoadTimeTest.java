@@ -51,7 +51,7 @@ public class GettingAggregateDataLoadTimeTest extends BaseTest {
                         dayUp, mouthUp, yearUp, hourUp)
                 .goEvents()
                 .goToTDO()
-                .getAggregateDataMagazine();
+                .getAggregateDataEvents();
     }
 
     @DataProvider(name = "timeInterval")
