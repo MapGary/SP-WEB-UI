@@ -2,10 +2,7 @@ package pages;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -52,7 +49,7 @@ public class DashboardPage extends BasePage {
     private WebElement workspaceEvents;
 
     // рабочая область журнал
-    @FindBy(xpath = "//div[contains(@class, 'MuiTabPanel-root')]/div/div/div[contains(@class, 'MuiDataGrid-root')]")
+    @FindBy(xpath = "//div[contains(@class, 'MuiDataGrid-root--densityStandard')]")
     private WebElement workspaceMagazine;
 
     // поле выбора временного интервала
@@ -147,6 +144,7 @@ public class DashboardPage extends BasePage {
     public DashboardPage selectTimeInterval(int dayFrom, int mouthFrom, int yearFrom, int hourFrom,
                                             int dayUp, int mouthUp, int yearUp, int hourUp) {
 
+        getWait5().until(ExpectedConditions.elementToBeClickable(workspaceSchema));
         // засекаю время загрузки временного интервала
         startTimeInterval = System.currentTimeMillis();
 
@@ -181,6 +179,8 @@ public class DashboardPage extends BasePage {
     @Step("Делаю скрин всей страницы")
     public DashboardPage takeScreenshotPage() {
 
+        getWait5().until(ExpectedConditions.visibilityOf(list1));
+        getWait5().until(ExpectedConditions.visibilityOf(workspaceSchema));
         byte[] screen = null;
         try {
             screen = page.getScreenshotAs(OutputType.BYTES);
@@ -205,20 +205,23 @@ public class DashboardPage extends BasePage {
         }
     }
 
-    public void checkWindowsLoad() {
+    public long getTimeWindowsLoad() {
 
+        long time1 = 0L;
         // жду пока окно табличные данные загрузится
         try {
             getWait5().until(ExpectedConditions.elementToBeClickable(workspaceWindows.get(2).findElement(By.xpath("//div[@id='panel1a-content']//div[contains(@class, 'MuiDataGrid-main')]/.."))));
         } catch (Exception e) {
-            time3 = 15000;
+            time1 += 20000;
         }
         // жду пока окно данные измерений загрузится
         try {
             getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
         } catch (Exception e) {
-            time4 = 20000;
+            time1 += 25000;
         }
+
+        return time1;
     }
 
     @Step("Получаю данные для агрегатов на вкладке Схема")
@@ -234,11 +237,9 @@ public class DashboardPage extends BasePage {
             listAggregate.get(i).click();
             getWait5().until(ExpectedConditions.elementToBeClickable(workspaceSchema));
 
-            checkWindowsLoad();
-
             // останавливаю время загрузки данных об агрегате
             long endTime = System.currentTimeMillis();
-            LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - time3 - time4 - startTime)));
+            LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - getTimeWindowsLoad() - startTime)));
 
             takeScreenshotWorkspace(nameUnit.getText(), endTime, startTime);
         }
