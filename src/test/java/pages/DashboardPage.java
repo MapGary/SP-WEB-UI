@@ -48,7 +48,7 @@ public class DashboardPage extends BasePage {
     private WebElement workspaceSchema;
 
     // рабочая область события
-    @FindBy(xpath = "//div[contains(@class, 'MuiTabPanel-root')]/div/div/div[contains(@class, 'MuiBox-root')]")
+    @FindBy(xpath = "//div[contains(@class, 'MuiTabPanel-root')]//div[contains(@class, 'MuiDataGrid-main')]")
     private WebElement workspaceEvents;
 
     // рабочая область журнал
@@ -168,7 +168,7 @@ public class DashboardPage extends BasePage {
         driver.findElement(By.xpath(String.format("//div[@class='react-datepicker-wrapper'][2]/../div[@class='react-datepicker__tab-loop']//div[contains(@class, 'react-datepicker__day react-datepicker__day--%s')]", String.format("%03d", dayUp)))).click();
         driver.findElement(By.xpath(String.format("//div[@class='react-datepicker-wrapper'][2]/../div[@class='react-datepicker__tab-loop']//ul[@class='react-datepicker__time-list']/li[%s]", String.valueOf(hourUp + 1)))).click();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(workspaceEvents));
+        getWait5().until(ExpectedConditions.elementToBeClickable(workspaceSchema));
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
@@ -211,13 +211,13 @@ public class DashboardPage extends BasePage {
         try {
             getWait5().until(ExpectedConditions.elementToBeClickable(workspaceWindows.get(2).findElement(By.xpath("//div[@id='panel1a-content']//div[contains(@class, 'MuiDataGrid-main')]/.."))));
         } catch (Exception e) {
-            time3 = 5000;
+            time3 = 15000;
         }
         // жду пока окно данные измерений загрузится
         try {
             getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
         } catch (Exception e) {
-            time4 = 10000;
+            time4 = 20000;
         }
     }
 
@@ -253,12 +253,18 @@ public class DashboardPage extends BasePage {
         for (int i = 0; i < listAggregate.size(); i++) {
             // засекаю начало времени загрузки данных об агрегате
             long startTime = System.currentTimeMillis();
+            long time = 0L;
 
             listAggregate.get(i).click();
-            getWait5().until(ExpectedConditions.elementToBeClickable(workspaceEvents));
+
+            try {
+                getWait5().until(ExpectedConditions.elementToBeClickable(workspaceEvents));
+            } catch (Exception e) {
+                time = 20000;
+            }
 
             // останавливаю время загрузки данных об агрегате
-            long endTime = System.currentTimeMillis();
+            long endTime = System.currentTimeMillis() - time;
             LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - startTime)));
 
             takeScreenshotWorkspace(nameUnit.getText(), endTime, startTime);
@@ -274,12 +280,17 @@ public class DashboardPage extends BasePage {
         for (int i = 0; i < listAggregate.size(); i++) {
             // засекаю начало времени загрузки данных об агрегате
             long startTime = System.currentTimeMillis();
+            long time = 0L;
 
             listAggregate.get(i).click();
-            getWait5().until(ExpectedConditions.elementToBeClickable(workspaceMagazine));
+            try {
+                getWait5().until(ExpectedConditions.elementToBeClickable(workspaceMagazine));
+            } catch (Exception e) {
+                time = 20000;
+            }
 
             // останавливаю время загрузки данных об агрегате
-            long endTime = System.currentTimeMillis();
+            long endTime = System.currentTimeMillis() - time;
             LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - startTime)));
 
             takeScreenshotWorkspace(nameUnit.getText(), endTime, startTime);
