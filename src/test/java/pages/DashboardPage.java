@@ -12,9 +12,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.LoggerUtil;
 
 import java.io.ByteArrayInputStream;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +43,8 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//div[@class='react-datepicker-wrapper'][2]//input")
     private WebElement fieldUp;
 
-    @FindBy(xpath = "//div[contains(@class, 'MuiTabPanel-root')]//p[contains(@class, 'MuiTypography-root')]/../..")
+    // рабочая область
+    @FindBy(xpath = "//div[contains(@class, 'MuiTabPanel-root')]/div/div/div")
     private WebElement workspace;
 
     // поле выбора временного интервала
@@ -61,13 +59,9 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//li[contains(@data-value, 'SELECTED_RANGE')]")
     private WebElement getSelectedRange;
 
-    // Иконка агрегата на рабочей области
-    @FindBy(xpath = "//div[contains(@class, 'MuiTabPanel-root')]//p[contains(@class, 'MuiTypography-root')]")
-    private List<WebElement> listIconAggregate;
-
-    // Рабочая область
-    @FindBy(xpath = "//div[contains(@class, 'MuiContainer-root')]")
-    private WebElement workspaceWithTab;
+    // Лист агрегатов для конкретной станции в списке оборудования
+    @FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/ul//li")
+    private List<WebElement> listAggregate;
 
     // Вся страница
     @FindBy(xpath = "//div[contains(@class, 'MuiBox-root')]/header/../..")
@@ -85,6 +79,29 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//div[@id='panel1a-content']")
     private List<WebElement> workspaceWindows;
 
+    // список оборудования
+    @FindBy(xpath = "//ul[contains(@class, 'MuiTreeView-root')]")
+    private WebElement equipmentList;
+
+    // кнопка журнал
+    @FindBy(xpath = "//button[contains(@id, 'T-2')]")
+    private WebElement magazine;
+
+    // кнопка события
+    @FindBy(xpath = "//button[contains(@id, 'T-3')]")
+    private WebElement events;
+
+    @FindBy(xpath = "//ul[@role='tree']")
+    private WebElement list1;
+
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level2s;
+
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level3s;
+
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level4s;
 
     @Step("Открываю выпадающий список временных интервалов")
     public DashboardPage openTimeIntervalDropdown() {
@@ -117,134 +134,6 @@ public class DashboardPage extends BasePage {
         return result;
     }
 
-    @Step("Выбираю интервал последние {minutes} минут")
-    public DashboardPage chooseIntervalMinutes(int minutes) {
-
-// засекаю время загрузки дашборд
-        long startTime = System.currentTimeMillis();
-        new DashboardPage(driver).selectIntervalByDataValue("SELECTED_RANGE");
-
-        LocalDateTime fiveMinutesAgo = LocalDateTime.now().minusMinutes(minutes);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.'0Z'");
-        String startTimestamp = fiveMinutesAgo.format(formatter).replace(":", "%3A");
-
-        String endTimestamp = OffsetDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.'0Z'")).replace(":", "%3A");
-        String url = String.format("%s/dashboard?view=0&measureType=0&object=0&precision=hour&tab=1&stationId=136&startTimestamp=%s&endTimestamp=%s&rangeType=SELECTED_RANGE", getConfig().getBaseUrl(), startTimestamp, endTimestamp);
-        driver.get(url);
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'MuiTabPanel-root')]//p[contains(@class, 'MuiTypography-root')]/../..")));
-// останавливаю время загрузки дашборд
-        long endTime = System.currentTimeMillis();
-        LoggerUtil.info(String.format("Выполнение выбора интервала =  %s мс", (endTime - startTime)));
-
-// делаю скрин всей страницы
-        WebElement webElement = driver.findElement(By.xpath("//div[contains(@class, 'MuiBox-root')]/header/../.."));
-        byte[] screen = null;
-        try {
-            screen = webElement.getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment(String.format("Выполнение выбора интервала -> %s", String.valueOf((endTime - startTime))), new ByteArrayInputStream(screen));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        return this;
-    }
-
-    @Step("Выбираю интервал За сутки")
-    public DashboardPage chooseIntervalDay() {
-
-// засекаю время загрузки дашборд
-        long startTime = System.currentTimeMillis();
-        new DashboardPage(driver).selectIntervalByDataValue("FULL_DAY");
-
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'MuiTabPanel-root')]//p[contains(@class, 'MuiTypography-root')]/../..")));
-// останавливаю время загрузки дашборд
-        long endTime = System.currentTimeMillis();
-        LoggerUtil.info(String.format("Выполнение выбора интервала =  %s мс", (endTime - startTime)));
-
-// делаю скрин всей страницы
-        WebElement webElement = driver.findElement(By.xpath("//div[contains(@class, 'MuiBox-root')]/header/../.."));
-        byte[] screen = null;
-        try {
-            screen = webElement.getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment(String.format("Выполнение выбора интервала -> %s", String.valueOf((endTime - startTime))), new ByteArrayInputStream(screen));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        return this;
-    }
-
-    @Step("Выбираю интервал За месяц")
-    public DashboardPage chooseIntervalMonth() {
-
-// засекаю время загрузки дашборд
-        long startTime = System.currentTimeMillis();
-        new DashboardPage(driver).selectIntervalByDataValue("MONTH");
-
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'MuiTabPanel-root')]//p[contains(@class, 'MuiTypography-root')]/../..")));
-// останавливаю время загрузки дашборд
-        long endTime = System.currentTimeMillis();
-        LoggerUtil.info(String.format("Выполнение выбора интервала =  %s мс", (endTime - startTime)));
-
-// делаю скрин всей страницы
-        WebElement webElement = driver.findElement(By.xpath("//div[contains(@class, 'MuiBox-root')]/header/../.."));
-        byte[] screen = null;
-        try {
-            screen = webElement.getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment(String.format("Выполнение выбора интервала -> %s", String.valueOf((endTime - startTime))), new ByteArrayInputStream(screen));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        return this;
-    }
-
-    @Step("Выбираю интервал За год")
-    public DashboardPage chooseIntervalYear() {
-
-// засекаю время загрузки дашборд
-        long startTime = System.currentTimeMillis();
-        new DashboardPage(driver).selectIntervalByDataValue("YEAR");
-
-        getWait10().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class, 'MuiTabPanel-root')]//p[contains(@class, 'MuiTypography-root')]/../..")));
-// останавливаю время загрузки дашборд
-        long endTime = System.currentTimeMillis();
-        LoggerUtil.info(String.format("Выполнение выбора интервала =  %s мс", (endTime - startTime)));
-
-// делаю скрин всей страницы
-        WebElement webElement = driver.findElement(By.xpath("//div[contains(@class, 'MuiBox-root')]/header/../.."));
-        byte[] screen = null;
-        try {
-            screen = webElement.getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment(String.format("Выполнение выбора интервала -> %s", String.valueOf((endTime - startTime))), new ByteArrayInputStream(screen));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        return this;
-    }
-
     @Step("Выбираю временной интервал от {dayFrom}-{mouthFrom}-{yearFrom} {hourFrom}:00" +
             " до {dayUp}-{mouthUp}-{yearUp} {hourUp}:00")
     public DashboardPage selectTimeInterval(int dayFrom, int mouthFrom, int yearFrom, int hourFrom,
@@ -255,7 +144,6 @@ public class DashboardPage extends BasePage {
 
         timeIntervalField.click();
         getWait5().until(ExpectedConditions.elementToBeClickable(menuIntervalField));
-        Allure.step("За выбранный интервал");
         getSelectedRange.click();
 
         // устанавливаю дату от
@@ -325,50 +213,52 @@ public class DashboardPage extends BasePage {
         }
     }
 
-    @Step("Получаю данные для агрегатов")
-    public void getAggregateData() {
+    @Step("Получаю данные для агрегатов на вкладке Схема")
+    public void getAggregateDataSchema() {
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(workspaceWithTab));
+        getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
         Allure.step("Перебираю все агрегаты на первой странице");
-//        for (int i = 0; i < listIconAggregate.size(); i++) {
-        for (int i = 0; i < 10; i++) {
-            // засекаю начало времени загрузки данных о агрегате
+        for (int i = 0; i < listAggregate.size(); i++) {
+            // засекаю начало времени загрузки данных об агрегате
             long startTime = System.currentTimeMillis();
 
-            listIconAggregate.get(i).click();
-            getWait5().until(ExpectedConditions.elementToBeClickable(workspaceWithTab));
+            listAggregate.get(i).click();
+            getWait5().until(ExpectedConditions.elementToBeClickable(workspace));
 
             checkWindowsLoad();
 
-            // останавливаю время загрузки данных о агрегате
+            // останавливаю время загрузки данных об агрегате
             long endTime = System.currentTimeMillis();
             LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - time3 - time4 - startTime)));
 
             takeScreenshotWorkspace(nameUnit.getText(), endTime, startTime);
 
-            getWait5().until(ExpectedConditions.elementToBeClickable(level1s.get(0))).click();
-            getWait5().until(ExpectedConditions.visibilityOf(workspace));
+//            getWait5().until(ExpectedConditions.elementToBeClickable(level1s.get(0))).click();
+//            getWait5().until(ExpectedConditions.visibilityOf(workspace));
         }
     }
 
+    @Step("Получаю данные для агрегатов на вкладке Журнал или События")
+    public void getAggregateDataMagazine() {
 
-    @FindBy(xpath = "//button[contains(@id, 'T-2')]")
-    private WebElement magazine;
+        getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
-    @FindBy(xpath = "//ul[@role='tree']")
-    private WebElement list1;
+        Allure.step("Перебираю все агрегаты на первой странице");
+        for (int i = 0; i < listAggregate.size(); i++) {
+            // засекаю начало времени загрузки данных об агрегате
+            long startTime = System.currentTimeMillis();
 
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level2s;
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-label']"))
-    private WebElement level2click;
+            listAggregate.get(i).click();
+            getWait5().until(ExpectedConditions.elementToBeClickable(workspace));
 
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level3s;
+            // останавливаю время загрузки данных об агрегате
+            long endTime = System.currentTimeMillis();
+            LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - startTime)));
 
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level4s;
+            takeScreenshotWorkspace(nameUnit.getText(), endTime, startTime);
+        }
+    }
 
     @Step("Перехожу на Журнал")
     public DashboardPage goMagazine() {
@@ -377,43 +267,22 @@ public class DashboardPage extends BasePage {
         return this;
     }
 
-//    @Step("Прохожусь по оборудованию в списке оборудования")
-//    public DashboardPage goThroughEquipmentInEquipmentList() {
-//
-//        getWait5().until(ExpectedConditions.elementToBeClickable(list1));
-//        for (WebElement level1 : level1s) {
-//            getWait5().until(ExpectedConditions.elementToBeClickable(level1)).click();
-//            try {
-//                Thread.sleep(500);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//            for (WebElement level2 : level2s) {
-//                getWait5().until(ExpectedConditions.elementToBeClickable(level2)).click();
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                for (WebElement level3 : level3s) {
-//                    getWait5().until(ExpectedConditions.elementToBeClickable(level3)).click();
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                    for (WebElement level4 : level4s) {
-//                        getWait5().until(ExpectedConditions.elementToBeClickable(level4)).click();
-//                        try {
-//                            Thread.sleep(500);
-//                        } catch (InterruptedException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                }
-//        }
-//    }
-//
-//        return this;
-//}
+    @Step("Перехожу на События")
+    public DashboardPage goEvents() {
+        events.click();
+
+        return this;
+    }
+
+    @Step("Прохожусь по оборудованию к станции ТДО")
+    public DashboardPage goToTDO() {
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(list1));
+        level1s.get(0).click();
+        level2s.get(0).click();
+        level3s.get(0).click();
+        level4s.get(0).click();
+
+        return this;
+    }
 }

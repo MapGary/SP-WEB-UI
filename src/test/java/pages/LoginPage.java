@@ -258,7 +258,7 @@ public class LoginPage extends BasePage {
                 .clickButtonLogin();
 
         // жду обновления дашборд на вкладке Схема
-        getWait5().until(ExpectedConditions.urlContains("tab=1"));
+        getWait10().until(ExpectedConditions.urlContains("tab=1"));
 
         return new DashboardPage(driver);
     }

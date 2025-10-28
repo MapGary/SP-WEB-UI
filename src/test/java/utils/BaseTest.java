@@ -154,6 +154,8 @@ public abstract class BaseTest {
                     Objects.requireNonNull(driver.getPageSource()),
                     ".html");
 
+            Allure.addAttachment("URL ", driver.getCurrentUrl());
+
             LoggerUtil.error(String.format("Crashed with an error %s.%s", this.getClass().getName(), method.getName()));
         }
 
