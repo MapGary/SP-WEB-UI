@@ -2,7 +2,10 @@ package pages;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,7 +13,9 @@ import utils.LoggerUtil;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DashboardPage extends BasePage {
 
@@ -211,23 +216,20 @@ public class DashboardPage extends BasePage {
         }
     }
 
-    public long getTimeWindowsLoad() {
+    public void getTimeWindowsLoad() {
 
-        long time1 = 0L;
         // жду пока окно табличные данные загрузится
         try {
             getWait5().until(ExpectedConditions.elementToBeClickable(workspaceWindows.get(2).findElement(By.xpath("//div[@id='panel1a-content']//div[contains(@class, 'MuiDataGrid-main')]/.."))));
         } catch (Exception e) {
-            time1 += 20000;
+//            time += 5000;
         }
         // жду пока окно данные измерений загрузится
         try {
             getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
         } catch (Exception e) {
-            time1 += 25000;
+//            time += 10000;
         }
-
-        return time1;
     }
 
     @Step("Получаю данные для агрегатов на вкладке Схема")
@@ -242,13 +244,47 @@ public class DashboardPage extends BasePage {
 
             listAggregate.get(i).click();
             getWait5().until(ExpectedConditions.elementToBeClickable(workspaceSchema));
+            getTimeWindowsLoad();
 
             // останавливаю время загрузки данных об агрегате
             long endTime = System.currentTimeMillis();
-            LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - getTimeWindowsLoad() - startTime)));
+            LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - startTime)));
 
             takeScreenshotWorkspace(nameUnit.getText(), endTime, startTime);
         }
+    }
+
+    @Step("Получаю данные для {unitName} на вкладке Схема")
+    public Map<String, String> getAggregateTimer(String unitName) {
+
+        Map<String, String> times = new HashMap<>();
+        times.put("timeInterval", String.valueOf(endTimeInterval - startTimeInterval));
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
+
+        Allure.step("Перебираю все агрегаты на первой странице");
+        for (int i = 0; i < listAggregate.size(); i++) {
+
+            if (listAggregate.get(i).getText().equals(unitName)) {
+
+                // засекаю начало времени загрузки данных об агрегате
+                long startTime = System.currentTimeMillis();
+
+                listAggregate.get(i).click();
+                getWait5().until(ExpectedConditions.elementToBeClickable(workspaceSchema));
+                getTimeWindowsLoad();
+
+                // останавливаю время загрузки данных об агрегате
+                long endTime = System.currentTimeMillis();
+                LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - startTime)));
+
+                times.put("timeUnit", String.valueOf(endTime - startTime));
+                times.put("time", String.valueOf((endTimeInterval - startTimeInterval) + (endTime - startTime)));
+                takeScreenshotWorkspace(nameUnit.getText(), endTime, startTime);
+            }
+        }
+
+        return times;
     }
 
     @Step("Получаю данные для агрегатов на вкладке События")
@@ -329,6 +365,19 @@ public class DashboardPage extends BasePage {
         level3s.get(0).click();
         level4s.get(0).click();
         level5s.get(0).click();
+
+        return this;
+    }
+
+    @Step("Прохожусь по оборудованию к станции")
+    public DashboardPage goTo() {
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(list1));
+        level1s.get(2).click();
+        level2s.get(0).click();
+        level3s.get(4).click();
+        level4s.get(0).click();
+//        level5s.get(0).click();
 
         return this;
     }
