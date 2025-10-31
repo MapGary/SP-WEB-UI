@@ -1,1 +1,1 @@
-{"total":1,"items":[{"uid":"623ca6d70e532f6174455209ecc330d3","name":"Получение данных о агрегате в разных браузерах","statistic":{"failed":0,"broken":10,"skipped":0,"passed":5,"unknown":0,"total":15}}]}
+{"total":1,"items":[{"uid":"623ca6d70e532f6174455209ecc330d3","name":"Получение данных о агрегате в разных браузерах","statistic":{"failed":0,"broken":6,"skipped":0,"passed":9,"unknown":0,"total":15}}]}
