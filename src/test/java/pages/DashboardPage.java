@@ -374,9 +374,9 @@ public class DashboardPage extends BasePage {
 
         getWait10().until(ExpectedConditions.elementToBeClickable(list1));
         level1s.get(2).click();
-        level2s.get(0).click();
-        level3s.get(4).click();
-        level4s.get(0).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
 //        level5s.get(0).click();
 
         return this;
