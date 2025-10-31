@@ -49,7 +49,10 @@ public class DashboardPage extends BasePage {
     private WebElement workspaceEvents;
 
     // рабочая область журнал
-    @FindBy(xpath = "//div[contains(@class, 'MuiDataGrid-root--densityStandard')]")
+    @FindBy(xpath = "//div[contains(@class, 'MuiTabPanel-root')]/div/div/div[contains(@class, 'MuiDataGrid-root')]")
+//    @FindBy(xpath = "//div[@class='contract-trigger']")
+//    @FindBy(xpath = "//div[contains(@class, 'alarm-status-cell')]")
+//    @FindBy(xpath = "//div[contains(@class, 'MuiDataGrid-virtualScrollerRenderZone')]")
     private WebElement workspaceMagazine;
 
     // поле выбора временного интервала
@@ -76,6 +79,18 @@ public class DashboardPage extends BasePage {
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li[contains(@class, 'MuiTreeItem')]/div"))
     private List<WebElement> level1s;
 
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level2s;
+
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level3s;
+
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level4s;
+
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level5s;
+
     // Название агрегата
     @FindBy(xpath = "//div[contains(@class, 'MuiContainer-root')]//p[contains(@class, 'MuiTypography-root')]")
     private WebElement nameUnit;
@@ -98,15 +113,6 @@ public class DashboardPage extends BasePage {
 
     @FindBy(xpath = "//ul[@role='tree']")
     private WebElement list1;
-
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level2s;
-
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level3s;
-
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level4s;
 
     @Step("Открываю выпадающий список временных интервалов")
     public DashboardPage openTimeIntervalDropdown() {
@@ -285,9 +291,9 @@ public class DashboardPage extends BasePage {
 
             listAggregate.get(i).click();
             try {
-                getWait5().until(ExpectedConditions.elementToBeClickable(workspaceMagazine));
+                getWait5().until(ExpectedConditions.visibilityOf(workspaceMagazine));
             } catch (Exception e) {
-                time = 20000;
+                time = 5000;
             }
 
             // останавливаю время загрузки данных об агрегате
@@ -322,6 +328,7 @@ public class DashboardPage extends BasePage {
         level2s.get(0).click();
         level3s.get(0).click();
         level4s.get(0).click();
+        level5s.get(0).click();
 
         return this;
     }
