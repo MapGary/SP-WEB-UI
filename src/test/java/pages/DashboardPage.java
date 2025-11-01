@@ -193,7 +193,7 @@ public class DashboardPage extends BasePage {
         byte[] screen = null;
         try {
             screen = page.getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment(String.format("Выполнение выбора интервала -> %s", String.format("%.1f", (double) (endTimeInterval - startTimeInterval))), new ByteArrayInputStream(screen));
+            Allure.addAttachment(String.format("Выполнение выбора интервала -> %s", String.format("%.1f", (double) (endTimeInterval - startTimeInterval) / 1000)), new ByteArrayInputStream(screen));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,7 +208,9 @@ public class DashboardPage extends BasePage {
         WebElement webElement = driver.findElement(By.xpath("//div[contains(@class, 'MuiContainer-root')]"));
         try {
             screen = webElement.getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment(String.format("Агрегат - %s, Время загрузки информации -> %s", unit, String.format("%.1f", (double) (endTime - startTime))), new ByteArrayInputStream(screen));
+            Allure.addAttachment(String.format("Агрегат - %s, Время загрузки информации -> %s",
+                    unit,
+                    String.format("%.1f", (double) (endTime - startTime) / 1000)), new ByteArrayInputStream(screen));
         } catch (Exception e) {
             e.printStackTrace();
         }
