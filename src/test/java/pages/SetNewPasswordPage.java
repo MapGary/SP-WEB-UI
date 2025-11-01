@@ -3,6 +3,7 @@ package pages;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -23,6 +24,10 @@ public class SetNewPasswordPage extends BasePage {
 
     @FindBy(xpath = "//button[@data-testid='switchLanguage']")
     private WebElement buttonLanguage;
+
+    // поле логин
+    @FindBy(name = "login")
+    private WebElement fieldLogin;
 
     @FindBy(xpath = "//div[@id='language-menu']//ul/li[@tabindex='0']")
     private WebElement activeLanguage;
@@ -48,8 +53,17 @@ public class SetNewPasswordPage extends BasePage {
     @FindBy(xpath = "//div[@id=':r0:']")
     private WebElement helperLanguage;
 
-    @FindBy(xpath = "//form[@data-testid='SetNewPassword-form']/span")
+    @FindBy(xpath = "//p[@id=':r3:-helper-text']")
+    private WebElement helperLogin;
+
+    @FindBy(xpath = "//p[@id=':r4:-helper-text']")
     private WebElement helperCurrentPassword;
+
+    @FindBy(xpath = "//form[@data-testid='SetNewPassword-form']/span")
+    private WebElement helperCurrentPasswordDefault;
+
+    @FindBy(xpath = "//p[@id=':r5:-helper-text']")
+    private WebElement helperNewPassword;
 
     @FindBy(name = "currentPassword")
     private WebElement fieldCurrentPassword;
@@ -63,11 +77,21 @@ public class SetNewPasswordPage extends BasePage {
     @FindBy(xpath = "//input[@name='newPassword']/..")
     private WebElement elementFieldNewPassword;
 
-    @FindBy(xpath = "//input[@name='currentPassword']/../div/a")
+    @FindBy(xpath = "//input[@name='currentPassword']/../div/button")
     private WebElement iconEyeCurrentPassword;
 
-    @FindBy(xpath = "//input[@name='newPassword']/../div/a")
+    @FindBy(xpath = "//input[@name='newPassword']/../div/button")
     private WebElement iconEyeNewPassword;
+
+    @FindBy(xpath = "//header//a")
+    private WebElement logo;
+
+    @Step("Кликаю по Логотипу")
+    public LoginPage clickLogo() {
+        logo.click();
+
+        return new LoginPage(driver);
+    }
 
     @Step("Навожу мышку на иконку 'Сменить язык'")
     public SetNewPasswordPage getHelperSwitchLanguage() {
@@ -107,7 +131,7 @@ public class SetNewPasswordPage extends BasePage {
         data.put("currentPassword", labelFieldCurrentPassword.getText());
         data.put("newPassword", labelFieldNewPassword.getText());
         data.put("buttonSubmit", buttonSubmit.getText());
-        data.put("helperCurrentPassword", helperCurrentPassword.getText());
+        data.put("helperCurrentPassword", helperCurrentPasswordDefault.getText());
         data.put("helperLanguage", new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.visibilityOf(helperLanguage)).getText());
 
         try {
@@ -122,10 +146,34 @@ public class SetNewPasswordPage extends BasePage {
         return data;
     }
 
+    @Step("Получаю подсказку для поля Логин")
+    public String getHelperLogin() {
+        String helper = helperLogin.getText();
+        Allure.addAttachment("helper Login: ", helper);
+
+        return helper;
+    }
+
+    @Step("Получаю подсказку для поля Текущий пароль")
+    public String getHelperCurrentPasswordDefault() {
+        String helper = helperCurrentPasswordDefault.getText();
+        Allure.addAttachment("helper Current Password: ", helper);
+
+        return helper;
+    }
+
     @Step("Получаю подсказку для поля Текущий пароль")
     public String getHelperCurrentPassword() {
         String helper = helperCurrentPassword.getText();
         Allure.addAttachment("helper Current Password: ", helper);
+
+        return helper;
+    }
+
+    @Step("Получаю подсказку для поля Новый пароль")
+    public String getHelperNewPassword() {
+        String helper = helperNewPassword.getText();
+        Allure.addAttachment("helper New Password: ", helper);
 
         return helper;
     }
@@ -182,16 +230,46 @@ public class SetNewPasswordPage extends BasePage {
         return fieldNewPassword.getDomAttribute("type");
     }
 
+    @Step("Кликаю в поле Логин")
+    public SetNewPasswordPage clickToFieldLogin() {
+        fieldLogin.click();
+
+        return this;
+    }
+
     @Step("Кликаю в поле Текущий пароль")
     public SetNewPasswordPage clickToFieldCurrentPassword() {
-        fieldCurrentPassword.click();
+        elementFieldCurrentPassword.click();
 
         return this;
     }
 
     @Step("Кликаю в поле Новый пароль")
     public SetNewPasswordPage clickToFieldNewPassword() {
-        fieldNewPassword.click();
+        elementFieldNewPassword.click();
+
+        return this;
+    }
+
+    // кликаю отправить без перехода
+    @Step("Кликаю кнопку Отправить")
+    public SetNewPasswordPage clickButtonSubmitWithHelper() {
+        buttonSubmit.click();
+
+        return this;
+    }
+
+    @Step("Добавляю значение в поле Логин")
+    public SetNewPasswordPage addValueToFieldLogin(String login) {
+        fieldLogin.sendKeys(login);
+
+        return this;
+    }
+
+    @Step("Очистить поле Новый Пароль")
+    public SetNewPasswordPage clearFieldNewPassword() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].value = ''", fieldNewPassword);
 
         return this;
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Получение данных о агрегате в разных браузерах">
+
+    <test name="Браузер Chrome">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="tests.GettingAggregateDataLoadTimeTest"/>
+            <methods>
+                <include name="testGetDataUnitSchema"/>
+            </methods>
+        </classes>
+    </test>
+
+    <test name="Браузер Edge">
+        <parameter name="browser" value="edge"/>
+        <classes>
+            <class name="tests.GettingAggregateDataLoadTimeTest"/>
+            <methods>
+                <include name="testGetDataUnitSchema"/>
+            </methods>
+        </classes>
+    </test>
+
+    <test name="Браузер Yandex">
+        <parameter name="browser" value="yandex"/>
+        <classes>
+            <class name="tests.GettingAggregateDataLoadTimeTest"/>
+            <methods>
+                <include name="testGetDataUnitSchema"/>
+            </methods>
+        </classes>
+    </test>
+
+</suite>

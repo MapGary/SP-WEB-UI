@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Smoke тестирование">
+
+    <test name="Браузер Chrome">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="tests.AuthLoginTest"/>
+            <class name="tests.SecuritySqlInjectionTest"/>
+            <class name="tests.SetNewPasswordTest"/>
+            <class name="tests.TimeIntervalPannelTest"/>
+        </classes>
+    </test>
+
+    <test name="Браузер Edge">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <parameter name="browser" value="edge"/>
+        <classes>
+            <class name="tests.AuthLoginTest"/>
+            <class name="tests.SecuritySqlInjectionTest"/>
+            <class name="tests.SetNewPasswordTest"/>
+            <class name="tests.TimeIntervalPannelTest"/>
+        </classes>
+    </test>
+
+    <test name="Браузер Yandex">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <parameter name="browser" value="yandex"/>
+        <classes>
+            <class name="tests.AuthLoginTest"/>
+            <class name="tests.SecuritySqlInjectionTest"/>
+            <class name="tests.SetNewPasswordTest"/>
+            <class name="tests.TimeIntervalPannelTest"/>
+        </classes>
+    </test>
+
+</suite>
