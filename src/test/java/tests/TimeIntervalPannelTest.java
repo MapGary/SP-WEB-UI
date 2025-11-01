@@ -1,6 +1,7 @@
 package tests;
 
 import io.qameta.allure.*;
+import io.qameta.allure.testng.Tag;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
@@ -9,6 +10,8 @@ import utils.BaseTest;
 
 import java.util.List;
 
+@Epic("Статичные элементы")
+@Feature("Панель временного интервала")
 public class TimeIntervalPannelTest extends BaseTest {
 
     // список ожидаемых названий интервалов в выпадающем списке
@@ -21,57 +24,14 @@ public class TimeIntervalPannelTest extends BaseTest {
             "За выбранный интервал"
     );
 
-//                   ПЕРЕЕХАЛ В LOGINPAGE
-//    //логин
-//    private DashboardPage loginToApp() {
-//        String login = getConfig().getUserName();
-//        String password = getConfig().getPassword();
-//
-//        new LoginPage(getDriver())
-//                .addValueToFieldLogin(login)
-//                .addValueToFieldPassword(password)
-//                .clickButtonLoginWithHelper();
-//
-//        DashboardPage dashboardPage = new DashboardPage(getDriver());
-//        // ждём, пока появится дашборд
-////        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
-////
-////        return new DashboardPage(getDriver());
-//        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
-//        wait.until(ExpectedConditions.urlContains("/dashboard"));
-//
-//        // проверяем, что действительно перешли
-//        String currentUrl = getDriver().getCurrentUrl();
-//        if (!currentUrl.contains("/dashboard")) {
-//            Allure.addAttachment("After-login URL", currentUrl);
-//            Allure.addAttachment("Page HTML (after failed login)", "text/html", getDriver().getPageSource(), ".html");
-//            throw new AssertionError("Не удалось перейти на /dashboard. Текущий URL: " + currentUrl);
-//        }
-//
-//        return dashboardPage;
-//    }
-
-    //                   ПЕРЕЕХАЛ В DASHBOARDPAGE
-//    //выбор интервала
-//    private void selectIntervalByDataValue(String dataValue) {
-//        DashboardPage dashboardPage = new DashboardPage(getDriver());
-//
-//        dashboardPage.openTimeIntervalDropdown();
-//
-//        By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
-//        WebElement option = dashboardPage.getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator));
-//        option.click();
-//    }
-
     //выбранный текст
     private String getSelectedIntervalText() {
         DashboardPage staticPage = new DashboardPage(getDriver());
         return staticPage.timeIntervalSelected();
     }
 
-    @Test
-    @Epic("Статичные элементы")
-    @Feature("Панель временного интервала")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Проверить, что по умолчанию указывается временной интервал 'За смену (8 часов)'")
     @Severity(SeverityLevel.MINOR)
     public void testDefaultTimeIntervalIsWorkDay() {
@@ -83,9 +43,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "Ожидалось, что по умолчанию выбран интервал 'За смену (8 часов)'");
     }
 
-    @Test
-    @Epic("Статичные элементы")
-    @Feature("Панель временного интервала")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Проверить, что при открытии выпадающего списка отображаются все ожидаемые варианты")
     @Severity(SeverityLevel.NORMAL)
     public void testDropdownContainsAllExpectedOptions() {
@@ -110,9 +69,8 @@ public class TimeIntervalPannelTest extends BaseTest {
         }
     }
 
-    @Test
-    @Epic("Статичные элементы")
-    @Feature("Панель временного интервала")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Проверить, что можно выбрать интервал 'За смену (8 часов)'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectWorkDay() {
@@ -127,9 +85,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора WORK_DAY должен отображаться 'За смену (8 часов)'");
     }
 
-    @Test
-    @Epic("Статичные элементы")
-    @Feature("Панель временного интервала")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Проверить, что можно выбрать интервал 'За сутки'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectFullDay() {
@@ -145,9 +102,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора FULL_DAY должен отображаться 'За сутки'");
     }
 
-    @Test
-    @Epic("Статичные элементы")
-    @Feature("Панель временного интервала")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Проверить, что можно выбрать интервал 'За неделю'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectWeek() {
@@ -162,9 +118,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора WEEK должен отображаться 'За неделю'");
     }
 
-    @Test
-    @Epic("Статичные элементы")
-    @Feature("Панель временного интервала")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Проверить, что можно выбрать интервал 'За месяц'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectMonth() {
@@ -179,9 +134,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора MONTH должен отображаться 'За месяц'");
     }
 
-    @Test
-    @Epic("Статичные элементы")
-    @Feature("Панель временного интервала")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Проверить, что можно выбрать интервал 'За год'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectYear() {
@@ -196,9 +150,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора YEAR должен отображаться 'За год'");
     }
 
-    @Test
-    @Epic("Статичные элементы")
-    @Feature("Панель временного интервала")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Проверить, что можно выбрать интервал 'За выбранный интервал'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectCustomRange() {

@@ -1,6 +1,7 @@
 package tests;
 
 import io.qameta.allure.*;
+import io.qameta.allure.testng.Tag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -17,11 +18,12 @@ import java.util.Map;
 import static utils.Assert.compareExpectedLanguageLoginPage;
 import static utils.Assert.compareScreenshotsWithTolerance;
 
+@Epic("Авторизация и аутентификация")
+@Feature("Страница Логин")
 public class AuthLoginTest extends BaseTest {
 
-    @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Вход с валидными логином и паролем")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Вход с валидными логином и паролем")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/8")
@@ -49,8 +51,6 @@ public class AuthLoginTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Введенные данные сохраняются в значение поля")
     @Description("Введенные данные сохраняются в значение поля")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/8")
@@ -69,9 +69,8 @@ public class AuthLoginTest extends BaseTest {
         Assert.assertEquals(loginPage.getValueToFieldPassword(), password);
     }
 
-    @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Вход с пустыми полями логина и пароля")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Вход с пустыми полями логина и пароля")
     @Severity(SeverityLevel.BLOCKER)
     @Link("https://team-b9fb.testit.software/projects/1/tests/9")
@@ -91,7 +90,6 @@ public class AuthLoginTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
     @Feature("Проверка видимости пароля (иконка 'глаз') на странице Login")
     @Description("Проверка видимости пароля (иконка 'глаз') на странице Login")
     @Severity(SeverityLevel.MINOR)
@@ -123,8 +121,6 @@ public class AuthLoginTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Переход по кнопке 'Сменить пароль'")
     @Description("Переход по кнопке 'Сменить пароль'")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/11")
@@ -139,8 +135,6 @@ public class AuthLoginTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Переключения языка (RU/EN)")
     @Description("Переключения языка (RU/EN)")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/12")
@@ -165,9 +159,8 @@ public class AuthLoginTest extends BaseTest {
         Assert.assertTrue(compareExpectedLanguageLoginPage(Language.RU, dataLanguageRU));
     }
 
-    @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Ввод неверного логина или пароля")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Ввод неверного логина или пароля")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/13")
@@ -192,8 +185,6 @@ public class AuthLoginTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Клик по лого на странице Login")
     @Description("Клик по лого на странице Login")
     @Severity(SeverityLevel.MINOR)
     @Link("https://team-b9fb.testit.software/projects/1/tests/224")

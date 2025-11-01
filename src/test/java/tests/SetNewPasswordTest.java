@@ -16,11 +16,11 @@ import java.util.Map;
 import static utils.Assert.compareExpectedLanguageSetNewPasswordPage;
 import static utils.Assert.compareScreenshotsWithTolerance;
 
+@Epic("Авторизация и аутентификация")
+@Feature("Страница Сменить пароль")
 public class SetNewPasswordTest extends BaseTest {
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Переключение языка на форме смены пароля")
     @Description("Переключение языка на форме смены пароля")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/18")
@@ -47,8 +47,6 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Проверка видимости пароля (иконка 'глаз') для поля Текущий пароль на странице Cменить пароль")
     @Description("Проверка видимости пароля (иконка 'глаз') для поля Текущий пароль на странице Cменить пароль")
     @Severity(SeverityLevel.MINOR)
     @Link("https://team-b9fb.testit.software/projects/1/tests/20")
@@ -79,8 +77,6 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Проверка видимости пароля (иконка 'глаз') для поля Новый пароль на странице Cменить пароль")
     @Description("Проверка видимости пароля (иконка 'глаз') для поля Новый пароль на странице Cменить пароль")
     @Severity(SeverityLevel.MINOR)
     @Link("https://team-b9fb.testit.software/projects/1/tests/20")
@@ -113,8 +109,6 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Отображение подсказки под полем 'Текущий пароль' в форме смены пароля")
     @Description("Отображение подсказки под полем 'Текущий пароль' в форме смены пароля")
     @Severity(SeverityLevel.TRIVIAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/21")
@@ -128,8 +122,6 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Попытка отправки формы с пустыми полями при смене пароля")
     @Description("Попытка отправки формы с пустыми полями при смене пароля")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/22")
@@ -151,8 +143,6 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Новый пароль не соответствует требованиям (например, без цифры или спецсимвола) при смене пароля")
     @Description("Новый пароль не соответствует требованиям (например, без цифры или спецсимвола) при смене пароля")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/23")
@@ -201,8 +191,6 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Новый пароль содержит запрещённое слово (например, Moscow)")
     @Description("Новый пароль содержит запрещённое слово (например, Moscow)")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/24")
@@ -222,8 +210,6 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Текущий пароль указан неверно при смене пароля")
     @Description("Текущий пароль указан неверно при смене пароля")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/25")
@@ -241,8 +227,6 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Логин указан неверно при смене пароля")
     @Description("Логин указан неверно при смене пароля")
     @Severity(SeverityLevel.NORMAL)
     @Link("")
@@ -260,8 +244,6 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Повторное использование пароля при смене пароля")
     @Description("Повторное использование пароля при смене пароля")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/30")
@@ -278,8 +260,6 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Epic("Авторизация и аутентификация")
-    @Feature("Клик по лого на странице Сменить пароль ")
     @Description("Клик по лого на странице Сменить пароль ")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/191")

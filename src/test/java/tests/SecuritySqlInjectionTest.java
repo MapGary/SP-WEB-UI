@@ -1,6 +1,7 @@
 package tests;
 
 import io.qameta.allure.*;
+import io.qameta.allure.testng.Tag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -9,11 +10,12 @@ import pages.LoginPage;
 import utils.BaseTest;
 import utils.SecurityUtils;
 
+@Epic("Безопасность")
+@Feature("SQL-injection")
 public class SecuritySqlInjectionTest extends BaseTest {
 
-    @Test
-    @Epic("Безопасность")
-    @Feature("SQL-injection")
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Description("Попытка SQL-injection в поля логина/пароля не должна приводить к успешной аутентификации")
     @Severity(SeverityLevel.CRITICAL)
     public void testSqlInjectionDoesNotBypassAuthentication() {

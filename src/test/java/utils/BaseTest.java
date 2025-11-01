@@ -83,7 +83,7 @@ public abstract class BaseTest {
     }
 
     @Parameters("browser")
-    @BeforeMethod
+    @BeforeMethod(groups = {"smoke"})
     protected void beforeMethod(Method method, @Optional("yandex") String browser) {
 
         String remoteUrl = System.getenv("SELENIUM_REMOTE_URL");
@@ -139,7 +139,7 @@ public abstract class BaseTest {
         LoggerUtil.info(String.format("Run %s.%s", this.getClass().getName(), method.getName()));
     }
 
-    @AfterMethod
+    @AfterMethod(groups = {"smoke"})
     protected void afterMethod(Method method, ITestResult testResult) {
         if (!testResult.isSuccess()) {
             Allure.addAttachment(
