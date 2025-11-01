@@ -147,4 +147,75 @@ public class SetNewPasswordTest extends BaseTest {
         Assert.assertEquals(helperCurrentPassword, "Поле Текущий пароль обязательно для заполнения");
         Assert.assertEquals(helperNewPassword, "Пароль должен содержать только латинские буквы");
     }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Новый пароль не соответствует требованиям (например, без цифры или спецсимвола) при смене пароля")
+    @Description("Новый пароль не соответствует требованиям (например, без цифры или спецсимвола) при смене пароля")
+    @Severity(SeverityLevel.NORMAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/23")
+    public void testNewPasswordNotMeetRequirements() {
+        SetNewPasswordPage setNewPasswordPage = new LoginPage(getDriver())
+                .clickButtonSetNewPassword()
+                .addValueToFieldLogin("Login")
+                .addValueToFieldCurrentPassword("Password");
+
+        String helper1 = setNewPasswordPage
+                .addValueToFieldNewPassword("qazwsxe")
+                .getHelperNewPassword();
+
+        String helper2 = setNewPasswordPage
+                .clearFieldNewPassword()
+                .addValueToFieldNewPassword("qazwsxed")
+                .getHelperNewPassword();
+
+        String helper3 = setNewPasswordPage
+                .clearFieldNewPassword()
+                .addValueToFieldNewPassword("QAZWSXED")
+                .getHelperNewPassword();
+
+        String helper4 = setNewPasswordPage
+                .clearFieldNewPassword()
+                .addValueToFieldNewPassword("qazwsxeD")
+                .getHelperNewPassword();
+
+        String helper5 = setNewPasswordPage
+                .clearFieldNewPassword()
+                .addValueToFieldNewPassword("qazwsxE1")
+                .getHelperNewPassword();
+
+        String helper6 = setNewPasswordPage
+                .clearFieldNewPassword()
+                .addValueToFieldNewPassword("йфяцыУ1!")
+                .getHelperNewPassword();
+
+        Allure.step("Проверяю подсказки");
+        Assert.assertEquals(helper1, "Пароль должен содержать не менее 8 символов");
+        Assert.assertEquals(helper2, "Пароль должен содержать хотя бы одну заглавную букву");
+        Assert.assertEquals(helper3, "Пароль должен содержать хотя бы одну строчную букву");
+        Assert.assertEquals(helper4, "Пароль должен содержать хотя бы одну цифру");
+        Assert.assertEquals(helper5, "Пароль должен содержать хотя бы один специальный символ");
+        Assert.assertEquals(helper6, "Пароль должен содержать только латинские буквы");
+    }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Новый пароль содержит запрещённое слово (например, Moscow)")
+    @Description("Новый пароль содержит запрещённое слово (например, Moscow)")
+    @Severity(SeverityLevel.NORMAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/24")
+    public void testNewPasswordNotContainForbiddenWord() {
+        String helper = new LoginPage(getDriver())
+                .clickButtonSetNewPassword()
+                .addValueToFieldLogin("Login")
+                .addValueToFieldCurrentPassword("Password")
+                .addValueToFieldNewPassword("Moscow123!")
+                .clickButtonSubmitWithHelper()
+                .getHelperNewPassword();
+
+        Allure.step("Проверяю подсказку");
+        Assert.assertEquals(helper, "Пароль не должен содержать словарные слова");
+        Allure.step("Проверю, что остался на той же странице");
+        Assert.assertEquals(getDriver().getCurrentUrl(), String.format("%s/set-new-password", getConfig().getBaseUrl()));
+    }
 }
