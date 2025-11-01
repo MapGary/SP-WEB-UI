@@ -27,8 +27,6 @@ public class LoginPage extends BasePage {
 
     protected TestConfig getConfig() {
 
-        LoggerUtil.info("Configuration received");
-
         return config;
     }
 

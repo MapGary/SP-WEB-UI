@@ -34,8 +34,6 @@ public abstract class BaseTest {
 
     protected WebDriver getDriver() {
 
-        LoggerUtil.info("Driver received");
-
         return driver;
     }
 
@@ -52,8 +50,6 @@ public abstract class BaseTest {
             wait5 = null;
             LoggerUtil.info("Driver quit");
         }
-
-        LoggerUtil.info("Driver NULL");
     }
 
     public WebDriverWait getWait5() {

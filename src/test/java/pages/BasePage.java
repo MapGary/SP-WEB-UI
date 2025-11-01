@@ -28,8 +28,6 @@ public class BasePage {
 
     protected TestConfig getConfig() {
 
-        LoggerUtil.info("Configuration received");
-
         return config;
     }
 
