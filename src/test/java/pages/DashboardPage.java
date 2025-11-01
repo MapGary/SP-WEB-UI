@@ -25,8 +25,6 @@ public class DashboardPage extends BasePage {
 
     long startTimeInterval = 0L;
     long endTimeInterval = 0L;
-    long time3 = 0L;
-    long time4 = 0L;
 
     //кнопка выбора временного интервала
     private final By selectedInterval = By.id("select-helper");
@@ -195,7 +193,7 @@ public class DashboardPage extends BasePage {
         byte[] screen = null;
         try {
             screen = page.getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment(String.format("Выполнение выбора интервала -> %s", String.valueOf((endTimeInterval - startTimeInterval))), new ByteArrayInputStream(screen));
+            Allure.addAttachment(String.format("Выполнение выбора интервала -> %s", String.format("%.1f", (double) (endTimeInterval - startTimeInterval))), new ByteArrayInputStream(screen));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -210,7 +208,7 @@ public class DashboardPage extends BasePage {
         WebElement webElement = driver.findElement(By.xpath("//div[contains(@class, 'MuiContainer-root')]"));
         try {
             screen = webElement.getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment(String.format("Агрегат - %s, Время загрузки информации -> %s", unit, String.valueOf((endTime - startTime))), new ByteArrayInputStream(screen));
+            Allure.addAttachment(String.format("Агрегат - %s, Время загрузки информации -> %s", unit, String.format("%.1f", (double) (endTime - startTime))), new ByteArrayInputStream(screen));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -258,7 +256,7 @@ public class DashboardPage extends BasePage {
     public Map<String, String> getAggregateTimer(String unitName) {
 
         Map<String, String> times = new HashMap<>();
-        times.put("timeInterval", String.valueOf(endTimeInterval - startTimeInterval));
+        times.put("timeInterval", String.format("%.1f", (double) (endTimeInterval - startTimeInterval) / 1000));
 
         getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
@@ -276,10 +274,10 @@ public class DashboardPage extends BasePage {
 
                 // останавливаю время загрузки данных об агрегате
                 long endTime = System.currentTimeMillis();
-                LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - startTime)));
+                LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s сек", String.format("%.1f", (double) (endTime - startTime) / 1000)));
 
-                times.put("timeUnit", String.valueOf(endTime - startTime));
-                times.put("time", String.valueOf((endTimeInterval - startTimeInterval) + (endTime - startTime)));
+                times.put("timeUnit", String.format("%.1f", (double) (endTime - startTime) / 1000));
+                times.put("time", String.format("%.1f", (double) ((endTimeInterval - startTimeInterval) + (endTime - startTime)) / 1000));
                 takeScreenshotWorkspace(nameUnit.getText(), endTime, startTime);
             }
         }
