@@ -1,6 +1,8 @@
 package tests;
 
 import io.qameta.allure.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.LoginPage;
@@ -217,5 +219,77 @@ public class SetNewPasswordTest extends BaseTest {
         Assert.assertEquals(helper, "Пароль не должен содержать словарные слова");
         Allure.step("Проверю, что остался на той же странице");
         Assert.assertEquals(getDriver().getCurrentUrl(), String.format("%s/set-new-password", getConfig().getBaseUrl()));
+    }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Текущий пароль указан неверно при смене пароля")
+    @Description("Текущий пароль указан неверно при смене пароля")
+    @Severity(SeverityLevel.NORMAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/25")
+    public void testCurrentPasswordIncorrect() {
+        String helper = new LoginPage(getDriver())
+                .clickButtonSetNewPassword()
+                .addValueToFieldLogin("Login")
+                .addValueToFieldCurrentPassword("Rita")
+                .addValueToFieldNewPassword("qazwsX1!")
+                .clickButtonSubmitWithHelper()
+                .getHelperCurrentPassword();
+
+        Allure.step("Проверяю подсказку");
+        Assert.assertEquals(helper, "Неверный пароль или логин пользователя");
+    }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Логин указан неверно при смене пароля")
+    @Description("Логин указан неверно при смене пароля")
+    @Severity(SeverityLevel.NORMAL)
+    @Link("")
+    public void testLoginIncorrect() {
+        String helper = new LoginPage(getDriver())
+                .clickButtonSetNewPassword()
+                .addValueToFieldLogin("Login")
+                .addValueToFieldCurrentPassword(getConfig().getPassword())
+                .addValueToFieldNewPassword("qazwsX1!")
+                .clickButtonSubmitWithHelper()
+                .getHelperCurrentPassword();
+
+        Allure.step("Проверяю подсказку");
+        Assert.assertEquals(helper, "Неверный пароль или логин пользователя");
+    }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Повторное использование пароля при смене пароля")
+    @Description("Повторное использование пароля при смене пароля")
+    @Severity(SeverityLevel.NORMAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/30")
+    public void testPasswordReuse() {
+        String helper = new LoginPage(getDriver())
+                .clickButtonSetNewPassword()
+                .addValueToFieldLogin("Login")
+                .addValueToFieldCurrentPassword(getConfig().getPassword())
+                .addValueToFieldNewPassword(getConfig().getPassword())
+                .getHelperNewPassword();
+
+        Allure.step("Проверяю подсказку");
+        Assert.assertEquals(helper, "Новый пароль не должен совпадать с текущим паролем");
+    }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Клик по лого на странице Сменить пароль ")
+    @Description("Клик по лого на странице Сменить пароль ")
+    @Severity(SeverityLevel.NORMAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/191")
+    public void testClickLogo() {
+        LoginPage loginPage = new LoginPage(getDriver())
+                .clickButtonSetNewPassword()
+                .clickLogo();
+
+        Allure.step("Проверяю, что url страницы Логин");
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[@data-testid='SystemLogin-form']")));
+        Assert.assertEquals(loginPage.getCurrentUrl(), String.format("%s/login", getConfig().getBaseUrl()));
     }
 }

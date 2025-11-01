@@ -83,6 +83,16 @@ public class SetNewPasswordPage extends BasePage {
     @FindBy(xpath = "//input[@name='newPassword']/../div/button")
     private WebElement iconEyeNewPassword;
 
+    @FindBy(xpath = "//header//a")
+    private WebElement logo;
+
+    @Step("Кликаю по Логотипу")
+    public LoginPage clickLogo() {
+        logo.click();
+
+        return new LoginPage(driver);
+    }
+
     @Step("Навожу мышку на иконку 'Сменить язык'")
     public SetNewPasswordPage getHelperSwitchLanguage() {
         Actions actions = new Actions(driver);
