@@ -1,17 +1,12 @@
 package tests;
 
 import io.qameta.allure.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.DashboardPage;
 import pages.LoginPage;
 import utils.BaseTest;
 
-import java.time.Duration;
 import java.util.List;
 
 public class TimeIntervalPannelTest extends BaseTest {
@@ -56,7 +51,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 //        return dashboardPage;
 //    }
 
-                             //                   ПЕРЕЕХАЛ В DASHBOARDPAGE
+    //                   ПЕРЕЕХАЛ В DASHBOARDPAGE
 //    //выбор интервала
 //    private void selectIntervalByDataValue(String dataValue) {
 //        DashboardPage dashboardPage = new DashboardPage(getDriver());
