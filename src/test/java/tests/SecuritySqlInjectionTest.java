@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.DashboardPage;
 import pages.LoginPage;
 import utils.BaseTest;
 import utils.SecurityUtils;
@@ -16,7 +17,7 @@ public class SecuritySqlInjectionTest extends BaseTest {
 
     @Test(groups = "smoke")
     @Tag("smoke")
-    @Description("Попытка SQL-injection в поля логина/пароля не должна приводить к успешной аутентификации")
+    @Description("Попытка SQL-injection в поля логина не должна приводить к успешной аутентификации")
     @Severity(SeverityLevel.CRITICAL)
     public void testSqlInjectionDoesNotBypassAuthentication() {
 
@@ -40,5 +41,21 @@ public class SecuritySqlInjectionTest extends BaseTest {
         Assert.assertEquals(loginPage.getJwtAsu(), "null", "После попытки SQL-injection не должно быть jwt в localStorage");
         Allure.step("Проверяю, что в LocalStorage user == null");
         Assert.assertEquals(loginPage.getUser(), "null", "После попытки SQL-injection не должно быть user в localStorage");
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Description("Проверка поля Пароль на sql инъекцию на странице Логин")
+    @Severity(SeverityLevel.NORMAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/190")
+    public void testSqlInjectionFieldPassword() {
+
+        LoginPage loginPage = new LoginPage(getDriver())
+                .addValueToFieldLogin(getConfig().getUserName())
+                .addValueToFieldPassword("' or 1=1--")
+                .clickButtonLoginWithHelper();
+
+        Allure.step("Проверяю, что остались на странице Логин");
+        Assert.assertTrue(loginPage.getCurrentUrl().contains(String.format("%s/login", getConfig().getBaseUrl())));
     }
 }
