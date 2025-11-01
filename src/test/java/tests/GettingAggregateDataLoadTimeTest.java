@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 import utils.BaseTest;
 
-import java.util.List;
 import java.util.Map;
 
 public class GettingAggregateDataLoadTimeTest extends BaseTest {
@@ -62,7 +61,7 @@ public class GettingAggregateDataLoadTimeTest extends BaseTest {
     @Epic("Получение времени загрузки данных агрегата 4.2-2G28 на вкладке Схема")
     @Severity(SeverityLevel.CRITICAL)
     public void testGetDataUnitSchema(int dayFrom, int mouthFrom, int yearFrom, int hourFrom,
-                                                int dayUp, int mouthUp, int yearUp, int hourUp) {
+                                      int dayUp, int mouthUp, int yearUp, int hourUp) {
 
         Map<String, String> times = new LoginPage(getDriver())
                 .loginToApp()
