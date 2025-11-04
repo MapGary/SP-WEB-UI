@@ -4,6 +4,7 @@ import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.SetNewPasswordPage;
@@ -194,6 +195,7 @@ public class SetNewPasswordTest extends BaseTest {
     @Description("Новый пароль содержит запрещённое слово (например, Moscow)")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/24")
+//    @Ignore
     public void testNewPasswordNotContainForbiddenWord() {
         String helper = new LoginPage(getDriver())
                 .clickButtonSetNewPassword()
@@ -244,19 +246,35 @@ public class SetNewPasswordTest extends BaseTest {
     }
 
     @Test
-    @Description("Повторное использование пароля при смене пароля")
+    @Description("Новый пароль и старый одинаковые")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/30")
-    public void testPasswordReuse() {
+    public void testNewPasswordAndCurrentPasswordMatches() {
         String helper = new LoginPage(getDriver())
                 .clickButtonSetNewPassword()
-                .addValueToFieldLogin("Login")
+                .addValueToFieldLogin(getConfig().getUserName())
                 .addValueToFieldCurrentPassword(getConfig().getPassword())
                 .addValueToFieldNewPassword(getConfig().getPassword())
                 .getHelperNewPassword();
 
         Allure.step("Проверяю подсказку");
         Assert.assertEquals(helper, "Новый пароль не должен совпадать с текущим паролем");
+    }
+
+    @Test
+    @Description("Повторное использование пароля при смене пароля")
+    @Severity(SeverityLevel.NORMAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/231")
+    public void testPasswordReuse() {
+        String helper = new LoginPage(getDriver())
+                .clickButtonSetNewPassword()
+                .addValueToFieldLogin(getConfig().getUserName())
+                .addValueToFieldCurrentPassword(getConfig().getPassword())
+                .addValueToFieldNewPassword("Rita123$%^")
+                .getHelperNewPassword();
+
+        Allure.step("Проверяю подсказку");
+        Assert.assertEquals(helper, "Пароль уже использовался ранее");
     }
 
     @Test
