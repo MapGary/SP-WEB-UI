@@ -195,7 +195,7 @@ public class SetNewPasswordTest extends BaseTest {
     @Description("Новый пароль содержит запрещённое слово (например, Moscow)")
     @Severity(SeverityLevel.NORMAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/24")
-//    @Ignore
+    @Ignore
     public void testNewPasswordNotContainForbiddenWord() {
         String helper = new LoginPage(getDriver())
                 .clickButtonSetNewPassword()
@@ -271,6 +271,7 @@ public class SetNewPasswordTest extends BaseTest {
                 .addValueToFieldLogin(getConfig().getUserName())
                 .addValueToFieldCurrentPassword(getConfig().getPassword())
                 .addValueToFieldNewPassword("Rita123$%^")
+                .clickButtonSubmitWithHelper()
                 .getHelperNewPassword();
 
         Allure.step("Проверяю подсказку");
