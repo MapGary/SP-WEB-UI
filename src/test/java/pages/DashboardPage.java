@@ -2,13 +2,11 @@ package pages;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.Data;
 import utils.LoggerUtil;
 
 import java.io.ByteArrayInputStream;
@@ -23,8 +21,8 @@ public class DashboardPage extends BasePage {
         super(driver);
     }
 
-    long startTimeInterval = 0L;
-    long endTimeInterval = 0L;
+    private long startTimeInterval = 0L;
+    private long endTimeInterval = 0L;
 
     //кнопка выбора временного интервала
     private final By selectedInterval = By.id("select-helper");
@@ -116,6 +114,21 @@ public class DashboardPage extends BasePage {
 
     @FindBy(xpath = "//ul[@role='tree']")
     private WebElement list1;
+
+    @FindBy(xpath = "//button[contains(@class,'MuiButtonBase-root')]/div[@aria-label='График']/..")
+    private WebElement buttonGraph;
+
+    // все выпадающие списки
+    @FindBy(xpath = "//div[contains(@class,'MuiFormControl-root')]")
+    private List<WebElement> dropdownList;
+
+    // выпадающие списки в окне данные измерений вкладка график
+    @FindBy(xpath = "//li[contains(@class,'MuiMenuItem-gutters')]/div")
+    private List<WebElement> dropdownDateMeasurement;
+
+    // название графика в окне данные измерений
+    @FindBy(xpath = "//li/span[contains(@style,'Roboto')]")
+    private List<WebElement> nameGraph;
 
     @Step("Открываю выпадающий список временных интервалов")
     public DashboardPage openTimeIntervalDropdown() {
@@ -369,16 +382,74 @@ public class DashboardPage extends BasePage {
         return this;
     }
 
-    @Step("Прохожусь по оборудованию к станции")
+    @Step("Прохожусь по оборудованию к агрегату 4.2-2G28")
     public DashboardPage goTo() {
 
         getWait10().until(ExpectedConditions.elementToBeClickable(list1));
-        level1s.get(2).click();
+        // ci
+//        level1s.get(2).click();
+//        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
+//        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
+//        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
+
+        // local
+        level1s.get(0).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
-//        level5s.get(0).click();
 
         return this;
+    }
+
+    @Step("Получаю данные для агрегата {unitName} c {count} параметрами")
+    public DashboardPage getMeasurementDataGraph(String unitName, int count) {
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
+
+        for (int i = 0; i < listAggregate.size(); i++) {
+
+            if (listAggregate.get(i).getText().equals(unitName)) {
+
+                listAggregate.get(i).click();
+
+                Allure.step("Выбираю вкладку график");
+                getWait5().until(ExpectedConditions.elementToBeClickable(buttonGraph)).click();
+                getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
+
+                Allure.step("Выбираю тип измерения");
+                dropdownList.get(3).click();
+                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
+
+                Allure.step("Выбираю тип объекта");
+                dropdownList.get(4).click();
+                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
+
+                Allure.step("Выбираю параметры");
+                selectParameters(count);
+            }
+        }
+        return this;
+    }
+
+    @Step("Получаю название графика")
+    public String getNameGraph() {
+        return getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(0))).getText();
+    }
+
+    public void selectParameters(int count) {
+        dropdownList.get(6).click();
+
+        if (count == 1) {
+            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0)));
+            Data.Dashboard.listParameters.add(0, dropdownDateMeasurement.get(0).getText());
+        } else {
+            for (int i = 1; i < count; i++) {
+                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(i))).click();
+                Data.Dashboard.listParameters.add(i, dropdownDateMeasurement.get(0).getText());
+            }
+        }
+
+        getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
+        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
     }
 }

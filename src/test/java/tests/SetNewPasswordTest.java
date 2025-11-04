@@ -197,8 +197,8 @@ public class SetNewPasswordTest extends BaseTest {
     public void testNewPasswordNotContainForbiddenWord() {
         String helper = new LoginPage(getDriver())
                 .clickButtonSetNewPassword()
-                .addValueToFieldLogin("Login")
-                .addValueToFieldCurrentPassword("Password")
+                .addValueToFieldLogin(getConfig().getUserName())
+                .addValueToFieldCurrentPassword(getConfig().getPassword())
                 .addValueToFieldNewPassword("Moscow123!")
                 .clickButtonSubmitWithHelper()
                 .getHelperNewPassword();
