@@ -4,7 +4,6 @@ import io.qameta.allure.*;
 import io.qameta.allure.testng.Tag;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.DashboardPage;
 import pages.LoginPage;
 import utils.BaseTest;
 
@@ -24,19 +23,15 @@ public class TimeIntervalPannelTest extends BaseTest {
             "За выбранный интервал"
     );
 
-    //выбранный текст
-    private String getSelectedIntervalText() {
-        DashboardPage staticPage = new DashboardPage(getDriver());
-        return staticPage.timeIntervalSelected();
-    }
-
     @Test(groups = "smoke")
     @Tag("smoke")
     @Description("Проверить, что по умолчанию указывается временной интервал 'За смену (8 часов)'")
     @Severity(SeverityLevel.MINOR)
     public void testDefaultTimeIntervalIsWorkDay() {
 
-        String selected = new LoginPage(getDriver()).loginToApp().timeIntervalSelected();
+        String selected = new LoginPage(getDriver())
+                .loginToApp()
+                .timeIntervalSelected();
 
         Allure.step("Выбранный временной интервал: " + selected);
         Assert.assertEquals(selected, "За смену (8 часов)",
@@ -49,7 +44,8 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
     public void testDropdownContainsAllExpectedOptions() {
 
-        List<String> actualOptions = new LoginPage(getDriver()).loginToApp()
+        List<String> actualOptions = new LoginPage(getDriver())
+                .loginToApp()
                 .openTimeIntervalDropdown()
                 .getAllOptions();
 
@@ -74,11 +70,11 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За смену (8 часов)'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectWorkDay() {
-        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("WORK_DAY");
+        String selectedText = new LoginPage(getDriver())
+                .loginToApp()
+                .selectIntervalByDataValue("WORK_DAY")
+                .getSelectedIntervalText();
 
-        waitForSeconds(5);
-
-        String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За смену (8 часов)",
@@ -90,12 +86,11 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За сутки'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectFullDay() {
-        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("FULL_DAY");
+        String selectedText = new LoginPage(getDriver())
+                .loginToApp()
+                .selectIntervalByDataValue("FULL_DAY")
+                .getSelectedIntervalText();
 
-
-        waitForSeconds(5);
-
-        String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За сутки",
@@ -107,11 +102,11 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За неделю'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectWeek() {
-        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("WEEK");
+        String selectedText = new LoginPage(getDriver())
+                .loginToApp()
+                .selectIntervalByDataValue("WEEK")
+                .getSelectedIntervalText();
 
-        waitForSeconds(5);
-
-        String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За неделю",
@@ -123,11 +118,11 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За месяц'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectMonth() {
-        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("MONTH");
+        String selectedText = new LoginPage(getDriver())
+                .loginToApp()
+                .selectIntervalByDataValue("MONTH")
+                .getSelectedIntervalText();
 
-        waitForSeconds(5);
-
-        String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За месяц",
@@ -139,11 +134,11 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За год'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectYear() {
-        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("YEAR");
+        String selectedText = new LoginPage(getDriver())
+                .loginToApp()
+                .selectIntervalByDataValue("YEAR")
+                .getSelectedIntervalText();
 
-        waitForSeconds(5);
-
-        String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За год",
@@ -155,15 +150,14 @@ public class TimeIntervalPannelTest extends BaseTest {
     @Description("Проверить, что можно выбрать интервал 'За выбранный интервал'")
     @Severity(SeverityLevel.NORMAL)
     public void testSelectCustomRange() {
-        new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("SELECTED_RANGE");
+        String selectedText = new LoginPage(getDriver())
+                .loginToApp()
+                .selectIntervalByDataValue("SELECTED_RANGE")
+                .getSelectedIntervalText();
 
-        waitForSeconds(5);
-
-        String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За выбранный интервал",
                 "После выбора SELECTED_RANGE должен отображаться 'За выбранный интервал'");
     }
-
 }

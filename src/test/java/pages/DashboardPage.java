@@ -132,8 +132,7 @@ public class DashboardPage extends BasePage {
 
     @Step("Открываю выпадающий список временных интервалов")
     public DashboardPage openTimeIntervalDropdown() {
-        WebElement dropdown = getWait10().until(ExpectedConditions.elementToBeClickable(selectedInterval));
-        dropdown.click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(selectedInterval)).click();
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(listBox));
 
         return this;
@@ -142,8 +141,8 @@ public class DashboardPage extends BasePage {
 
     @Step("Получаю выбранный временной интервал (текст)")
     public String timeIntervalSelected() {
-        WebElement element = getWait10().until(ExpectedConditions.visibilityOfElementLocated(selectedInterval));
-        String text = element.getText();
+        String text = getWait10().until(ExpectedConditions.visibilityOfElementLocated(selectedInterval)).getText();
+
         if (text == null) text = "";
         return text.trim();
     }
@@ -432,8 +431,21 @@ public class DashboardPage extends BasePage {
     }
 
     @Step("Получаю название графика")
-    public String getNameGraph() {
-        return getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(0))).getText();
+    public List<String> getNameGraph() {
+
+        List<String> listNameGraph = new ArrayList<>();
+
+        if (nameGraph.size() == 1) {
+            listNameGraph.add(0, getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(0))).getText());
+        } else {
+            int i = 0;
+            for (WebElement name : nameGraph) {
+                listNameGraph.add(i, name.getText());
+                i++;
+            }
+        }
+
+        return listNameGraph;
     }
 
     public void selectParameters(int count) {
@@ -443,13 +455,32 @@ public class DashboardPage extends BasePage {
             getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0)));
             Data.Dashboard.listParameters.add(0, dropdownDateMeasurement.get(0).getText());
         } else {
-            for (int i = 1; i < count; i++) {
-                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(i))).click();
-                Data.Dashboard.listParameters.add(i, dropdownDateMeasurement.get(0).getText());
+            for (int i = 0; i < count; i++) {
+                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(6 + i))).click();
+                Data.Dashboard.listParameters.add(i, dropdownDateMeasurement.get(6 + i).getText());
             }
         }
 
         getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
         driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+    }
+
+    //выбор интервала
+    public DashboardPage selectIntervalByDataValue(String dataValue) {
+
+        openTimeIntervalDropdown();
+
+        By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
+        getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator)).click();
+
+        // жду обновления дашборд на вкладке Схема
+        getWait10().until(ExpectedConditions.urlContains("tab=1"));
+
+        return new DashboardPage(driver);
+    }
+
+    //выбранный текст
+    public String getSelectedIntervalText() {
+        return timeIntervalSelected();
     }
 }
