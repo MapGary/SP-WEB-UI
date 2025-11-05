@@ -90,7 +90,6 @@ public class AuthLoginTest extends BaseTest {
     }
 
     @Test
-    @Feature("Проверка видимости пароля (иконка 'глаз') на странице Login")
     @Description("Проверка видимости пароля (иконка 'глаз') на странице Login")
     @Severity(SeverityLevel.MINOR)
     @Link("https://team-b9fb.testit.software/projects/1/tests/10")

@@ -130,6 +130,22 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//li/span[contains(@style,'Roboto')]")
     private List<WebElement> nameGraph;
 
+    // картинка в окне схема агрегата
+    @FindBy(xpath = "//img")
+    private WebElement image;
+
+    // стрелка в окне состояние и прогнозирование
+    @FindBy(xpath = "//*[@id='needle']")
+    private WebElement arrow;
+
+    // таблица в окне табличные данные
+    @FindBy(xpath = "//div[contains(@class,'MuiDataGrid-main')]")
+    private WebElement table;
+
+    // график в окне данные измерений
+    @FindBy(xpath = "//div[@id='panel1a-content']//canvas")
+    private WebElement graph;
+
     @Step("Открываю выпадающий список временных интервалов")
     public DashboardPage openTimeIntervalDropdown() {
         getWait10().until(ExpectedConditions.elementToBeClickable(selectedInterval)).click();
@@ -249,11 +265,11 @@ public class DashboardPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
         Allure.step("Перебираю все агрегаты на первой странице");
-        for (int i = 0; i < listAggregate.size(); i++) {
+        for (WebElement aggregate : listAggregate) {
             // засекаю начало времени загрузки данных об агрегате
             long startTime = System.currentTimeMillis();
 
-            listAggregate.get(i).click();
+            aggregate.click();
             getWait5().until(ExpectedConditions.elementToBeClickable(workspaceSchema));
             getTimeWindowsLoad();
 
@@ -274,14 +290,14 @@ public class DashboardPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
         Allure.step("Перебираю все агрегаты на первой странице");
-        for (int i = 0; i < listAggregate.size(); i++) {
+        for (WebElement aggregate : listAggregate) {
 
-            if (listAggregate.get(i).getText().equals(unitName)) {
+            if (aggregate.getText().equals(unitName)) {
 
                 // засекаю начало времени загрузки данных об агрегате
                 long startTime = System.currentTimeMillis();
 
-                listAggregate.get(i).click();
+                aggregate.click();
                 getWait5().until(ExpectedConditions.elementToBeClickable(workspaceSchema));
                 getTimeWindowsLoad();
 
@@ -304,12 +320,12 @@ public class DashboardPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
         Allure.step("Перебираю все агрегаты на первой странице");
-        for (int i = 0; i < listAggregate.size(); i++) {
+        for (WebElement aggregate : listAggregate) {
             // засекаю начало времени загрузки данных об агрегате
             long startTime = System.currentTimeMillis();
             long time = 0L;
 
-            listAggregate.get(i).click();
+            aggregate.click();
 
             try {
                 getWait5().until(ExpectedConditions.elementToBeClickable(workspaceEvents));
@@ -331,12 +347,12 @@ public class DashboardPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
         Allure.step("Перебираю все агрегаты на первой странице");
-        for (int i = 0; i < listAggregate.size(); i++) {
+        for (WebElement aggregate : listAggregate) {
             // засекаю начало времени загрузки данных об агрегате
             long startTime = System.currentTimeMillis();
             long time = 0L;
 
-            listAggregate.get(i).click();
+            aggregate.click();
             try {
                 getWait5().until(ExpectedConditions.visibilityOf(workspaceMagazine));
             } catch (Exception e) {
@@ -375,6 +391,7 @@ public class DashboardPage extends BasePage {
         level2s.get(0).click();
         level3s.get(0).click();
         level4s.get(0).click();
+        // ic
         level5s.get(0).click();
 
         return this;
@@ -385,16 +402,16 @@ public class DashboardPage extends BasePage {
 
         getWait10().until(ExpectedConditions.elementToBeClickable(list1));
         // ci
-        level1s.get(2).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
-
-        // local
-//        level1s.get(0).click();
+//        level1s.get(2).click();
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
+
+        // local
+        level1s.get(0).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
 
         return this;
     }
@@ -404,11 +421,11 @@ public class DashboardPage extends BasePage {
 
         getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
-        for (int i = 0; i < listAggregate.size(); i++) {
+        for (WebElement aggregate : listAggregate) {
 
-            if (listAggregate.get(i).getText().equals(unitName)) {
+            if (aggregate.getText().equals(unitName)) {
 
-                listAggregate.get(i).click();
+                aggregate.click();
 
                 Allure.step("Выбираю вкладку график");
                 getWait5().until(ExpectedConditions.elementToBeClickable(buttonGraph)).click();
@@ -429,6 +446,20 @@ public class DashboardPage extends BasePage {
         return this;
     }
 
+    @Step("Получаю данные для агрегата {unitName}")
+    public DashboardPage getMeasurementDataGraph(String unitName) {
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
+
+        for (WebElement aggregate : listAggregate) {
+            if (aggregate.getText().equals(unitName)) {
+                aggregate.click();
+            }
+        }
+
+        return this;
+    }
+
     @Step("Получаю название графика")
     public List<String> getNameGraph() {
 
@@ -445,6 +476,46 @@ public class DashboardPage extends BasePage {
         }
 
         return listNameGraph;
+    }
+
+    @Step("Проверяю, что загрузилась картинка в окне Схема агрегата")
+    public boolean checkUnitSchematicWindow() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(image));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Проверяю, что загрузилась стрелка в окне Состояние и Прогнозирование")
+    public boolean checkStatusAndForecastWindow() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(arrow));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Проверяю, что загрузилась таблица в окне Табличные данные")
+    public boolean checkTableDataWindow() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(table));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Проверяю, что загрузилась таблица в окне Данные измерений")
+    public boolean checkMeasurementDataWindow() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(graph));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void selectParameters(int count) {
