@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static utils.Data.Dashboard.*;
+
 public class DashboardPage extends BasePage {
 
     public DashboardPage(WebDriver driver) {
@@ -145,6 +147,10 @@ public class DashboardPage extends BasePage {
     // график в окне данные измерений
     @FindBy(xpath = "//div[@id='panel1a-content']//canvas")
     private WebElement graph;
+
+    // шапка каждого окна в рабочей области
+    @FindBy(xpath = "//div[contains(@class,'MuiAccordionSummary-content')]/p")
+    private List<WebElement> cap;
 
     @Step("Открываю выпадающий список временных интервалов")
     public DashboardPage openTimeIntervalDropdown() {
@@ -402,16 +408,16 @@ public class DashboardPage extends BasePage {
 
         getWait10().until(ExpectedConditions.elementToBeClickable(list1));
         // ci
-//        level1s.get(2).click();
-//        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
-//        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
-//        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
-
-        // local
-        level1s.get(0).click();
+        level1s.get(2).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
+
+        // local
+//        level1s.get(0).click();
+//        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
+//        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
+//        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
 
         return this;
     }
@@ -454,25 +460,43 @@ public class DashboardPage extends BasePage {
         for (WebElement aggregate : listAggregate) {
             if (aggregate.getText().equals(unitName)) {
                 aggregate.click();
+
+                Allure.step("Выбираю вкладку график");
+                getWait5().until(ExpectedConditions.elementToBeClickable(buttonGraph)).click();
+                getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
+
+                Allure.step("Выбираю тип измерения");
+                dropdownList.get(3).click();
+                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
+
+                Allure.step("Выбираю тип объекта");
+                dropdownList.get(4).click();
+                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
+
+                Allure.step("Выбираю параметры");
+                selectParameter();
             }
         }
 
         return this;
     }
 
-    @Step("Получаю название графика")
+    @Step("Получаю название параметра графика")
+    public String getNameParameterGraph() {
+
+        getWait5().until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//li/span[contains(@style,'Roboto')]/../.."))));
+
+        return getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(0))).getText();
+    }
+
+    @Step("Получаю название параметров графика")
     public List<String> getNameGraph() {
 
         List<String> listNameGraph = new ArrayList<>();
 
-        if (nameGraph.size() == 1) {
-            listNameGraph.add(0, getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(0))).getText());
-        } else {
-            int i = 0;
-            for (WebElement name : nameGraph) {
-                listNameGraph.add(i, name.getText());
-                i++;
-            }
+        for (int i = 0; i < nameGraph.size(); i++) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", nameGraph.get(i));
+            listNameGraph.add(i, getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(i))).getText());
         }
 
         return listNameGraph;
@@ -518,18 +542,49 @@ public class DashboardPage extends BasePage {
         }
     }
 
+    @Step("Сворачиваю окна на Рабочей области")
+    public DashboardPage collapseWindows(int first, int second, int third) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(first - 1))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(second - 1))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(third - 1))).click();
+
+        return this;
+    }
+
+    @Step("Получаю размер картинки")
+    public Dimension getSizeImage() {
+        return image.getSize();
+    }
+
+    @Step("Получаю размер графика")
+    public Dimension getSizeGraph() {
+        return graph.getSize();
+    }
+
     public void selectParameters(int count) {
         dropdownList.get(6).click();
 
-        if (count == 1) {
-            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0)));
-            Data.Dashboard.listParameters.add(0, dropdownDateMeasurement.get(0).getText());
-        } else {
-            for (int i = 0; i < count; i++) {
-                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(6 + i))).click();
-                Data.Dashboard.listParameters.add(i, dropdownDateMeasurement.get(6 + i).getText());
-            }
+        for (int i = 0; i < count; i++) {
+            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(6 + i))).click();
+            listParameters.add(i, dropdownDateMeasurement.get(6 + i).getText());
         }
+
+        getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
+        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void selectParameter() {
+        dropdownList.get(6).click();
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0)));
+        parameter = dropdownDateMeasurement.get(0).getText();
+
 
         getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
         driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);

@@ -6,6 +6,8 @@
             <class name="tests.AuthLoginTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
+            <class name="tests.TimeIntervalPannelTest"/>
+            <class name="tests.SchemaTest"/>
         </classes>
     </test>
 

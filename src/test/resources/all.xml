@@ -5,6 +5,7 @@
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="tests.AuthLoginTest"/>
+            <class name="tests.SchemaTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
@@ -15,6 +16,7 @@
         <parameter name="browser" value="edge"/>
         <classes>
             <class name="tests.AuthLoginTest"/>
+            <class name="tests.SchemaTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
@@ -25,6 +27,7 @@
         <parameter name="browser" value="yandex"/>
         <classes>
             <class name="tests.AuthLoginTest"/>
+            <class name="tests.SchemaTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
