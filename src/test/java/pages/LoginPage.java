@@ -108,6 +108,9 @@ public class LoginPage extends BasePage {
     public DashboardPage clickButtonLogin() {
         buttonLogin.click();
 
+        // жду обновления дашборд на вкладке Схема
+        getWait10().until(ExpectedConditions.urlContains("tab=1"));
+
         return new DashboardPage(driver);
     }
 
@@ -247,17 +250,10 @@ public class LoginPage extends BasePage {
 
     @Step("Авторизуюсь")
     public DashboardPage loginToApp() {
-        String login = getConfig().getUserName();
-        String password = getConfig().getPassword();
 
-        new LoginPage(driver)
-                .addValueToFieldLogin(login)
-                .addValueToFieldPassword(password)
+        return new LoginPage(driver)
+                .addValueToFieldLogin(getConfig().getUserName())
+                .addValueToFieldPassword(getConfig().getPassword())
                 .clickButtonLogin();
-
-        // жду обновления дашборд на вкладке Схема
-        getWait10().until(ExpectedConditions.urlContains("tab=1"));
-
-        return new DashboardPage(driver);
     }
 }
