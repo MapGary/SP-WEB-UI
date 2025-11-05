@@ -136,7 +136,6 @@ public class DashboardPage extends BasePage {
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(listBox));
 
         return this;
-
     }
 
     @Step("Получаю выбранный временной интервал (текст)")
@@ -476,7 +475,7 @@ public class DashboardPage extends BasePage {
         // жду обновления дашборд на вкладке Схема
         getWait10().until(ExpectedConditions.urlContains("tab=1"));
 
-        return new DashboardPage(driver);
+        return this;
     }
 
     //выбранный текст
