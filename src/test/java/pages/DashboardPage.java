@@ -460,33 +460,10 @@ public class DashboardPage extends BasePage {
         for (WebElement aggregate : listAggregate) {
             if (aggregate.getText().equals(unitName)) {
                 aggregate.click();
-
-                Allure.step("Выбираю вкладку график");
-                getWait5().until(ExpectedConditions.elementToBeClickable(buttonGraph)).click();
-                getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
-
-                Allure.step("Выбираю тип измерения");
-                dropdownList.get(3).click();
-                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
-
-                Allure.step("Выбираю тип объекта");
-                dropdownList.get(4).click();
-                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
-
-                Allure.step("Выбираю параметры");
-                selectParameter();
             }
         }
 
         return this;
-    }
-
-    @Step("Получаю название параметра графика")
-    public String getNameParameterGraph() {
-
-        getWait5().until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//li/span[contains(@style,'Roboto')]/../.."))));
-
-        return getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(0))).getText();
     }
 
     @Step("Получаю название параметров графика")
@@ -563,10 +540,15 @@ public class DashboardPage extends BasePage {
 
     public void selectParameters(int count) {
         dropdownList.get(6).click();
+        listParameters = new ArrayList<>(count);
 
-        for (int i = 0; i < count; i++) {
-            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(6 + i))).click();
-            listParameters.add(i, dropdownDateMeasurement.get(6 + i).getText());
+        if (count == 1) {
+            listParameters.add(0, dropdownDateMeasurement.get(0).getText());
+        } else {
+            for (int i = 0; i < count; i++) {
+                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(6 + i))).click();
+                listParameters.add(i, dropdownDateMeasurement.get(6 + i).getText());
+            }
         }
 
         getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
@@ -579,21 +561,16 @@ public class DashboardPage extends BasePage {
         }
     }
 
-    public void selectParameter() {
-        dropdownList.get(6).click();
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0)));
-        parameter = dropdownDateMeasurement.get(0).getText();
-
-
-        getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
-        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-    }
-
     //выбор интервала
     public DashboardPage selectIntervalByDataValue(String dataValue) {
 
         openTimeIntervalDropdown();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
         getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator)).click();

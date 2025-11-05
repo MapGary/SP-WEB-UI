@@ -9,10 +9,9 @@ import pages.DashboardPage;
 import pages.LoginPage;
 import utils.BaseTest;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static utils.Data.Dashboard.*;
+import static utils.Data.Dashboard.listParameters;
 
 @Epic("Модуль Схема")
 public class SchemaTest extends BaseTest {
@@ -25,16 +24,20 @@ public class SchemaTest extends BaseTest {
     @Link("https://team-b9fb.testit.software/projects/1/tests/66")
     public void testDisplayTypeTrend1Parameter() {
 
-        String nameGraph = new LoginPage(getDriver())
+        int count = 1;
+
+        List<String> nameGraph = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
                 .goTo()
-                .getMeasurementDataGraph("4.2-2G28")
-                .getNameParameterGraph();
+                .getMeasurementDataGraph("4.2-2G28", count)
+                .getNameGraph();
 
+        Assert.assertEquals(nameGraph.size(), count);
+        for (int i = 0; i < count; i++) {
             Allure.step("Проверяю, что название выбранного параметра соответствует показываемому");
-            Assert.assertEquals(nameGraph, parameter);
-
+            Assert.assertEquals(nameGraph.get(i), listParameters.get(i));
+        }
     }
 
     @Test(groups = "smoke")
@@ -46,7 +49,6 @@ public class SchemaTest extends BaseTest {
     public void testDisplayTypeTrend5Parameter() {
 
         int count = 5;
-        listParameters = new ArrayList<>(count);
 
         List<String> nameGraph = new LoginPage(getDriver())
                 .loginToApp()
