@@ -1,6 +1,7 @@
 package tests;
 
 import io.qameta.allure.*;
+import io.qameta.allure.testng.Tag;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -44,7 +45,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "Ожидалось, что по умолчанию выбран интервал 'За смену (8 часов)'");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что при открытии выпадающего списка отображаются все ожидаемые варианты")
@@ -71,7 +73,8 @@ public class TimeIntervalPannelTest extends BaseTest {
         }
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За смену (8 часов)'")
@@ -89,7 +92,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора WORK_DAY должен отображаться 'За смену (8 часов)'");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За сутки'")
@@ -108,7 +112,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора FULL_DAY должен отображаться 'За сутки'");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За неделю'")
@@ -126,7 +131,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора WEEK должен отображаться 'За неделю'");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За месяц'")
@@ -140,11 +146,36 @@ public class TimeIntervalPannelTest extends BaseTest {
         String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
+
         Assert.assertEquals(selectedText, "За месяц",
                 "После выбора MONTH должен отображаться 'За месяц'");
+
+        String startRaw = page.getUrlParam(url, "startTimestamp");
+        String endRaw = page.getUrlParam(url, "endTimestamp");
+
+        Assert.assertNotNull(startRaw, "startTimestamp не найден в URL");
+        Assert.assertNotNull(endRaw, "endTimestamp не найден в URL");
+
+        Instant startInstant = Instant.parse(URLDecoder.decode(startRaw, StandardCharsets.UTF_8));
+        Instant endInstant = Instant.parse(URLDecoder.decode(endRaw, StandardCharsets.UTF_8));
+
+        // используем UTC, потому что URL имеет Z (UTC)
+        ZoneId zone = ZoneOffset.UTC;
+
+        Instant expectedStart = TimeUtils.expectedStartInstantFor(TimeUtils.Interval.MONTH, zone);
+        Instant expectedEnd = ZonedDateTime.now(zone).toInstant();
+
+        // tolerance 4 часа??
+        long toleranceSeconds = 14400L;
+
+        assertTimestampClose(startInstant, expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(endInstant, expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За год'")
@@ -191,7 +222,8 @@ public class TimeIntervalPannelTest extends BaseTest {
         assertTimestampClose(endInstant, expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За выбранный интервал'")
