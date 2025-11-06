@@ -6,16 +6,16 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.DateTimeAndEquipmentListPage;
+import pages.IntervalData;
 import utils.BaseTest;
 import utils.TimeUtils;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import static pages.DateTimeAndEquipmentListPage.EXPECTED_INTERVALS;
 import static utils.TimeUtils.assertTimestampClose;
@@ -88,8 +88,27 @@ public class TimeIntervalPannelTest extends BaseTest {
         String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
+
         Assert.assertEquals(selectedText, "За смену (8 часов)",
                 "После выбора WORK_DAY должен отображаться 'За смену (8 часов)'");
+
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
+
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
+
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
+
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
+
+        long toleranceSeconds = 14400L;
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
     @Test(groups = "smoke")
@@ -108,8 +127,27 @@ public class TimeIntervalPannelTest extends BaseTest {
         String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
+
         Assert.assertEquals(selectedText, "За сутки",
                 "После выбора FULL_DAY должен отображаться 'За сутки'");
+
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
+
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
+
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
+
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
+
+        long toleranceSeconds = 14400L;
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
     @Test(groups = "smoke")
@@ -127,8 +165,27 @@ public class TimeIntervalPannelTest extends BaseTest {
         String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
+
         Assert.assertEquals(selectedText, "За неделю",
                 "После выбора WEEK должен отображаться 'За неделю'");
+
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
+
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
+
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
+
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
+
+        long toleranceSeconds = 14400L;
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
     @Test(groups = "smoke")
@@ -152,26 +209,21 @@ public class TimeIntervalPannelTest extends BaseTest {
         Assert.assertEquals(selectedText, "За месяц",
                 "После выбора MONTH должен отображаться 'За месяц'");
 
-        String startRaw = page.getUrlParam(url, "startTimestamp");
-        String endRaw = page.getUrlParam(url, "endTimestamp");
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
 
-        Assert.assertNotNull(startRaw, "startTimestamp не найден в URL");
-        Assert.assertNotNull(endRaw, "endTimestamp не найден в URL");
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
 
-        Instant startInstant = Instant.parse(URLDecoder.decode(startRaw, StandardCharsets.UTF_8));
-        Instant endInstant = Instant.parse(URLDecoder.decode(endRaw, StandardCharsets.UTF_8));
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
 
-        // используем UTC, потому что URL имеет Z (UTC)
-        ZoneId zone = ZoneOffset.UTC;
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
 
-        Instant expectedStart = TimeUtils.expectedStartInstantFor(TimeUtils.Interval.MONTH, zone);
-        Instant expectedEnd = ZonedDateTime.now(zone).toInstant();
-
-        // tolerance 4 часа??
         long toleranceSeconds = 14400L;
-
-        assertTimestampClose(startInstant, expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
-        assertTimestampClose(endInstant, expectedEnd, toleranceSeconds, "endTimestamp ~ now");
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
     @Test(groups = "smoke")
@@ -195,31 +247,22 @@ public class TimeIntervalPannelTest extends BaseTest {
         Assert.assertEquals(selectedText, "За год",
                 "После выбора YEAR должен отображаться 'За год'");
 
-        String startRaw = page.getUrlParam(url, "startTimestamp");
-        String endRaw = page.getUrlParam(url, "endTimestamp");
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.YEAR, displayZone);
 
-        Assert.assertNotNull(startRaw, "startTimestamp не найден в URL");
-        Assert.assertNotNull(endRaw, "endTimestamp не найден в URL");
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
 
-        Instant startInstant = Instant.parse(URLDecoder.decode(startRaw, StandardCharsets.UTF_8));
-        Instant endInstant = Instant.parse(URLDecoder.decode(endRaw, StandardCharsets.UTF_8));
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
 
-        // задаём таймзону (РФ = Africa/Addis_Ababa??) и ожидаемое начало
-//        ZoneId zone = ZoneId.of("Africa/Addis_Ababa");
-//        Instant expectedStart = expectedStartInstantFor(Interval.YEAR, zone);
-//        Instant expectedEnd = ZonedDateTime.now(zone).toInstant();
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
 
-        // используем UTC, потому что URL имеет Z (UTC)
-        ZoneId zone = ZoneOffset.UTC;
-
-        Instant expectedStart = TimeUtils.expectedStartInstantFor(TimeUtils.Interval.YEAR, zone);
-        Instant expectedEnd = ZonedDateTime.now(zone).toInstant();
-
-        // tolerance 4 часа??
         long toleranceSeconds = 14400L;
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
 
-        assertTimestampClose(startInstant, expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
-        assertTimestampClose(endInstant, expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
     @Test(groups = "smoke")
