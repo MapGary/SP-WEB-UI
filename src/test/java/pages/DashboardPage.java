@@ -117,6 +117,10 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//ul[@role='tree']")
     private WebElement list1;
 
+    // загрузка панели список оборудования
+    @FindBy(xpath = "//div[@id='equipment-content']//span[@role='progressbar']")
+    private WebElement progressbar;
+
     @FindBy(xpath = "//button[contains(@class,'MuiButtonBase-root')]/div[@aria-label='График']/..")
     private WebElement buttonGraph;
 
@@ -406,6 +410,7 @@ public class DashboardPage extends BasePage {
     @Step("Прохожусь по оборудованию к агрегату 4.2-2G28")
     public DashboardPage goTo() {
 
+        getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@id='equipment-content']//span[@role='progressbar']")));
         getWait10().until(ExpectedConditions.elementToBeClickable(list1));
         // ci
         level1s.get(2).click();
