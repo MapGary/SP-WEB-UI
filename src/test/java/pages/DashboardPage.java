@@ -6,7 +6,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import utils.Data;
 import utils.LoggerUtil;
 
 import java.io.ByteArrayInputStream;
@@ -15,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static utils.Data.Dashboard.*;
+import static utils.Data.Dashboard.listParameters;
 
 public class DashboardPage extends BasePage {
 

@@ -77,6 +77,10 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//div[@id='language-menu']//ul/li[@tabindex='-1']")
     private WebElement inactiveLanguage;
 
+    // загрузка панели список оборудования
+    @FindBy(xpath = "//div[@id='equipment-content']//span[@role='progressbar']")
+    private WebElement progressbar;
+
     @Step("Добавляю значение в поле Логин")
     public LoginPage addValueToFieldLogin(String login) {
         fieldLogin.sendKeys(login);
@@ -109,6 +113,7 @@ public class LoginPage extends BasePage {
 
         // жду обновления дашборд на вкладке Схема
         getWait10().until(ExpectedConditions.urlContains("tab=1"));
+        getWait10().until(ExpectedConditions.invisibilityOf(progressbar));
 
         return new DashboardPage(driver);
     }
