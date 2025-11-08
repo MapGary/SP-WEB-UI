@@ -422,8 +422,11 @@ public class DashboardPage extends BasePage {
 
         // local (с впн)
 //        level1s.get(0).click();
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(4));
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
 
         return this;
@@ -539,6 +542,11 @@ public class DashboardPage extends BasePage {
     @Step("Получаю размер картинки")
     public Dimension getSizeImage() {
         return image.getSize();
+    }
+
+    @Step("Получаю размер таблицы")
+    public Dimension getSizeTable() {
+        return table.getSize();
     }
 
     @Step("Получаю размер графика")

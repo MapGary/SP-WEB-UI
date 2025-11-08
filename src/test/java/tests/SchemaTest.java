@@ -92,7 +92,7 @@ public class SchemaTest extends BaseTest {
     @Description("Тип объекта 'Агрегат' модуль 'Схема' окно 'Схема агрегата'")
     @Severity(SeverityLevel.BLOCKER)
     @Link("https://team-b9fb.testit.software/projects/1/tests/75")
-    public void testUnitDiagramWindowCoversEntireWorkArea() {
+    public void testUnitSchematicWindowCoversEntireWorkArea() {
 
         Dimension sizeImage = new LoginPage(getDriver())
                 .loginToApp()
@@ -103,6 +103,25 @@ public class SchemaTest extends BaseTest {
                 .getSizeImage();
 
         Assert.assertTrue(sizeImage.width >= 878 || sizeImage.height >= 537);
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Окно Табличные данные")
+    @Description("Тип объекта 'Агрегат' модуль 'Схема' окно 'Табличные данные'")
+    @Severity(SeverityLevel.BLOCKER)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/77")
+    public void testTableDataWindowCoversEntireWorkArea() {
+
+        Dimension sizeTable = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo()
+                .getMeasurementDataGraph("4.2-2G28")
+                .collapseWindows(1, 2, 4)
+                .getSizeTable();
+
+        Assert.assertTrue(sizeTable.width >= 864);
     }
 
     @Test(groups = "smoke")
