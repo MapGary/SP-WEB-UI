@@ -400,7 +400,7 @@ public class DashboardPage extends BasePage {
         level2s.get(0).click();
         level3s.get(0).click();
         level4s.get(0).click();
-        // ic
+        // ic (без впн)
         level5s.get(0).click();
 
         return this;
@@ -411,13 +411,13 @@ public class DashboardPage extends BasePage {
 
         getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@id='equipment-content']//span[@role='progressbar']")));
         getWait10().until(ExpectedConditions.elementToBeClickable(list1));
-        // ci
+        // ci (без впн)
         level1s.get(2).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
 
-        // local
+        // local (с впн)
 //        level1s.get(0).click();
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();

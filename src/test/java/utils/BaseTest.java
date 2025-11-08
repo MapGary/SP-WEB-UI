@@ -109,7 +109,7 @@ public abstract class BaseTest {
                     driver = new EdgeDriver();
                     break;
                 case "yandex":
-                    System.setProperty("webdriver.chrome.driver", "driver/yandexdriver-25.8.0.1872-win64/yandexdriver.exe");
+                    System.setProperty("webdriver.chrome.driver", "driver/yandexdriver-25.10.0.2474-win64/yandexdriver.exe");
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--disable-extensions");
                     chromeOptions.addArguments("--disable-notifications");
