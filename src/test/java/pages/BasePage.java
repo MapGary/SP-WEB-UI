@@ -20,6 +20,7 @@ public class BasePage {
     String jwt_asu = null;
     String user = null;
     String settings = null;
+    private WebDriverWait wait20;
     private WebDriverWait wait10;
     private WebDriverWait wait5;
     private final TestConfig config = new TestConfig();
@@ -109,6 +110,14 @@ public class BasePage {
             Allure.addAttachment("Settings", "text/plain", "Поле settings не найдено: " + e.getMessage());
         }
         return settings;
+    }
+
+    public WebDriverWait getWait20() {
+        if (wait20 == null) {
+            wait20 = new WebDriverWait(driver, Duration.ofSeconds(20));
+        }
+
+        return wait10;
     }
 
     public WebDriverWait getWait10() {

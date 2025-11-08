@@ -113,7 +113,7 @@ public class LoginPage extends BasePage {
 
         // жду обновления дашборд на вкладке Схема
         getWait10().until(ExpectedConditions.urlContains("tab=1"));
-        getWait10().until(ExpectedConditions.invisibilityOf(progressbar));
+        getWait20().until(ExpectedConditions.invisibilityOf(progressbar));
 
         return new DashboardPage(driver);
     }

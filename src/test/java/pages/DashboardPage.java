@@ -195,7 +195,7 @@ public class DashboardPage extends BasePage {
 
         timeIntervalField.click();
         getWait5().until(ExpectedConditions.elementToBeClickable(menuIntervalField));
-        getSelectedRange.click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(getSelectedRange)).click();
 
         // устанавливаю дату от
         getWait5().until(ExpectedConditions.elementToBeClickable(fieldFrom)).click();
