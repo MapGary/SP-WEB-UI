@@ -1,0 +1,8 @@
+{
+  "nameForm" : "Login",
+  "password" : "Password",
+  "buttonNewPassword" : "SET NEW PASSWORD",
+  "buttonLogin" : "LOGIN",
+  "login" : "Login",
+  "helperLanguage" : "Switch Language"
+}
