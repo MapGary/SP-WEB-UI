@@ -449,14 +449,22 @@ public class DashboardPage extends BasePage {
     @Step("Прохожусь по оборудованию к агрегату 4.2-2G28")
     public DashboardPage goTo() {
 
+        System.out.println("1");
         getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@id='equipment-content']//span[@role='progressbar']")));
         // ci (без впн)
+        System.out.println("2");
         level1s.get(2).click();
+        System.out.println("3");
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
+        System.out.println("4");
         getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
+        System.out.println("5");
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(4));
+        System.out.println("6");
         getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
+        System.out.println("7");
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
+        System.out.println("8");
         getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
 
         // local (с впн)
