@@ -78,17 +78,32 @@ public class DashboardPage extends BasePage {
     private WebElement page;
 
     // Список оборудования ссылки 1 уровень
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li[contains(@class, 'MuiTreeItem')]/div"))
-    private List<WebElement> level1s;
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li[contains(@class, 'MuiTreeItem')]/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level1Links;
+    // Список оборудования название 1 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li[contains(@class, 'MuiTreeItem')]/div/div[@class='MuiTreeItem-label']"))
+    private List<WebElement> level1Name;
 
+    // Список оборудования ссылки 2 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level2s;
+    private List<WebElement> level2Links;
+    // Список оборудования название 2 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-label']"))
+    private List<WebElement> level2Name;
 
+    // Список оборудования ссылки 3 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level3s;
+    private List<WebElement> level3Links;
+    // Список оборудования название 3 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-label']"))
+    private List<WebElement> level3Name;
 
+    // Список оборудования ссылки 4 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level4s;
+    private List<WebElement> level4Links;
+    // Список оборудования название 4 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-label']"))
+    private List<WebElement> level4Name;
 
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
     private List<WebElement> level5s;
@@ -346,6 +361,7 @@ public class DashboardPage extends BasePage {
                 // засекаю начало времени загрузки данных об агрегате
                 long startTime = System.currentTimeMillis();
 
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", aggregate);
                 aggregate.click();
                 getWait5().until(ExpectedConditions.elementToBeClickable(workspaceSchema));
                 getTimeWindowsLoad();
@@ -436,10 +452,10 @@ public class DashboardPage extends BasePage {
     public DashboardPage goToTDO() {
 
         getWait10().until(ExpectedConditions.elementToBeClickable(list1));
-        level1s.get(0).click();
-        level2s.get(0).click();
-        level3s.get(0).click();
-        level4s.get(0).click();
+        level1Links.get(0).click();
+        level2Links.get(0).click();
+        level3Links.get(0).click();
+        level4Links.get(0).click();
         // ic (без впн)
         level5s.get(0).click();
 
@@ -447,35 +463,34 @@ public class DashboardPage extends BasePage {
     }
 
     @Step("Прохожусь по оборудованию к агрегату 4.2-2G28")
-    public DashboardPage goTo() {
+    public DashboardPage goTo(String st1, String st2, String st3, String st4) {
 
-        System.out.println("1");
         getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@id='equipment-content']//span[@role='progressbar']")));
-        // ci (без впн)
-        System.out.println("2");
-        level1s.get(2).click();
-        System.out.println("3");
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
-        System.out.println("4");
-        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
-        System.out.println("5");
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(4));
-        System.out.println("6");
-        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
-        System.out.println("7");
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
-        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
 
-        // local (с впн)
-//        level1s.get(0).click();
-//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
-//        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
-//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(4));
-//        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
-//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
-//        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
+        for (int i = 0; i < level1Links.size(); i++) {
+            if (level1Name.get(i).getText().equals(st1)) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level1Name.get(i));
+                level1Name.get(i).click();
+                break;
+            }
+        }
+
+        getStations(level2Links, level2Name, st2);
+        getStations(level3Links, level3Name, st3);
+        getStations(level4Links, level4Name, st4);
 
         return this;
+    }
+
+    private void getStations(List<WebElement> link, List<WebElement> name, String station) {
+        for (int i = 0; i < link.size(); i++) {
+            getWait5().until(ExpectedConditions.elementToBeClickable(link.get(i)));
+            if (name.get(i).getText().equals(station)) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", link.get(i));
+                link.get(i).click();
+                break;
+            }
+        }
     }
 
     @Step("Получаю данные для агрегата {unitName} c {count} параметрами")
@@ -487,6 +502,7 @@ public class DashboardPage extends BasePage {
 
             if (aggregate.getText().equals(unitName)) {
 
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", aggregate);
                 aggregate.click();
 
                 Allure.step("Выбираю вкладку график");

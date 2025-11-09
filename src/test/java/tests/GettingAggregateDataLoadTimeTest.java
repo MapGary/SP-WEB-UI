@@ -67,7 +67,7 @@ public class GettingAggregateDataLoadTimeTest extends BaseTest {
                 .loginToApp()
                 .selectTimeInterval(dayFrom, mouthFrom, yearFrom, hourFrom,
                         dayUp, mouthUp, yearUp, hourUp)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getAggregateTimer("4.2-2G28");
 
         Allure.addAttachment("Время теста: ", times.get("time"));

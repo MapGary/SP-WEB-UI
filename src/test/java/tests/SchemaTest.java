@@ -29,7 +29,7 @@ public class SchemaTest extends BaseTest {
         List<String> nameGraph = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.2-2G28", count)
                 .getNameGraph();
 
@@ -53,7 +53,7 @@ public class SchemaTest extends BaseTest {
         List<String> nameGraph = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.2-2G28", count)
                 .getNameGraph();
 
@@ -77,7 +77,7 @@ public class SchemaTest extends BaseTest {
         DashboardPage dashboardPage = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.2-2G28");
 
         Assert.assertTrue(dashboardPage.checkUnitSchematicWindow());
@@ -97,7 +97,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeImage = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.2-2G28")
                 .collapseWindows(2, 3, 4)
                 .getSizeImage();
@@ -116,7 +116,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTable = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.2-2G28")
                 .collapseWindows(1, 2, 4)
                 .getSizeTable();
@@ -135,7 +135,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeGraph = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.2-2G28")
                 .collapseWindows(1, 2, 3)
                 .getSizeGraph();
@@ -154,7 +154,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTableEvents = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.2-2G28")
                 .collapseWindows(1, 2, 4)
                 .clickTabDefects()
@@ -175,7 +175,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTableMachineArrangements = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.1-2G02")
                 .collapseWindows(1, 2, 4)
                 .clickTabMachineArrangements()
@@ -195,7 +195,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTableDefects = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.2-2G28")
                 .collapseWindows(1, 2, 4)
                 .clickTabDefects()
@@ -215,7 +215,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTableRecommendations = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.2-2G28")
                 .collapseWindows(1, 2, 4)
                 .clickTabRecommendations()
@@ -235,7 +235,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTableReports = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo()
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
                 .getMeasurementDataGraph("4.2-2G28")
                 .collapseWindows(1, 2, 4)
                 .clickTabReports()
