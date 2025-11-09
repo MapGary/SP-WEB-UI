@@ -113,6 +113,10 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//button//p[contains(text(), 'События')]/../..")
     private WebElement events;
 
+    // кнопки вкладок в окне табличные данные
+    @FindBy(xpath = "//div[contains(@class,'MuiAccordionDetails-root')]//div[@aria-label='journals tabs']")
+    private WebElement buttonTab;
+
     // кнопка события в окне табличные данные
     @FindBy(xpath = "//button/div[contains(text(), 'События')]/..")
     private WebElement eventsTableData;
@@ -572,8 +576,6 @@ public class DashboardPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(second - 1))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(third - 1))).click();
 
-        getWait5().until(ExpectedConditions.visibilityOf(table));
-
         return this;
     }
 
@@ -643,6 +645,7 @@ public class DashboardPage extends BasePage {
     @Step("Кликаю вкладку Дефекты в окне Табличные данные")
     public DashboardPage clickTabDefects() {
 
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonTab));
         defects.click();
         getWait5().until(ExpectedConditions.visibilityOf(tableDefects));
 
@@ -657,6 +660,7 @@ public class DashboardPage extends BasePage {
     @Step("Кликаю вкладку Рекомендации в окне Табличные данные")
     public DashboardPage clickTabRecommendations() {
 
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonTab));
         recommendations.click();
         getWait5().until(ExpectedConditions.visibilityOf(tableRecommendations));
 
@@ -671,6 +675,7 @@ public class DashboardPage extends BasePage {
     @Step("Кликаю вкладку Отчеты в окне Табличные данные")
     public DashboardPage clickTabReports() {
 
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonTab));
         reports.click();
         getWait5().until(ExpectedConditions.visibilityOf(tableReports));
 
@@ -685,6 +690,7 @@ public class DashboardPage extends BasePage {
     @Step("Кликаю вкладку Мероприятия ТОиР в окне Табличные данные")
     public DashboardPage clickTabMachineArrangements() {
 
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonTab));
         machineArrangements.click();
         getWait5().until(ExpectedConditions.visibilityOf(tableMachineArrangements));
 
@@ -699,6 +705,7 @@ public class DashboardPage extends BasePage {
     @Step("Кликаю вкладку События в окне Табличные данные")
     public DashboardPage clickTabEvents() {
 
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonTab));
         eventsTableData.click();
         getWait5().until(ExpectedConditions.visibilityOf(table));
 
