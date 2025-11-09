@@ -113,6 +113,10 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//button//p[contains(text(), 'События')]/../..")
     private WebElement events;
 
+    // кнопка события в окне табличные данные
+    @FindBy(xpath = "//button/div[contains(text(), 'События')]/..")
+    private WebElement eventsTableData;
+
     // кнопка Мероприятия ТОиР
     @FindBy(xpath = "//button/div[contains(text(), 'Мероприятия ТОиР')]/..")
     private WebElement machineArrangements;
@@ -568,6 +572,8 @@ public class DashboardPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(second - 1))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(third - 1))).click();
 
+        getWait5().until(ExpectedConditions.visibilityOf(table));
+
         return this;
     }
 
@@ -637,7 +643,6 @@ public class DashboardPage extends BasePage {
     @Step("Кликаю вкладку Дефекты в окне Табличные данные")
     public DashboardPage clickTabDefects() {
 
-        getWait5().until(ExpectedConditions.visibilityOf(table));
         defects.click();
         getWait5().until(ExpectedConditions.visibilityOf(tableDefects));
 
@@ -652,7 +657,6 @@ public class DashboardPage extends BasePage {
     @Step("Кликаю вкладку Рекомендации в окне Табличные данные")
     public DashboardPage clickTabRecommendations() {
 
-        getWait5().until(ExpectedConditions.visibilityOf(table));
         recommendations.click();
         getWait5().until(ExpectedConditions.visibilityOf(tableRecommendations));
 
@@ -667,7 +671,6 @@ public class DashboardPage extends BasePage {
     @Step("Кликаю вкладку Отчеты в окне Табличные данные")
     public DashboardPage clickTabReports() {
 
-        getWait5().until(ExpectedConditions.visibilityOf(table));
         reports.click();
         getWait5().until(ExpectedConditions.visibilityOf(tableReports));
 
@@ -682,7 +685,6 @@ public class DashboardPage extends BasePage {
     @Step("Кликаю вкладку Мероприятия ТОиР в окне Табличные данные")
     public DashboardPage clickTabMachineArrangements() {
 
-        getWait5().until(ExpectedConditions.visibilityOf(table));
         machineArrangements.click();
         getWait5().until(ExpectedConditions.visibilityOf(tableMachineArrangements));
 
@@ -692,5 +694,14 @@ public class DashboardPage extends BasePage {
     @Step("Получаю размер таблицы Мероприятия ТОиР")
     public Dimension getSizeTableMachineArrangements() {
         return tableMachineArrangements.getSize();
+    }
+
+    @Step("Кликаю вкладку События в окне Табличные данные")
+    public DashboardPage clickTabEvents() {
+
+        eventsTableData.click();
+        getWait5().until(ExpectedConditions.visibilityOf(table));
+
+        return this;
     }
 }
