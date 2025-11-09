@@ -113,6 +113,10 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//button//p[contains(text(), 'События')]/../..")
     private WebElement events;
 
+    // кнопка Мероприятия ТОиР
+    @FindBy(xpath = "//button/div[contains(text(), 'Мероприятия ТОиР')]/..")
+    private WebElement machineArrangements;
+
     // кнопка дефекты
     @FindBy(xpath = "//button/div[contains(text(), 'Дефекты')]/..")
     private WebElement defects;
@@ -158,6 +162,10 @@ public class DashboardPage extends BasePage {
     // таблица в окне табличные данные
     @FindBy(xpath = "//div[contains(@class,'MuiDataGrid-main')]")
     private WebElement table;
+
+    // таблица Мероприятия ТОиР в окне табличные данные
+    @FindBy(xpath = "//table[@aria-label='Machine Arrangements table']")
+    private WebElement tableMachineArrangements;
 
     // таблица дефекты в окне табличные данные
     @FindBy(xpath = "//table[@aria-label='Faults table']")
@@ -669,5 +677,20 @@ public class DashboardPage extends BasePage {
     @Step("Получаю размер таблицы Отчеты")
     public Dimension getSizeTableReports() {
         return tableReports.getSize();
+    }
+
+    @Step("Кликаю вкладку Мероприятия ТОиР в окне Табличные данные")
+    public DashboardPage clickTabMachineArrangements() {
+
+        getWait5().until(ExpectedConditions.visibilityOf(table));
+        machineArrangements.click();
+        getWait5().until(ExpectedConditions.visibilityOf(tableMachineArrangements));
+
+        return this;
+    }
+
+    @Step("Получаю размер таблицы Мероприятия ТОиР")
+    public Dimension getSizeTableMachineArrangements() {
+        return tableMachineArrangements.getSize();
     }
 }

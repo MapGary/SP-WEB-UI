@@ -146,6 +146,26 @@ public class SchemaTest extends BaseTest {
     @Test(groups = "smoke")
     @Tag("smoke")
     @Feature("Окно Табличные данные")
+    @Description("Тип объекта 'Агрегат' модуль 'Схема' окно 'Табличные данные' вкладка 'Мероприятия ТОиР'")
+    @Severity(SeverityLevel.BLOCKER)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/80")
+    public void testTableDataWindowCoversEntireWorkAreaTabMachineArrangements() {
+
+        Dimension sizeTableMachineArrangements = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo()
+                .getMeasurementDataGraph("4.1-2G02")
+                .collapseWindows(1, 2, 4)
+                .clickTabMachineArrangements()
+                .getSizeTableMachineArrangements();
+
+        Assert.assertTrue(sizeTableMachineArrangements.width >= 876);
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Окно Табличные данные")
     @Description("Тип объекта 'Агрегат' модуль 'Схема' окно 'Табличные данные' вкладка 'Дефекты'")
     @Severity(SeverityLevel.BLOCKER)
     @Link("https://team-b9fb.testit.software/projects/1/tests/81")
