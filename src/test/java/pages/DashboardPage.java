@@ -121,6 +121,10 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//button/div[contains(text(), 'Рекомендации')]/..")
     private WebElement recommendations;
 
+    // кнопка отчеты
+    @FindBy(xpath = "//button/div[contains(text(), 'Отчёты')]/..")
+    private WebElement reports;
+
     @FindBy(xpath = "//ul[@role='tree']")
     private WebElement list1;
 
@@ -162,6 +166,10 @@ public class DashboardPage extends BasePage {
     // таблица рекомендации в окне табличные данные
     @FindBy(xpath = "//table[@aria-label='recommendations table']")
     private WebElement tableRecommendations;
+
+    // таблица отчеты в окне табличные данные
+    @FindBy(xpath = "//table[@aria-label='reports table']")
+    private WebElement tableReports;
 
     // график в окне данные измерений
     @FindBy(xpath = "//div[@id='panel1a-content']//canvas")
@@ -646,5 +654,20 @@ public class DashboardPage extends BasePage {
     @Step("Получаю размер таблицы Дефекты")
     public Dimension getSizeTableRecommendations() {
         return tableRecommendations.getSize();
+    }
+
+    @Step("Кликаю вкладку Отчеты в окне Табличные данные")
+    public DashboardPage clickTabReports() {
+
+        getWait5().until(ExpectedConditions.visibilityOf(table));
+        reports.click();
+        getWait5().until(ExpectedConditions.visibilityOf(tableReports));
+
+        return this;
+    }
+
+    @Step("Получаю размер таблицы Отчеты")
+    public Dimension getSizeTableReports() {
+        return tableReports.getSize();
     }
 }
