@@ -117,6 +117,10 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//button/div[contains(text(), 'Дефекты')]/..")
     private WebElement defects;
 
+    // кнопка рекомендации
+    @FindBy(xpath = "//button/div[contains(text(), 'Рекомендации')]/..")
+    private WebElement recommendations;
+
     @FindBy(xpath = "//ul[@role='tree']")
     private WebElement list1;
 
@@ -151,9 +155,13 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//div[contains(@class,'MuiDataGrid-main')]")
     private WebElement table;
 
-    // таблица дефескты в окне табличные данные
+    // таблица дефекты в окне табличные данные
     @FindBy(xpath = "//table[@aria-label='Faults table']")
     private WebElement tableDefects;
+
+    // таблица рекомендации в окне табличные данные
+    @FindBy(xpath = "//table[@aria-label='recommendations table']")
+    private WebElement tableRecommendations;
 
     // график в окне данные измерений
     @FindBy(xpath = "//div[@id='panel1a-content']//canvas")
@@ -623,5 +631,20 @@ public class DashboardPage extends BasePage {
     @Step("Получаю размер таблицы Дефекты")
     public Dimension getSizeTableDefects() {
         return tableDefects.getSize();
+    }
+
+    @Step("Кликаю вкладку Рекомендации в окне Табличные данные")
+    public DashboardPage clickTabRecommendations() {
+
+        getWait5().until(ExpectedConditions.visibilityOf(table));
+        recommendations.click();
+        getWait5().until(ExpectedConditions.visibilityOf(tableRecommendations));
+
+        return this;
+    }
+
+    @Step("Получаю размер таблицы Дефекты")
+    public Dimension getSizeTableRecommendations() {
+        return tableRecommendations.getSize();
     }
 }

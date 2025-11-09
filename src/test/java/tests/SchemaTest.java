@@ -162,4 +162,24 @@ public class SchemaTest extends BaseTest {
 
         Assert.assertTrue(sizeTableDefects.width >= 876);
     }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Окно Табличные данные")
+    @Description("Тип объекта 'Агрегат' модуль 'Схема' окно 'Табличные данные' вкладка 'Рекомендации'")
+    @Severity(SeverityLevel.BLOCKER)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/82")
+    public void testTableDataWindowCoversEntireWorkAreaTabRecommendations() {
+
+        Dimension sizeTableRecommendations = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo()
+                .getMeasurementDataGraph("4.2-2G28")
+                .collapseWindows(1, 2, 4)
+                .clickTabRecommendations()
+                .getSizeTableRecommendations();
+
+        Assert.assertTrue(sizeTableRecommendations.width >= 876);
+    }
 }
