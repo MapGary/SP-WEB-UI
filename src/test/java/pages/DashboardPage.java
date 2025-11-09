@@ -110,8 +110,12 @@ public class DashboardPage extends BasePage {
     private WebElement magazine;
 
     // кнопка события
-    @FindBy(xpath = "//button[contains(@id, 'T-3')]")
+    @FindBy(xpath = "//button//p[contains(text(), 'События')]/../..")
     private WebElement events;
+
+    // кнопка дефекты
+    @FindBy(xpath = "//button/div[contains(text(), 'Дефекты')]/..")
+    private WebElement defects;
 
     @FindBy(xpath = "//ul[@role='tree']")
     private WebElement list1;
@@ -146,6 +150,10 @@ public class DashboardPage extends BasePage {
     // таблица в окне табличные данные
     @FindBy(xpath = "//div[contains(@class,'MuiDataGrid-main')]")
     private WebElement table;
+
+    // таблица дефескты в окне табличные данные
+    @FindBy(xpath = "//table[@aria-label='Faults table']")
+    private WebElement tableDefects;
 
     // график в окне данные измерений
     @FindBy(xpath = "//div[@id='panel1a-content']//canvas")
@@ -410,7 +418,6 @@ public class DashboardPage extends BasePage {
     public DashboardPage goTo() {
 
         getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@id='equipment-content']//span[@role='progressbar']")));
-//        getWait10().until(ExpectedConditions.elementToBeClickable(list1));
         // ci (без впн)
         level1s.get(2).click();
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
@@ -601,5 +608,20 @@ public class DashboardPage extends BasePage {
     //выбранный текст
     public String getSelectedIntervalText() {
         return timeIntervalSelected();
+    }
+
+    @Step("Кликаю вкладку Дефекты в окне Табличные данные")
+    public DashboardPage clickTabDefects() {
+
+        getWait5().until(ExpectedConditions.visibilityOf(table));
+        defects.click();
+        getWait5().until(ExpectedConditions.visibilityOf(tableDefects));
+
+        return this;
+    }
+
+    @Step("Получаю размер таблицы Дефекты")
+    public Dimension getSizeTableDefects() {
+        return tableDefects.getSize();
     }
 }
