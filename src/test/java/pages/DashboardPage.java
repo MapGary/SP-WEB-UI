@@ -410,7 +410,7 @@ public class DashboardPage extends BasePage {
     public DashboardPage goTo() {
 
         getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@id='equipment-content']//span[@role='progressbar']")));
-        getWait10().until(ExpectedConditions.elementToBeClickable(list1));
+//        getWait10().until(ExpectedConditions.elementToBeClickable(list1));
         // ci (без впн)
         level1s.get(2).click();
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
