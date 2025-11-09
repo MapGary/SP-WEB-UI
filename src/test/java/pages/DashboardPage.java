@@ -449,33 +449,30 @@ public class DashboardPage extends BasePage {
     @Step("Прохожусь по оборудованию к агрегату 4.2-2G28")
     public DashboardPage goTo() {
 
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
         System.out.println("1");
         getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@id='equipment-content']//span[@role='progressbar']")));
         // ci (без впн)
         System.out.println("2");
         level1s.get(2).click();
         System.out.println("3");
-        js.executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
         System.out.println("4");
         getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
         System.out.println("5");
-        js.executeScript("arguments[0].scrollIntoView(true);", level2s.get(4));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(4));
         System.out.println("6");
         getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
         System.out.println("7");
-        js.executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
-        System.out.println("8");
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
         getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
 
         // local (с впн)
 //        level1s.get(0).click();
-//        js.executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level2s.get(0))).click();
-//        js.executeScript("arguments[0].scrollIntoView(true);", level2s.get(4));
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(4));
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level3s.get(4))).click();
-//        js.executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level2s.get(0));
 //        getWait5().until(ExpectedConditions.elementToBeClickable(level4s.get(0))).click();
 
         return this;
@@ -530,12 +527,10 @@ public class DashboardPage extends BasePage {
     public List<String> getNameGraph() {
 
         List<String> listNameGraph = new ArrayList<>();
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
         getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(0)));
 
         for (int i = 0; i < nameGraph.size(); i++) {
-            js.executeScript("arguments[0].scrollIntoView(true);", nameGraph.get(i));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", nameGraph.get(i));
             listNameGraph.add(i, getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(i))).getText());
         }
 
