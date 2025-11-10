@@ -1,78 +1,35 @@
 package tests;
 
 import io.qameta.allure.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import io.qameta.allure.testng.Tag;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.DashboardPage;
-import pages.LoginPage;
+import pages.DateTimeAndEquipmentListPage;
+import pages.IntervalData;
 import utils.BaseTest;
+import utils.TimeUtils;
 
-import java.time.Duration;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+
+import static pages.DateTimeAndEquipmentListPage.EXPECTED_INTERVALS;
+import static utils.TimeUtils.assertTimestampClose;
+import pages.DateTimeAndEquipmentListPage;
 
 public class TimeIntervalPannelTest extends BaseTest {
 
-    // список ожидаемых названий интервалов в выпадающем списке
-    private final List<String> expectedIntervals = List.of(
-            "За смену (8 часов)",
-            "За сутки",
-            "За неделю",
-            "За месяц",
-            "За год",
-            "За выбранный интервал"
-    );
-
-//                   ПЕРЕЕХАЛ В LOGINPAGE
-//    //логин
-//    private DashboardPage loginToApp() {
-//        String login = getConfig().getUserName();
-//        String password = getConfig().getPassword();
-//
-//        new LoginPage(getDriver())
-//                .addValueToFieldLogin(login)
-//                .addValueToFieldPassword(password)
-//                .clickButtonLoginWithHelper();
-//
-//        DashboardPage dashboardPage = new DashboardPage(getDriver());
-//        // ждём, пока появится дашборд
-////        dashboardPage.getWait10().until(ExpectedConditions.urlContains("/dashboard"));
-////
-////        return new DashboardPage(getDriver());
-//        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(30));
-//        wait.until(ExpectedConditions.urlContains("/dashboard"));
-//
-//        // проверяем, что действительно перешли
-//        String currentUrl = getDriver().getCurrentUrl();
-//        if (!currentUrl.contains("/dashboard")) {
-//            Allure.addAttachment("After-login URL", currentUrl);
-//            Allure.addAttachment("Page HTML (after failed login)", "text/html", getDriver().getPageSource(), ".html");
-//            throw new AssertionError("Не удалось перейти на /dashboard. Текущий URL: " + currentUrl);
-//        }
-//
-//        return dashboardPage;
-//    }
-
-                             //                   ПЕРЕЕХАЛ В DASHBOARDPAGE
-//    //выбор интервала
-//    private void selectIntervalByDataValue(String dataValue) {
-//        DashboardPage dashboardPage = new DashboardPage(getDriver());
-//
-//        dashboardPage.openTimeIntervalDropdown();
-//
-//        By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
-//        WebElement option = dashboardPage.getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator));
-//        option.click();
-//    }
-
-    //выбранный текст
-    private String getSelectedIntervalText() {
-        DashboardPage staticPage = new DashboardPage(getDriver());
-        return staticPage.timeIntervalSelected();
+    @BeforeMethod
+    protected void initPageObject() {
+        page = new DateTimeAndEquipmentListPage(getDriver(), getConfig());
     }
+
+
+    private DateTimeAndEquipmentListPage page;
 
     @Test
     @Epic("Статичные элементы")
@@ -88,7 +45,8 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "Ожидалось, что по умолчанию выбран интервал 'За смену (8 часов)'");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что при открытии выпадающего списка отображаются все ожидаемые варианты")
@@ -101,7 +59,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         Allure.step("Фактические значения выпадающего списка: " + actualOptions);
 
-        for (String expected : expectedIntervals) {
+        for (String expected : EXPECTED_INTERVALS) {
             boolean found = false;
 
             for (String actual : actualOptions) {
@@ -115,7 +73,8 @@ public class TimeIntervalPannelTest extends BaseTest {
         }
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За смену (8 часов)'")
@@ -128,11 +87,31 @@ public class TimeIntervalPannelTest extends BaseTest {
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
+
         Assert.assertEquals(selectedText, "За смену (8 часов)",
                 "После выбора WORK_DAY должен отображаться 'За смену (8 часов)'");
+
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
+
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
+
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
+
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
+
+        long toleranceSeconds = 14400L;
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За сутки'")
@@ -146,11 +125,31 @@ public class TimeIntervalPannelTest extends BaseTest {
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
+
         Assert.assertEquals(selectedText, "За сутки",
                 "После выбора FULL_DAY должен отображаться 'За сутки'");
+
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
+
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
+
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
+
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
+
+        long toleranceSeconds = 14400L;
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За неделю'")
@@ -163,11 +162,31 @@ public class TimeIntervalPannelTest extends BaseTest {
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
+
         Assert.assertEquals(selectedText, "За неделю",
                 "После выбора WEEK должен отображаться 'За неделю'");
+
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
+
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
+
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
+
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
+
+        long toleranceSeconds = 14400L;
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За месяц'")
@@ -180,11 +199,31 @@ public class TimeIntervalPannelTest extends BaseTest {
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
+
         Assert.assertEquals(selectedText, "За месяц",
                 "После выбора MONTH должен отображаться 'За месяц'");
+
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
+
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
+
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
+
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
+
+        long toleranceSeconds = 14400L;
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За год'")
@@ -197,11 +236,32 @@ public class TimeIntervalPannelTest extends BaseTest {
         String selectedText = getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
+
         Assert.assertEquals(selectedText, "За год",
                 "После выбора YEAR должен отображаться 'За год'");
+
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.YEAR, displayZone);
+
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
+
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
+
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
+
+        long toleranceSeconds = 14400L;
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
+
     }
 
-    @Test
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Epic("Статичные элементы")
     @Feature("Панель временного интервала")
     @Description("Проверить, что можно выбрать интервал 'За выбранный интервал'")
