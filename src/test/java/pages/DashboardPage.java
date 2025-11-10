@@ -595,6 +595,8 @@ public class DashboardPage extends BasePage {
 
     @Step("Сворачиваю окна на Рабочей области")
     public DashboardPage collapseWindows(int first, int second, int third) {
+        getWait5().until(ExpectedConditions.visibilityOf(graph));
+
         getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(first - 1))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(second - 1))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(third - 1))).click();
