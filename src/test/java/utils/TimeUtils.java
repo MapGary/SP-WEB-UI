@@ -24,21 +24,29 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class TimeUtils {
 
     public enum Interval {
-        HOUR_8(8, ChronoUnit.HOURS),
-        HOUR_24(24, ChronoUnit.HOURS),
+        WORK_DAY(8, ChronoUnit.HOURS),
+        FULL_DAY(24, ChronoUnit.HOURS),
         WEEK(1, ChronoUnit.WEEKS),
         MONTH(1, ChronoUnit.MONTHS),
         YEAR(1, ChronoUnit.YEARS);
 
-        final long amount;
-        final ChronoUnit unit;
+        public final long amount;
+        public final ChronoUnit unit;
         Interval(long amount, ChronoUnit unit) { this.amount = amount; this.unit = unit; }
     }
 
     // ожидаемое начало интервала (now - amount unit) в заданной зоне
     public static Instant expectedStartInstantFor(Interval interval, ZoneId zone) {
         ZonedDateTime now = ZonedDateTime.now(zone);
+
+//        if (interval == Interval.WORK_DAY) {
+//            // Для WORK_DAY: начало в 10:00 текущего дня
+//            ZonedDateTime startOfDay = now.truncatedTo(ChronoUnit.DAYS).withHour(10);
+//            return startOfDay.toInstant();
+//        }
+        // для остальных
         ZonedDateTime start = now.minus(interval.amount, interval.unit);
+
         return start.toInstant();
     }
 

@@ -9,17 +9,11 @@ import pages.DateTimeAndEquipmentListPage;
 import pages.IntervalData;
 import utils.BaseTest;
 import utils.TimeUtils;
-
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
-
+import pages.LoginPage;
 import static pages.DateTimeAndEquipmentListPage.EXPECTED_INTERVALS;
 import static utils.TimeUtils.assertTimestampClose;
-import pages.DateTimeAndEquipmentListPage;
 
 public class TimeIntervalPannelTest extends BaseTest {
 
@@ -84,7 +78,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         String url = getDriver().getCurrentUrl();
@@ -94,7 +88,7 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора WORK_DAY должен отображаться 'За смену (8 часов)'");
 
         ZoneId displayZone = ZoneOffset.UTC;
-        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.WORK_DAY, displayZone);
 
         Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
                 selectedText, data.startFormatted, data.endFormatted));
@@ -105,8 +99,11 @@ public class TimeIntervalPannelTest extends BaseTest {
         Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
                 data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
 
-        long toleranceSeconds = 14400L;
-        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        long toleranceSeconds = 1800L;
+
+        page.debugTimeComparison(data);
+
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusHours(8)");
         assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
@@ -119,10 +116,9 @@ public class TimeIntervalPannelTest extends BaseTest {
     public void testSelectFullDay() {
         new LoginPage(getDriver()).loginToApp().selectIntervalByDataValue("FULL_DAY");
 
-
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         String url = getDriver().getCurrentUrl();
@@ -132,7 +128,7 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора FULL_DAY должен отображаться 'За сутки'");
 
         ZoneId displayZone = ZoneOffset.UTC;
-        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.FULL_DAY, displayZone);
 
         Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
                 selectedText, data.startFormatted, data.endFormatted));
@@ -143,8 +139,11 @@ public class TimeIntervalPannelTest extends BaseTest {
         Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
                 data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
 
-        long toleranceSeconds = 14400L;
-        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        long toleranceSeconds = 3600L;
+
+        page.debugTimeComparison(data);
+
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusHours(24)");
         assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
@@ -159,7 +158,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         String url = getDriver().getCurrentUrl();
@@ -169,7 +168,7 @@ public class TimeIntervalPannelTest extends BaseTest {
                 "После выбора WEEK должен отображаться 'За неделю'");
 
         ZoneId displayZone = ZoneOffset.UTC;
-        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.MONTH, displayZone);
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.WEEK, displayZone);
 
         Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
                 selectedText, data.startFormatted, data.endFormatted));
@@ -180,8 +179,11 @@ public class TimeIntervalPannelTest extends BaseTest {
         Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
                 data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
 
-        long toleranceSeconds = 14400L;
-        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        long toleranceSeconds = 3600L;
+
+        page.debugTimeComparison(data);
+
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusWeeks(1)");
         assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
@@ -196,7 +198,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         String url = getDriver().getCurrentUrl();
@@ -217,8 +219,11 @@ public class TimeIntervalPannelTest extends BaseTest {
         Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
                 data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
 
-        long toleranceSeconds = 14400L;
-        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
+        long toleranceSeconds = 3600L;
+
+        page.debugTimeComparison(data);
+
+        assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusMonths(1)");
         assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
     }
 
@@ -233,7 +238,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         String url = getDriver().getCurrentUrl();
@@ -254,7 +259,10 @@ public class TimeIntervalPannelTest extends BaseTest {
         Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
                 data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
 
-        long toleranceSeconds = 14400L;
+        long toleranceSeconds = 3600L;
+
+        page.debugTimeComparison(data);
+
         assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
         assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
 
@@ -271,7 +279,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         waitForSeconds(5);
 
-        String selectedText = getSelectedIntervalText();
+        String selectedText = page.getSelectedIntervalText();
         Allure.step("Выбранный интервал: " + selectedText);
 
         Assert.assertEquals(selectedText, "За выбранный интервал",

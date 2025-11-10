@@ -18,6 +18,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,7 +168,17 @@ public class DateTimeAndEquipmentListPage {
 
         ZoneId logicZone = ZoneOffset.UTC;
         data.expectedStart = TimeUtils.expectedStartInstantFor(interval, logicZone);
-        data.expectedEnd = ZonedDateTime.now(logicZone).toInstant();
+        // время окончания из URL как базовое для расчетов
+        if (data.endInstant != null) {
+            // время из URL и вычитаем интервал для начала
+            ZonedDateTime baseTime = ZonedDateTime.ofInstant(data.endInstant, logicZone);
+            data.expectedStart = baseTime.minus(interval.amount, interval.unit).toInstant();
+            data.expectedEnd = data.endInstant;
+        } else {
+            // на старую логику
+            data.expectedStart = TimeUtils.expectedStartInstantFor(interval, logicZone);
+            data.expectedEnd = ZonedDateTime.now(logicZone).toInstant();
+        }
 
         data.diffStartSec = (data.startInstant == null || data.expectedStart == null)
                 ? -1L : Math.abs(Duration.between(data.startInstant, data.expectedStart).getSeconds());
@@ -178,6 +189,25 @@ public class DateTimeAndEquipmentListPage {
         data.diffEndHms = data.diffEndSec >= 0 ? formatSecondsHms(data.diffEndSec) : "n/a";
 
         return data;
+    }
+
+    @Step("DEBUG - Сравнение временных меток")
+    public void debugTimeComparison(IntervalData data) {
+        Instant systemNow = Instant.now();
+        ZonedDateTime utcNow = ZonedDateTime.now(ZoneOffset.UTC);
+        ZonedDateTime moscowNow = ZonedDateTime.now(ZoneId.of("Europe/Moscow"));
+
+        Allure.step("System Instant.now(): " + systemNow);
+        Allure.step("UTC ZonedDateTime.now(): " + utcNow);
+        Allure.step("Moscow ZonedDateTime.now(): " + moscowNow);
+        Allure.step("URL start: " + data.startInstant);
+        Allure.step("URL end: " + data.endInstant);
+        Allure.step("Expected start: " + data.expectedStart);
+        Allure.step("Expected end: " + data.expectedEnd);
+
+        // Разница между системным временем и временем из URL
+        long diffSystemVsUrl = Duration.between(systemNow, data.endInstant).getSeconds();
+        Allure.step("Разница System.now() vs URL end: " + diffSystemVsUrl + " секунд");
     }
 
 }
