@@ -4,6 +4,7 @@ import io.qameta.allure.*;
 import io.qameta.allure.testng.Tag;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.DateTimeAndEquipmentListPage;
 import pages.IntervalData;
@@ -101,7 +102,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         long toleranceSeconds = 1800L;
 
-        page.debugTimeComparison(data);
+//        page.debugTimeComparison(data);
 
         assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusHours(8)");
         assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
@@ -141,7 +142,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         long toleranceSeconds = 3600L;
 
-        page.debugTimeComparison(data);
+//        page.debugTimeComparison(data);
 
         assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusHours(24)");
         assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
@@ -181,7 +182,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         long toleranceSeconds = 3600L;
 
-        page.debugTimeComparison(data);
+//        page.debugTimeComparison(data);
 
         assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusWeeks(1)");
         assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
@@ -221,7 +222,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         long toleranceSeconds = 3600L;
 
-        page.debugTimeComparison(data);
+//        page.debugTimeComparison(data);
 
         assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusMonths(1)");
         assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
@@ -261,7 +262,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         long toleranceSeconds = 3600L;
 
-        page.debugTimeComparison(data);
+//        page.debugTimeComparison(data);
 
         assertTimestampClose(data.startInstant, data.expectedStart, toleranceSeconds, "startTimestamp ~ now.minusYears(1)");
         assertTimestampClose(data.endInstant, data.expectedEnd, toleranceSeconds, "endTimestamp ~ now");
@@ -284,6 +285,69 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         Assert.assertEquals(selectedText, "За выбранный интервал",
                 "После выбора SELECTED_RANGE должен отображаться 'За выбранный интервал'");
+    }
+
+    @Test(dataProvider = "timeInterval")
+    @Epic("Статичные элементы")
+    @Feature("Панель временного интервала")
+    @Description("Проверка работы пользовательского временного интервала")
+    @Severity(SeverityLevel.NORMAL)
+    public void testReceivingDataForShiftEvents(int dayFrom, int mouthFrom, int yearFrom, int hourFrom,
+                                                int dayUp, int mouthUp, int yearUp, int hourUp) {
+
+        new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(dayFrom, mouthFrom, yearFrom, hourFrom,
+                        dayUp, mouthUp, yearUp, hourUp);
+
+        waitForSeconds(5);
+
+        String selectedText = page.getSelectedIntervalText();
+        Allure.step("Выбранный интервал: " + selectedText);
+
+        String url = getDriver().getCurrentUrl();
+        Allure.step("Current URL: " + url);
+
+//        page.verifySelectedDatesMatchUrl(url, dayFrom, mouthFrom, yearFrom, hourFrom,
+//                dayUp, mouthUp, yearUp, hourUp, ZoneId.of("Europe/Moscow"));
+        page.verifySelectedDatesMatchUrl(url, dayFrom, mouthFrom, yearFrom, hourFrom,
+                dayUp, mouthUp, yearUp, hourUp, ZoneOffset.UTC);
+
+        Assert.assertEquals(selectedText, "За выбранный интервал",
+                "После выбора YEAR должен отображаться 'За выбранный интервал'");
+
+        ZoneId displayZone = ZoneOffset.UTC;
+        IntervalData data = page.computeStartEndAndDiffs(url, TimeUtils.Interval.YEAR, displayZone);
+
+        Allure.step(String.format("Interval: %s — Start: %s (MSK), End: %s (MSK)",
+                selectedText, data.startFormatted, data.endFormatted));
+
+        Assert.assertNotNull(data.startInstant, "startTimestamp не найден в URL");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не найден в URL");
+
+        Allure.step(String.format("Differences: start = %d sec (%s), end = %d sec (%s)",
+                data.diffStartSec, data.diffStartHms, data.diffEndSec, data.diffEndHms));
+
+        long toleranceSeconds = 30L;
+
+        Allure.step(String.format("Проверка пользовательского интервала: start=%s, end=%s",
+                data.startFormatted, data.endFormatted));
+
+        // даты не null
+        Assert.assertNotNull(data.startInstant, "startTimestamp не должен быть null");
+        Assert.assertNotNull(data.endInstant, "endTimestamp не должен быть null");
+
+    }
+
+    @DataProvider(name = "timeInterval")
+    public Object[][] providerTimeInterval() {
+        return new Object[][]{
+                {1, 1, 2020, 23, 7, 10, 2025, 00}//,    // выбранный диапазон
+//                {11, 6, 2020, 23, 11, 6, 2021, 23},   // за год
+//                {5, 5, 2020, 00, 5, 6, 2020, 00},     // за месяц
+//                {30, 5, 2024, 00, 31, 5, 2024, 00},   // за сутки
+//                {5, 5, 2021, 9, 5, 5, 2021, 10}       // за час
+        };
     }
 
 }
