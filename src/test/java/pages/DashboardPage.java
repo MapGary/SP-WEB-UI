@@ -543,7 +543,8 @@ public class DashboardPage extends BasePage {
     public List<String> getNameGraph() {
 
         List<String> listNameGraph = new ArrayList<>();
-        getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(0)));
+//        getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(0)));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", nameGraph.get(0));
 
         for (int i = 0; i < nameGraph.size(); i++) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", nameGraph.get(i));
