@@ -178,6 +178,10 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//img")
     private WebElement image;
 
+    // картинка в окне состояние и прогнозирование
+    @FindBy(xpath = "//div[contains(@class,'MuiBox-root')]/p[contains(@class,'MuiTypography-root')]/../div[contains(@class,'MuiBox-root')]")
+    private WebElement speedometer;
+
     // стрелка в окне состояние и прогнозирование
     @FindBy(xpath = "//*[@id='needle']")
     private WebElement arrow;
@@ -209,6 +213,14 @@ public class DashboardPage extends BasePage {
     // шапка каждого окна в рабочей области
     @FindBy(xpath = "//div[contains(@class,'MuiAccordionSummary-content')]/p")
     private List<WebElement> cap;
+
+    // окно состояние и прогнозирование кнопка вертикальная шкала
+    @FindBy(xpath = "//button[contains(@class,'MuiToggleButtonGroup-groupedHorizontal')]/div[contains(@aria-label,'Вертикальная шкала')]")
+    private WebElement scale;
+
+    // окно состояние и прогнозирование вертикальная шкала
+    @FindBy(xpath = "//div[contains(@class,'MuiBox-root')]/*[local-name()='svg']/*[local-name()='rect']/..")
+    private WebElement scaleImage;
 
     @Step("Открываю выпадающий список временных интервалов")
     public DashboardPage openTimeIntervalDropdown() {
@@ -736,5 +748,22 @@ public class DashboardPage extends BasePage {
         getWait5().until(ExpectedConditions.visibilityOf(table));
 
         return this;
+    }
+
+    @Step("Получаю размер картинки Спидометр")
+    public Dimension getSizeSpeedometer() {
+        return speedometer.getSize();
+    }
+
+    @Step("Кликаю кнопку вид Вертикальная шкала ")
+    public DashboardPage clickViewScale() {
+        scale.click();
+
+        return this;
+    }
+
+    @Step("Получаю размер картинки Вертикальная шкала")
+    public Dimension getSizeScale() {
+        return scaleImage.getSize();
     }
 }

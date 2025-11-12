@@ -107,6 +107,45 @@ public class SchemaTest extends BaseTest {
 
     @Test(groups = "smoke")
     @Tag("smoke")
+    @Feature("Окно Состояние и прогнозирование")
+    @Description("Тип объекта 'Агрегат' модуль 'Схема' окно 'Состояние и прогнозирование' вид Спидометр")
+    @Severity(SeverityLevel.BLOCKER)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/76")
+    public void testStatusForecastingSpeedometerWindowCoversEntireWorkArea() {
+
+        Dimension sizeSpeedometer = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
+                .getMeasurementDataGraph("4.2-2G28")
+                .collapseWindows(1, 3, 4)
+                .getSizeSpeedometer();
+
+        Assert.assertTrue(sizeSpeedometer.width >= 68 || sizeSpeedometer.height >= 26);
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Окно Состояние и прогнозирование")
+    @Description("Тип объекта 'Агрегат' модуль 'Схема' окно 'Состояние и прогнозирование' вид Спидометр")
+    @Severity(SeverityLevel.BLOCKER)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/76")
+    public void testStatusForecastingScaleWindowCoversEntireWorkArea() {
+
+        Dimension sizeScale = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
+                .getMeasurementDataGraph("4.2-2G28")
+                .collapseWindows(1, 3, 4)
+                .clickViewScale()
+                .getSizeScale();
+
+        Assert.assertTrue(sizeScale.width >= 80 || sizeScale.height >= 150);
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
     @Feature("Окно Табличные данные")
     @Description("Тип объекта 'Агрегат' модуль 'Схема' окно 'Табличные данные'")
     @Severity(SeverityLevel.BLOCKER)
