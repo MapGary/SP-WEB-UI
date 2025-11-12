@@ -3,7 +3,7 @@
 
     <test name="Браузер">
         <classes>
-            <class name="tests.AuthLoginTest"/>
+            <class name="tests.TimeIntervalPannelTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>

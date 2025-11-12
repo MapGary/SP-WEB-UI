@@ -17,7 +17,7 @@ public class SecuritySqlInjectionTest extends BaseTest {
 
     @Test(groups = "smoke")
     @Tag("smoke")
-    @Description("Попытка SQL-injection в поля логина не должна приводить к успешной аутентификации")
+    @Description("Попытка SQL-injection в поля логина/пароля не должна приводить к успешной аутентификации")
     @Severity(SeverityLevel.CRITICAL)
     public void testSqlInjectionDoesNotBypassAuthentication() {
 
