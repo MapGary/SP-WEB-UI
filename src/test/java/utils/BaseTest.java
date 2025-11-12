@@ -34,14 +34,10 @@ public abstract class BaseTest {
 
     protected WebDriver getDriver() {
 
-        LoggerUtil.info("Driver received");
-
         return driver;
     }
 
     protected TestConfig getConfig() {
-
-        LoggerUtil.info("Configuration received");
 
         return config;
     }
@@ -54,8 +50,6 @@ public abstract class BaseTest {
             wait5 = null;
             LoggerUtil.info("Driver quit");
         }
-
-        LoggerUtil.info("Driver NULL");
     }
 
     public WebDriverWait getWait5() {
@@ -83,7 +77,7 @@ public abstract class BaseTest {
     }
 
     @Parameters("browser")
-    @BeforeMethod
+    @BeforeMethod(groups = {"smoke"})
     protected void beforeMethod(Method method, @Optional("yandex") String browser) {
 
         String remoteUrl = System.getenv("SELENIUM_REMOTE_URL");
@@ -115,7 +109,7 @@ public abstract class BaseTest {
                     driver = new EdgeDriver();
                     break;
                 case "yandex":
-                    System.setProperty("webdriver.chrome.driver", "driver/yandexdriver-25.8.0.1872-win64/yandexdriver.exe");
+                    System.setProperty("webdriver.chrome.driver", "driver/yandexdriver-25.10.0.2474-win64/yandexdriver.exe");
                     ChromeOptions chromeOptions = new ChromeOptions();
                     chromeOptions.addArguments("--disable-extensions");
                     chromeOptions.addArguments("--disable-notifications");
@@ -139,7 +133,7 @@ public abstract class BaseTest {
         LoggerUtil.info(String.format("Run %s.%s", this.getClass().getName(), method.getName()));
     }
 
-    @AfterMethod
+    @AfterMethod(groups = {"smoke"})
     protected void afterMethod(Method method, ITestResult testResult) {
         if (!testResult.isSuccess()) {
             Allure.addAttachment(

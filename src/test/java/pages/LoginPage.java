@@ -9,7 +9,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import utils.LoggerUtil;
 import utils.TestConfig;
 
 import java.io.File;
@@ -26,8 +25,6 @@ public class LoginPage extends BasePage {
     }
 
     protected TestConfig getConfig() {
-
-        LoggerUtil.info("Configuration received");
 
         return config;
     }
@@ -80,6 +77,10 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//div[@id='language-menu']//ul/li[@tabindex='-1']")
     private WebElement inactiveLanguage;
 
+    // загрузка панели список оборудования
+    @FindBy(xpath = "//div[@id='equipment-content']//span[@role='progressbar']")
+    private WebElement progressbar;
+
     @Step("Добавляю значение в поле Логин")
     public LoginPage addValueToFieldLogin(String login) {
         fieldLogin.sendKeys(login);
@@ -109,6 +110,10 @@ public class LoginPage extends BasePage {
     @Step("Кликаю кнопку Войти")
     public DashboardPage clickButtonLogin() {
         buttonLogin.click();
+
+        // жду обновления дашборд на вкладке Схема
+        getWait10().until(ExpectedConditions.urlContains("tab=1"));
+        getWait20().until(ExpectedConditions.invisibilityOf(progressbar));
 
         return new DashboardPage(driver);
     }
@@ -249,17 +254,10 @@ public class LoginPage extends BasePage {
 
     @Step("Авторизуюсь")
     public DashboardPage loginToApp() {
-        String login = getConfig().getUserName();
-        String password = getConfig().getPassword();
 
-        new LoginPage(driver)
-                .addValueToFieldLogin(login)
-                .addValueToFieldPassword(password)
+        return new LoginPage(driver)
+                .addValueToFieldLogin(getConfig().getUserName())
+                .addValueToFieldPassword(getConfig().getPassword())
                 .clickButtonLogin();
-
-        // жду обновления дашборд на вкладке Схема
-        getWait10().until(ExpectedConditions.urlContains("tab=1"));
-
-        return new DashboardPage(driver);
     }
 }

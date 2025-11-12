@@ -10,7 +10,11 @@ import utils.LoggerUtil;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static utils.Data.Dashboard.listParameters;
 
 public class DashboardPage extends BasePage {
 
@@ -18,10 +22,8 @@ public class DashboardPage extends BasePage {
         super(driver);
     }
 
-    long startTimeInterval = 0L;
-    long endTimeInterval = 0L;
-    long time3 = 0L;
-    long time4 = 0L;
+    private long startTimeInterval = 0L;
+    private long endTimeInterval = 0L;
 
     //кнопка выбора временного интервала
     private final By selectedInterval = By.id("select-helper");
@@ -49,7 +51,10 @@ public class DashboardPage extends BasePage {
     private WebElement workspaceEvents;
 
     // рабочая область журнал
-    @FindBy(xpath = "//div[contains(@class, 'MuiDataGrid-root--densityStandard')]")
+    @FindBy(xpath = "//div[contains(@class, 'MuiTabPanel-root')]/div/div/div[contains(@class, 'MuiDataGrid-root')]")
+//    @FindBy(xpath = "//div[@class='contract-trigger']")
+//    @FindBy(xpath = "//div[contains(@class, 'alarm-status-cell')]")
+//    @FindBy(xpath = "//div[contains(@class, 'MuiDataGrid-virtualScrollerRenderZone')]")
     private WebElement workspaceMagazine;
 
     // поле выбора временного интервала
@@ -73,8 +78,35 @@ public class DashboardPage extends BasePage {
     private WebElement page;
 
     // Список оборудования ссылки 1 уровень
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li[contains(@class, 'MuiTreeItem')]/div"))
-    private List<WebElement> level1s;
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li[contains(@class, 'MuiTreeItem')]/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level1Links;
+    // Список оборудования название 1 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li[contains(@class, 'MuiTreeItem')]/div/div[@class='MuiTreeItem-label']"))
+    private List<WebElement> level1Name;
+
+    // Список оборудования ссылки 2 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level2Links;
+    // Список оборудования название 2 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-label']"))
+    private List<WebElement> level2Name;
+
+    // Список оборудования ссылки 3 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level3Links;
+    // Список оборудования название 3 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-label']"))
+    private List<WebElement> level3Name;
+
+    // Список оборудования ссылки 4 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level4Links;
+    // Список оборудования название 4 уровень
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-label']"))
+    private List<WebElement> level4Name;
+
+    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
+    private List<WebElement> level5s;
 
     // Название агрегата
     @FindBy(xpath = "//div[contains(@class, 'MuiContainer-root')]//p[contains(@class, 'MuiTypography-root')]")
@@ -93,35 +125,115 @@ public class DashboardPage extends BasePage {
     private WebElement magazine;
 
     // кнопка события
-    @FindBy(xpath = "//button[contains(@id, 'T-3')]")
+    @FindBy(xpath = "//button//p[contains(text(), 'События')]/../..")
     private WebElement events;
+
+    // кнопки вкладок в окне табличные данные
+    @FindBy(xpath = "//div[contains(@class,'MuiAccordionDetails-root')]//div[@aria-label='journals tabs']")
+    private WebElement buttonTab;
+
+    // кнопка события в окне табличные данные
+    @FindBy(xpath = "//button/div[contains(text(), 'События')]/..")
+    private WebElement eventsTableData;
+
+    // кнопка Мероприятия ТОиР
+    @FindBy(xpath = "//button/div[contains(text(), 'Мероприятия ТОиР')]/..")
+    private WebElement machineArrangements;
+
+    // кнопка дефекты
+    @FindBy(xpath = "//button/div[contains(text(), 'Дефекты')]/..")
+    private WebElement defects;
+
+    // кнопка рекомендации
+    @FindBy(xpath = "//button/div[contains(text(), 'Рекомендации')]/..")
+    private WebElement recommendations;
+
+    // кнопка отчеты
+    @FindBy(xpath = "//button/div[contains(text(), 'Отчёты')]/..")
+    private WebElement reports;
 
     @FindBy(xpath = "//ul[@role='tree']")
     private WebElement list1;
 
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level2s;
+    // загрузка панели список оборудования
+    @FindBy(xpath = "//div[@id='equipment-content']//span[@role='progressbar']")
+    private WebElement progressbar;
 
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level3s;
+    @FindBy(xpath = "//button[contains(@class,'MuiButtonBase-root')]/div[@aria-label='График']/..")
+    private WebElement buttonGraph;
 
-    @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
-    private List<WebElement> level4s;
+    // все выпадающие списки
+    @FindBy(xpath = "//div[contains(@class,'MuiFormControl-root')]")
+    private List<WebElement> dropdownList;
+
+    // выпадающие списки в окне данные измерений вкладка график
+    @FindBy(xpath = "//li[contains(@class,'MuiMenuItem-gutters')]/div")
+    private List<WebElement> dropdownDateMeasurement;
+
+    // название графика в окне данные измерений
+    @FindBy(xpath = "//li/span[contains(@style,'Roboto')]")
+    private List<WebElement> nameGraph;
+
+    // картинка в окне схема агрегата
+    @FindBy(xpath = "//img")
+    private WebElement image;
+
+    // картинка в окне состояние и прогнозирование
+    @FindBy(xpath = "//div[contains(@class,'MuiBox-root')]/p[contains(@class,'MuiTypography-root')]/../div[contains(@class,'MuiBox-root')]")
+    private WebElement speedometer;
+
+    // стрелка в окне состояние и прогнозирование
+    @FindBy(xpath = "//*[@id='needle']")
+    private WebElement arrow;
+
+    // таблица в окне табличные данные
+    @FindBy(xpath = "//div[contains(@class,'MuiDataGrid-main')]")
+    private WebElement table;
+
+    // таблица Мероприятия ТОиР в окне табличные данные
+    @FindBy(xpath = "//table[@aria-label='Machine Arrangements table']")
+    private WebElement tableMachineArrangements;
+
+    // таблица дефекты в окне табличные данные
+    @FindBy(xpath = "//table[@aria-label='Faults table']")
+    private WebElement tableDefects;
+
+    // таблица рекомендации в окне табличные данные
+    @FindBy(xpath = "//table[@aria-label='recommendations table']")
+    private WebElement tableRecommendations;
+
+    // таблица отчеты в окне табличные данные
+    @FindBy(xpath = "//table[@aria-label='reports table']")
+    private WebElement tableReports;
+
+    // график в окне данные измерений
+    @FindBy(xpath = "//div[@id='panel1a-content']//canvas")
+    private WebElement graph;
+
+    // шапка каждого окна в рабочей области
+    @FindBy(xpath = "//div[contains(@class,'MuiAccordionSummary-content')]/p")
+    private List<WebElement> cap;
+
+    // окно состояние и прогнозирование кнопка вертикальная шкала
+    @FindBy(xpath = "//button[contains(@class,'MuiToggleButtonGroup-groupedHorizontal')]/div[contains(@aria-label,'Вертикальная шкала')]")
+    private WebElement scale;
+
+    // окно состояние и прогнозирование вертикальная шкала
+    @FindBy(xpath = "//div[contains(@class,'MuiBox-root')]/*[local-name()='svg']/*[local-name()='rect']/..")
+    private WebElement scaleImage;
 
     @Step("Открываю выпадающий список временных интервалов")
     public DashboardPage openTimeIntervalDropdown() {
-        WebElement dropdown = getWait10().until(ExpectedConditions.elementToBeClickable(selectedInterval));
-        dropdown.click();
+        getWait10().until(ExpectedConditions.elementToBeClickable(selectedInterval)).click();
         getWait10().until(ExpectedConditions.visibilityOfElementLocated(listBox));
 
         return this;
-
     }
 
     @Step("Получаю выбранный временной интервал (текст)")
     public String timeIntervalSelected() {
-        WebElement element = getWait10().until(ExpectedConditions.visibilityOfElementLocated(selectedInterval));
-        String text = element.getText();
+        String text = getWait10().until(ExpectedConditions.visibilityOfElementLocated(selectedInterval)).getText();
+
         if (text == null) text = "";
         return text.trim();
     }
@@ -150,7 +262,7 @@ public class DashboardPage extends BasePage {
 
         timeIntervalField.click();
         getWait5().until(ExpectedConditions.elementToBeClickable(menuIntervalField));
-        getSelectedRange.click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(getSelectedRange)).click();
 
         // устанавливаю дату от
         getWait5().until(ExpectedConditions.elementToBeClickable(fieldFrom)).click();
@@ -184,7 +296,7 @@ public class DashboardPage extends BasePage {
         byte[] screen = null;
         try {
             screen = page.getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment(String.format("Выполнение выбора интервала -> %s", String.valueOf((endTimeInterval - startTimeInterval))), new ByteArrayInputStream(screen));
+            Allure.addAttachment(String.format("Выполнение выбора интервала -> %s", String.format("%.1f", (double) (endTimeInterval - startTimeInterval) / 1000)), new ByteArrayInputStream(screen));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -199,29 +311,28 @@ public class DashboardPage extends BasePage {
         WebElement webElement = driver.findElement(By.xpath("//div[contains(@class, 'MuiContainer-root')]"));
         try {
             screen = webElement.getScreenshotAs(OutputType.BYTES);
-            Allure.addAttachment(String.format("Агрегат - %s, Время загрузки информации -> %s", unit, String.valueOf((endTime - startTime))), new ByteArrayInputStream(screen));
+            Allure.addAttachment(String.format("Агрегат - %s, Время загрузки информации -> %s",
+                    unit,
+                    String.format("%.1f", (double) (endTime - startTime) / 1000)), new ByteArrayInputStream(screen));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public long getTimeWindowsLoad() {
+    public void getTimeWindowsLoad() {
 
-        long time1 = 0L;
         // жду пока окно табличные данные загрузится
         try {
             getWait5().until(ExpectedConditions.elementToBeClickable(workspaceWindows.get(2).findElement(By.xpath("//div[@id='panel1a-content']//div[contains(@class, 'MuiDataGrid-main')]/.."))));
         } catch (Exception e) {
-            time1 += 20000;
+//            time += 5000;
         }
         // жду пока окно данные измерений загрузится
         try {
             getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
         } catch (Exception e) {
-            time1 += 25000;
+//            time += 10000;
         }
-
-        return time1;
     }
 
     @Step("Получаю данные для агрегатов на вкладке Схема")
@@ -230,19 +341,54 @@ public class DashboardPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
         Allure.step("Перебираю все агрегаты на первой странице");
-        for (int i = 0; i < listAggregate.size(); i++) {
+        for (WebElement aggregate : listAggregate) {
             // засекаю начало времени загрузки данных об агрегате
             long startTime = System.currentTimeMillis();
 
-            listAggregate.get(i).click();
+            aggregate.click();
             getWait5().until(ExpectedConditions.elementToBeClickable(workspaceSchema));
+            getTimeWindowsLoad();
 
             // останавливаю время загрузки данных об агрегате
             long endTime = System.currentTimeMillis();
-            LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - getTimeWindowsLoad() - startTime)));
+            LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s мс", (endTime - startTime)));
 
             takeScreenshotWorkspace(nameUnit.getText(), endTime, startTime);
         }
+    }
+
+    @Step("Получаю данные для {unitName} на вкладке Схема")
+    public Map<String, String> getAggregateTimer(String unitName) {
+
+        Map<String, String> times = new HashMap<>();
+        times.put("timeInterval", String.format("%.1f", (double) (endTimeInterval - startTimeInterval) / 1000));
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
+
+        Allure.step("Перебираю все агрегаты на первой странице");
+        for (WebElement aggregate : listAggregate) {
+
+            if (aggregate.getText().equals(unitName)) {
+
+                // засекаю начало времени загрузки данных об агрегате
+                long startTime = System.currentTimeMillis();
+
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", aggregate);
+                aggregate.click();
+                getWait5().until(ExpectedConditions.elementToBeClickable(workspaceSchema));
+                getTimeWindowsLoad();
+
+                // останавливаю время загрузки данных об агрегате
+                long endTime = System.currentTimeMillis();
+                LoggerUtil.info(String.format("Время загрузки информации о агрегате =  %s сек", String.format("%.1f", (double) (endTime - startTime) / 1000)));
+
+                times.put("timeUnit", String.format("%.1f", (double) (endTime - startTime) / 1000));
+                times.put("time", String.format("%.1f", (double) ((endTimeInterval - startTimeInterval) + (endTime - startTime)) / 1000));
+                takeScreenshotWorkspace(nameUnit.getText(), endTime, startTime);
+            }
+        }
+
+        return times;
     }
 
     @Step("Получаю данные для агрегатов на вкладке События")
@@ -251,12 +397,12 @@ public class DashboardPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
         Allure.step("Перебираю все агрегаты на первой странице");
-        for (int i = 0; i < listAggregate.size(); i++) {
+        for (WebElement aggregate : listAggregate) {
             // засекаю начало времени загрузки данных об агрегате
             long startTime = System.currentTimeMillis();
             long time = 0L;
 
-            listAggregate.get(i).click();
+            aggregate.click();
 
             try {
                 getWait5().until(ExpectedConditions.elementToBeClickable(workspaceEvents));
@@ -278,16 +424,16 @@ public class DashboardPage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
 
         Allure.step("Перебираю все агрегаты на первой странице");
-        for (int i = 0; i < listAggregate.size(); i++) {
+        for (WebElement aggregate : listAggregate) {
             // засекаю начало времени загрузки данных об агрегате
             long startTime = System.currentTimeMillis();
             long time = 0L;
 
-            listAggregate.get(i).click();
+            aggregate.click();
             try {
-                getWait5().until(ExpectedConditions.elementToBeClickable(workspaceMagazine));
+                getWait5().until(ExpectedConditions.visibilityOf(workspaceMagazine));
             } catch (Exception e) {
-                time = 20000;
+                time = 5000;
             }
 
             // останавливаю время загрузки данных об агрегате
@@ -318,11 +464,306 @@ public class DashboardPage extends BasePage {
     public DashboardPage goToTDO() {
 
         getWait10().until(ExpectedConditions.elementToBeClickable(list1));
-        level1s.get(0).click();
-        level2s.get(0).click();
-        level3s.get(0).click();
-        level4s.get(0).click();
+        level1Links.get(0).click();
+        level2Links.get(0).click();
+        level3Links.get(0).click();
+        level4Links.get(0).click();
+        // ic (без впн)
+        level5s.get(0).click();
 
         return this;
+    }
+
+    @Step("Прохожусь по оборудованию к агрегату 4.2-2G28")
+    public DashboardPage goTo(String st1, String st2, String st3, String st4) {
+
+        getWait10().until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@id='equipment-content']//span[@role='progressbar']")));
+
+        for (int i = 0; i < level1Links.size(); i++) {
+            if (level1Name.get(i).getText().equals(st1)) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level1Name.get(i));
+                level1Name.get(i).click();
+                break;
+            }
+        }
+
+        getStations(level2Links, level2Name, st2);
+        getStations(level3Links, level3Name, st3);
+        getStations(level4Links, level4Name, st4);
+
+        return this;
+    }
+
+    private void getStations(List<WebElement> link, List<WebElement> name, String station) {
+        for (int i = 0; i < link.size(); i++) {
+            getWait5().until(ExpectedConditions.elementToBeClickable(link.get(i)));
+            if (name.get(i).getText().equals(station)) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", link.get(i));
+                link.get(i).click();
+                break;
+            }
+        }
+    }
+
+    @Step("Получаю данные для агрегата {unitName} c {count} параметрами")
+    public DashboardPage getMeasurementDataGraph(String unitName, int count) {
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
+
+        for (WebElement aggregate : listAggregate) {
+
+            if (aggregate.getText().equals(unitName)) {
+
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", aggregate);
+                aggregate.click();
+
+                Allure.step("Выбираю вкладку график");
+                getWait5().until(ExpectedConditions.elementToBeClickable(buttonGraph)).click();
+                getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
+
+                Allure.step("Выбираю тип измерения");
+                dropdownList.get(3).click();
+                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
+
+                Allure.step("Выбираю тип объекта");
+                dropdownList.get(4).click();
+                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
+
+                Allure.step("Выбираю параметры");
+                selectParameters(count);
+            }
+        }
+        return this;
+    }
+
+    @Step("Получаю данные для агрегата {unitName}")
+    public DashboardPage getMeasurementDataGraph(String unitName) {
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(equipmentList));
+
+        for (WebElement aggregate : listAggregate) {
+            if (aggregate.getText().equals(unitName)) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", aggregate);
+                aggregate.click();
+            }
+        }
+
+        return this;
+    }
+
+    @Step("Получаю название параметров графика")
+    public List<String> getNameGraph() {
+
+        List<String> listNameGraph = new ArrayList<>();
+        getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(0)));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", nameGraph.get(0));
+
+        for (int i = 0; i < nameGraph.size(); i++) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", nameGraph.get(i));
+            listNameGraph.add(i, getWait5().until(ExpectedConditions.visibilityOf(nameGraph.get(i))).getText());
+        }
+
+        return listNameGraph;
+    }
+
+    @Step("Проверяю, что загрузилась картинка в окне Схема агрегата")
+    public boolean checkUnitSchematicWindow() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(image));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Проверяю, что загрузилась стрелка в окне Состояние и Прогнозирование")
+    public boolean checkStatusAndForecastWindow() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(arrow));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Проверяю, что загрузилась таблица в окне Табличные данные")
+    public boolean checkTableDataWindow() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(table));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Проверяю, что загрузилась таблица в окне Данные измерений")
+    public boolean checkMeasurementDataWindow() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(graph));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Сворачиваю окна на Рабочей области")
+    public DashboardPage collapseWindows(int first, int second, int third) {
+        getWait5().until(ExpectedConditions.visibilityOf(graph));
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(first - 1))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(second - 1))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(third - 1))).click();
+
+        return this;
+    }
+
+    @Step("Получаю размер картинки")
+    public Dimension getSizeImage() {
+        return image.getSize();
+    }
+
+    @Step("Получаю размер таблицы")
+    public Dimension getSizeTable() {
+        return table.getSize();
+    }
+
+    @Step("Получаю размер графика")
+    public Dimension getSizeGraph() {
+        return graph.getSize();
+    }
+
+    public void selectParameters(int count) {
+        dropdownList.get(6).click();
+        listParameters = new ArrayList<>(count);
+
+        if (count == 1) {
+            listParameters.add(0, dropdownDateMeasurement.get(0).getText());
+        } else {
+            for (int i = 0; i < count; i++) {
+                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(6 + i))).click();
+                listParameters.add(i, dropdownDateMeasurement.get(6 + i).getText());
+            }
+        }
+
+        getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
+        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //выбор интервала
+    public DashboardPage selectIntervalByDataValue(String dataValue) {
+
+        openTimeIntervalDropdown();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
+        getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator)).click();
+
+        // жду обновления дашборд на вкладке Схема
+        getWait10().until(ExpectedConditions.urlContains("tab=1"));
+
+        return this;
+    }
+
+    //выбранный текст
+    public String getSelectedIntervalText() {
+        return timeIntervalSelected();
+    }
+
+    @Step("Кликаю вкладку Дефекты в окне Табличные данные")
+    public DashboardPage clickTabDefects() {
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonTab));
+        defects.click();
+        getWait5().until(ExpectedConditions.visibilityOf(tableDefects));
+
+        return this;
+    }
+
+    @Step("Получаю размер таблицы Дефекты")
+    public Dimension getSizeTableDefects() {
+        return tableDefects.getSize();
+    }
+
+    @Step("Кликаю вкладку Рекомендации в окне Табличные данные")
+    public DashboardPage clickTabRecommendations() {
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonTab));
+        recommendations.click();
+        getWait5().until(ExpectedConditions.visibilityOf(tableRecommendations));
+
+        return this;
+    }
+
+    @Step("Получаю размер таблицы Дефекты")
+    public Dimension getSizeTableRecommendations() {
+        return tableRecommendations.getSize();
+    }
+
+    @Step("Кликаю вкладку Отчеты в окне Табличные данные")
+    public DashboardPage clickTabReports() {
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonTab));
+        reports.click();
+        getWait5().until(ExpectedConditions.visibilityOf(tableReports));
+
+        return this;
+    }
+
+    @Step("Получаю размер таблицы Отчеты")
+    public Dimension getSizeTableReports() {
+        return tableReports.getSize();
+    }
+
+    @Step("Кликаю вкладку Мероприятия ТОиР в окне Табличные данные")
+    public DashboardPage clickTabMachineArrangements() {
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonTab));
+        machineArrangements.click();
+        getWait5().until(ExpectedConditions.visibilityOf(tableMachineArrangements));
+
+        return this;
+    }
+
+    @Step("Получаю размер таблицы Мероприятия ТОиР")
+    public Dimension getSizeTableMachineArrangements() {
+        return tableMachineArrangements.getSize();
+    }
+
+    @Step("Кликаю вкладку События в окне Табличные данные")
+    public DashboardPage clickTabEvents() {
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonTab));
+        eventsTableData.click();
+        getWait5().until(ExpectedConditions.visibilityOf(table));
+
+        return this;
+    }
+
+    @Step("Получаю размер картинки Спидометр")
+    public Dimension getSizeSpeedometer() {
+        return speedometer.getSize();
+    }
+
+    @Step("Кликаю кнопку вид Вертикальная шкала ")
+    public DashboardPage clickViewScale() {
+        scale.click();
+
+        return this;
+    }
+
+    @Step("Получаю размер картинки Вертикальная шкала")
+    public Dimension getSizeScale() {
+        return scaleImage.getSize();
     }
 }

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="Мультибраузерное тестирование">
+<suite name="Получение данных о агрегате в разных браузерах">
 
     <test name="Браузер Chrome">
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="tests.GettingAggregateDataLoadTimeTest"/>
+            <methods>
+                <include name="testGetDataUnitSchema"/>
+            </methods>
         </classes>
     </test>
 
@@ -12,6 +15,9 @@
         <parameter name="browser" value="edge"/>
         <classes>
             <class name="tests.GettingAggregateDataLoadTimeTest"/>
+            <methods>
+                <include name="testGetDataUnitSchema"/>
+            </methods>
         </classes>
     </test>
 
@@ -19,6 +25,9 @@
         <parameter name="browser" value="yandex"/>
         <classes>
             <class name="tests.GettingAggregateDataLoadTimeTest"/>
+            <methods>
+                <include name="testGetDataUnitSchema"/>
+            </methods>
         </classes>
     </test>
 

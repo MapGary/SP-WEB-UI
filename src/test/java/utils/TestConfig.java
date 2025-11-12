@@ -15,8 +15,6 @@ public class TestConfig {
     public TestConfig() {
         env = System.getProperty("env", "vpn");
         properties = getPropertiesByEnv(env);
-
-        LoggerUtil.info(String.format("The environment has been launched: %s", env));
     }
 
     public String getBaseUrl() {
@@ -56,8 +54,6 @@ public class TestConfig {
         } catch (Exception e) {
             throw new RuntimeException(String.format("Cannot open %s.properties", env));
         }
-
-        LoggerUtil.info(String.format("Open %s.properties", env));
 
         return testProperties;
     }

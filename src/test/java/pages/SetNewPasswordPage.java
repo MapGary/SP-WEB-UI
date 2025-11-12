@@ -3,6 +3,7 @@ package pages;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -81,6 +82,16 @@ public class SetNewPasswordPage extends BasePage {
 
     @FindBy(xpath = "//input[@name='newPassword']/../div/button")
     private WebElement iconEyeNewPassword;
+
+    @FindBy(xpath = "//header//a")
+    private WebElement logo;
+
+    @Step("Кликаю по Логотипу")
+    public LoginPage clickLogo() {
+        logo.click();
+
+        return new LoginPage(driver);
+    }
 
     @Step("Навожу мышку на иконку 'Сменить язык'")
     public SetNewPasswordPage getHelperSwitchLanguage() {
@@ -244,6 +255,21 @@ public class SetNewPasswordPage extends BasePage {
     @Step("Кликаю кнопку Отправить")
     public SetNewPasswordPage clickButtonSubmitWithHelper() {
         buttonSubmit.click();
+
+        return this;
+    }
+
+    @Step("Добавляю значение в поле Логин")
+    public SetNewPasswordPage addValueToFieldLogin(String login) {
+        fieldLogin.sendKeys(login);
+
+        return this;
+    }
+
+    @Step("Очистить поле Новый Пароль")
+    public SetNewPasswordPage clearFieldNewPassword() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].value = ''", fieldNewPassword);
 
         return this;
     }
