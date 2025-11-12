@@ -119,9 +119,32 @@ public class SetNewPasswordTest extends BaseTest {
     public void testHelperCurrentPassword() {
         String helperCurrentPassword = new LoginPage(getDriver())
                 .clickButtonSetNewPassword()
-                .getHelperCurrentPassword();
+                .getHelperCurrentPasswordDefault();
 
         Allure.step("Проверяю, что helper соответствует значению");
         Assert.assertEquals(helperCurrentPassword, Language.RU.getHelperCurrentPassword());
+    }
+
+    @Test
+    @Epic("Авторизация и аутентификация")
+    @Feature("Попытка отправки формы с пустыми полями при смене пароля")
+    @Description("Попытка отправки формы с пустыми полями при смене пароля")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/22")
+    public void testSubmittingFormWithEmptyFields() {
+        SetNewPasswordPage setNewPasswordPage = new LoginPage(getDriver())
+                .clickButtonSetNewPassword()
+                .clickToFieldLogin()
+                .clickToFieldCurrentPassword()
+                .clickToFieldNewPassword()
+                .clickButtonSubmitWithHelper();
+
+        String helperLogin = setNewPasswordPage.getHelperLogin();
+        String helperCurrentPassword = setNewPasswordPage.getHelperCurrentPassword();
+        String helperNewPassword = setNewPasswordPage.getHelperNewPassword();
+
+        Assert.assertEquals(helperLogin, "Поле Логин обязательно для заполнения");
+        Assert.assertEquals(helperCurrentPassword, "Поле Текущий пароль обязательно для заполнения");
+        Assert.assertEquals(helperNewPassword, "Пароль должен содержать только латинские буквы");
     }
 }

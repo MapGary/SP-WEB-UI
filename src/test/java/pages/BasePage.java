@@ -4,14 +4,15 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.LoggerUtil;
+import utils.TestConfig;
 
-import java.time.Duration;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.time.Duration;
 import java.util.Set;
-
-import static java.sql.DriverManager.getDriver;
 
 public class BasePage {
 
@@ -22,6 +23,15 @@ public class BasePage {
     String user = null;
     String settings = null;
     private WebDriverWait wait10;
+    private WebDriverWait wait5;
+    private final TestConfig config = new TestConfig();
+
+    protected TestConfig getConfig() {
+
+        LoggerUtil.info("Configuration received");
+
+        return config;
+    }
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -113,6 +123,13 @@ public class BasePage {
         return wait10;
     }
 
+    public WebDriverWait getWait5() {
+        if (wait5 == null) {
+            wait5 = new WebDriverWait(driver, Duration.ofSeconds(5));
+        }
+
+        return wait5;
+    }
 
     public File getScreenshotWebElement(WebElement webElement) {
         File screenshot = null;
@@ -126,5 +143,20 @@ public class BasePage {
             e.printStackTrace();
         }
         return screenshot;
+    }
+
+    //выбор интервала
+    public DashboardPage selectIntervalByDataValue(String dataValue) {
+        DashboardPage dashboardPage = new DashboardPage(driver);
+
+        dashboardPage.openTimeIntervalDropdown();
+
+        By optionLocator = By.xpath("//ul[@role='listbox']/li[@data-value='" + dataValue + "']");
+        WebElement option = dashboardPage.getWait10().until(ExpectedConditions.elementToBeClickable(optionLocator));
+        option.click();
+        // жду обновления дашборд на вкладке Схема
+        getWait10().until(ExpectedConditions.urlContains("tab=1"));
+
+        return new DashboardPage(driver);
     }
 }

@@ -6,12 +6,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
+import pages.DashboardPage;
+import pages.LoginPage;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -69,6 +72,14 @@ public abstract class BaseTest {
         }
 
         return wait10;
+    }
+
+    protected void waitForSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000L);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     @Parameters("browser")
@@ -143,19 +154,13 @@ public abstract class BaseTest {
                     Objects.requireNonNull(driver.getPageSource()),
                     ".html");
 
+            Allure.addAttachment("URL ", driver.getCurrentUrl());
+
             LoggerUtil.error(String.format("Crashed with an error %s.%s", this.getClass().getName(), method.getName()));
         }
 
         closeDriver();
 
         LoggerUtil.info(String.format("Execution time is %.3f sec%n", (testResult.getEndMillis() - testResult.getStartMillis()) / 1000.0));
-    }
-
-    protected void waitForSeconds(int seconds) {
-        try {
-            Thread.sleep(seconds * 1000L);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 }

@@ -9,6 +9,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.LoggerUtil;
+import utils.TestConfig;
 
 import java.io.File;
 import java.time.Duration;
@@ -17,8 +19,17 @@ import java.util.Map;
 
 public class LoginPage extends BasePage {
 
+    private final TestConfig config = new TestConfig();
+
     public LoginPage(WebDriver driver) {
         super(driver);
+    }
+
+    protected TestConfig getConfig() {
+
+        LoggerUtil.info("Configuration received");
+
+        return config;
     }
 
     @FindBy(xpath = "//header//a")
@@ -51,7 +62,7 @@ public class LoginPage extends BasePage {
     @FindBy(id = ":r2:-helper-text")
     private WebElement helperPassword;
 
-    @FindBy(xpath = "//input[@name='password']/../div/a")
+    @FindBy(xpath = "//input[@name='password']/../div/button")
     private WebElement iconEye;
 
     @FindBy(xpath = "//a[@data-testid='SetNewPasswordButton']")
@@ -234,5 +245,21 @@ public class LoginPage extends BasePage {
     public File getScreenshotWebElement() {
 
         return getScreenshotWebElement(elementFieldPassword);
+    }
+
+    @Step("Авторизуюсь")
+    public DashboardPage loginToApp() {
+        String login = getConfig().getUserName();
+        String password = getConfig().getPassword();
+
+        new LoginPage(driver)
+                .addValueToFieldLogin(login)
+                .addValueToFieldPassword(password)
+                .clickButtonLogin();
+
+        // жду обновления дашборд на вкладке Схема
+        getWait10().until(ExpectedConditions.urlContains("tab=1"));
+
+        return new DashboardPage(driver);
     }
 }
