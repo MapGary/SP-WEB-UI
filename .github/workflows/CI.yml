@@ -2,6 +2,8 @@ name: Java CI with Maven
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 1 * * 3"
   pull_request:
     branches:
       - main
