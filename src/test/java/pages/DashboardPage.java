@@ -572,12 +572,14 @@ public class DashboardPage extends BasePage {
         listParameters.add(0, dropdownDateMeasurement.get(6).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
 
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownDateMeasurementValue.get(16));
         if (!Boolean.parseBoolean(dropdownDateMeasurementValue.get(16).getAttribute("aria-selected"))) {
             dropdownDateMeasurement.get(16).click();
         }
         listParameters.add(1, dropdownDateMeasurement.get(16).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
 
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownDateMeasurementValue.get(26));
         if (!Boolean.parseBoolean(dropdownDateMeasurementValue.get(26).getAttribute("aria-selected"))) {
             dropdownDateMeasurement.get(26).click();
         }
