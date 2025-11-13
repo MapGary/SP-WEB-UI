@@ -22,48 +22,89 @@ public class SchemaTest extends BaseTest {
     @Description("Работа вкладки Данные измерений модуля Схема, вид отображения - Тренд. Выбран один параметр Оборотные")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/66")
-    public void testDisplayTypeTrend1Parameter() {
-
-        int count = 1;
+    public void testSchemeDataMeasurementTrendTurnover() {
 
         List<String> nameGraph = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28", count)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
+                .selectParameterTurnover()
                 .getNameGraph();
 
-        Assert.assertEquals(nameGraph.size(), count);
-        for (int i = 0; i < count; i++) {
-            Allure.step("Проверяю, что название выбранного параметра соответствует показываемому");
-            Assert.assertEquals(nameGraph.get(i), listParameters.get(i));
+        Allure.step("Проверяю, что график один");
+        Assert.assertEquals(nameGraph.size(), 1);
+        Allure.step("Проверяю, что название выбранного параметра соответствует показываемому");
+        Assert.assertEquals(nameGraph.get(0), listParameters.get(0));
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Данные измерений")
+    @Description("Работа вкладки Данные измерений модуля Схема, вид отображения - Тренд. Выбрано по одному параметру Оборотные и Параметры")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/66")
+    public void testSchemeDataMeasurementTrendParameters() {
+
+        List<String> nameGraph = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
+                .selectParameterTurnoverParameters()
+                .getNameGraph();
+
+        Allure.step("Проверяю, что график один");
+        Assert.assertEquals(nameGraph.size(), 2);
+        Allure.step("Проверяю, что название выбранного параметра соответствует показываемому");
+        for (int i = 0; i < 2; i++) {
+            Assert.assertEquals(nameGraph.get(i), (listParameters.get(i)));
         }
     }
 
     @Test(groups = "smoke")
     @Tag("smoke")
     @Feature("Данные измерений")
-    @Description("Работа вкладки Данные измерений модуля Схема, вид отображения - Тренд. Выбран 5 параметров Замеры")
+    @Description("Работа вкладки Данные измерений модуля Схема, вид отображения - Тренд. Выбрано 5 однотипных параметров Замеры")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/66")
-    public void testDisplayTypeTrend5Parameter() {
+    public void testSchemeDataMeasurementTrendMeasurementsSameType() {
 
         int count = 5;
 
         List<String> nameGraph = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28", count)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
+                .selectParameterMeasurementsSameType(count)
                 .getNameGraph();
 
         Assert.assertEquals(nameGraph.size(), count);
+        Allure.step("Проверяю, что название выбранного параметра соответствует показываемому");
         for (int i = 0; i < count; i++) {
-            Allure.step("Проверяю, что название выбранного параметра соответствует показываемому");
             // не точная проверка || заменить на &&
             Assert.assertTrue(nameGraph.get(i).contains(listParameters.get(i).split(" ")[0])
                     || nameGraph.get(i).contains(listParameters.get(i).split(" ")[1]));
         }
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Данные измерений")
+    @Description("Работа вкладки Данные измерений модуля Схема, вид отображения - Тренд. Выбрано 3 не однотипных параметра Замеры")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/66")
+    public void testSchemeDataMeasurementTrendMeasurementsNotSameType() {
+
+        int count = 3;
+
+        List<String> nameGraph = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
+                .selectParameterMeasurementsNotSameType(count)
+                .getNameGraph();
+
+        Allure.step("Проверяю, что количество графиков больше чем выбрано параметров");
+        Assert.assertTrue(nameGraph.size() > count);
     }
 
     @Test(groups = "smoke")
@@ -77,8 +118,7 @@ public class SchemaTest extends BaseTest {
         DashboardPage dashboardPage = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28");
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28");
 
         Assert.assertTrue(dashboardPage.checkUnitSchematicWindow());
         Assert.assertTrue(dashboardPage.checkStatusAndForecastWindow());
@@ -97,8 +137,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeImage = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28")
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
                 .collapseWindows(2, 3, 4)
                 .getSizeImage();
 
@@ -116,8 +155,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeSpeedometer = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28")
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
                 .collapseWindows(1, 3, 4)
                 .getSizeSpeedometer();
 
@@ -135,8 +173,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeScale = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28")
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
                 .collapseWindows(1, 3, 4)
                 .clickViewScale()
                 .getSizeScale();
@@ -155,8 +192,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTable = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28")
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
                 .collapseWindows(1, 2, 4)
                 .getSizeTable();
 
@@ -174,8 +210,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeGraph = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28")
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
                 .collapseWindows(1, 2, 3)
                 .getSizeGraph();
 
@@ -193,8 +228,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTableEvents = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28")
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
                 .collapseWindows(1, 2, 4)
                 .clickTabDefects()
                 .clickTabEvents()
@@ -214,8 +248,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTableMachineArrangements = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.1-2G02")
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.1-2G02")
                 .collapseWindows(1, 2, 4)
                 .clickTabMachineArrangements()
                 .getSizeTableMachineArrangements();
@@ -234,8 +267,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTableDefects = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28")
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
                 .collapseWindows(1, 2, 4)
                 .clickTabDefects()
                 .getSizeTableDefects();
@@ -254,8 +286,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTableRecommendations = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28")
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
                 .collapseWindows(1, 2, 4)
                 .clickTabRecommendations()
                 .getSizeTableRecommendations();
@@ -274,8 +305,7 @@ public class SchemaTest extends BaseTest {
         Dimension sizeTableReports = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getMeasurementDataGraph("4.2-2G28")
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
                 .collapseWindows(1, 2, 4)
                 .clickTabReports()
                 .getSizeTableReports();
