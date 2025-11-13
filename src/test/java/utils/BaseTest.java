@@ -1,23 +1,22 @@
 package utils;
 
 import io.qameta.allure.Allure;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import pages.DashboardPage;
-import pages.LoginPage;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -124,13 +123,13 @@ public abstract class BaseTest {
             }
         }
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         LoggerUtil.info(String.format("Open browser: %s", browser));
         driver.manage().window().setSize(new Dimension(1440, 1080));
 
         driver.get(config.getBaseUrl());
 
-        LoggerUtil.info(String.format("Run %s.%s", this.getClass().getName(), method.getName()));
+        LoggerUtil.info(String.format("Run %s.%s", this.getClass().getName().replace("tests.", ""), method.getName()));
     }
 
     @AfterMethod(groups = {"smoke"})
@@ -150,7 +149,7 @@ public abstract class BaseTest {
 
             Allure.addAttachment("URL ", driver.getCurrentUrl());
 
-            LoggerUtil.error(String.format("Crashed with an error %s.%s", this.getClass().getName(), method.getName()));
+            LoggerUtil.error(String.format("Crashed with an error %s.%s", this.getClass().getName().replace("tests.", ""), method.getName()));
         }
 
         closeDriver();
