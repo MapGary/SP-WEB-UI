@@ -19,7 +19,27 @@ public class SchemaTest extends BaseTest {
     @Test(groups = "smoke")
     @Tag("smoke")
     @Feature("Данные измерений")
-    @Description("Работа вкладки Данные измерений модуля Схема, вид отображения - Тренд. Выбран один параметр Оборотные")
+    @Description("Работа вкладки Данные измерений модуля Схема, вид измерения - Тренд. Выбран один параметр Оборотные. Вид Таблица")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/95")
+    public void testSchemeDataMeasurementTrendTurnoverTable() {
+
+        List<String> columnTitle = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
+                .clickButtonTable()
+                .selectParameterTurnoverTable()
+                .getColumnTitle();
+
+        Allure.step("Проверяю, что название выбранного параметра соответствует название колонки в таблице");
+        Assert.assertEquals(columnTitle.get(0), listParameters.get(0));
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Данные измерений")
+    @Description("Работа вкладки Данные измерений модуля Схема, вид измерения - Тренд. Выбран один параметр Оборотные")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/66")
     public void testSchemeDataMeasurementTrendTurnover() {
@@ -40,7 +60,7 @@ public class SchemaTest extends BaseTest {
     @Test(groups = "smoke")
     @Tag("smoke")
     @Feature("Данные измерений")
-    @Description("Работа вкладки Данные измерений модуля Схема, вид отображения - Тренд. Выбрано по одному параметру Оборотные и Параметры")
+    @Description("Работа вкладки Данные измерений модуля Схема, вид измерения - Тренд. Выбрано по одному параметру Оборотные и Параметры")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/66")
     public void testSchemeDataMeasurementTrendParameters() {
@@ -63,7 +83,7 @@ public class SchemaTest extends BaseTest {
     @Test(groups = "smoke")
     @Tag("smoke")
     @Feature("Данные измерений")
-    @Description("Работа вкладки Данные измерений модуля Схема, вид отображения - Тренд. Выбрано 5 однотипных параметров Замеры")
+    @Description("Работа вкладки Данные измерений модуля Схема, вид измерения - Тренд. Выбрано 5 однотипных параметров Замеры")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/66")
     public void testSchemeDataMeasurementTrendMeasurementsSameType() {
@@ -89,7 +109,7 @@ public class SchemaTest extends BaseTest {
     @Test(groups = "smoke")
     @Tag("smoke")
     @Feature("Данные измерений")
-    @Description("Работа вкладки Данные измерений модуля Схема, вид отображения - Тренд. Выбрано 3 не однотипных параметра Замеры")
+    @Description("Работа вкладки Данные измерений модуля Схема, вид измерения - Тренд. Выбрано 3 не однотипных параметра Замеры")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/66")
     public void testSchemeDataMeasurementTrendMeasurementsNotSameType() {

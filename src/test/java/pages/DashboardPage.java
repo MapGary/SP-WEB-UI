@@ -95,29 +95,34 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//ul[contains(@class, 'MuiTreeView-root')]")
     private WebElement equipmentList;
 
+    // кнопки в окне табличные данные
     // кнопки вкладок в окне табличные данные
     @FindBy(xpath = "//div[contains(@class,'MuiAccordionDetails-root')]//div[@aria-label='journals tabs']")
     private WebElement buttonTab;
-
     // кнопка события в окне табличные данные
     @FindBy(xpath = "//button/div[contains(text(), 'События')]/..")
     private WebElement eventsTableData;
-
     // кнопка Мероприятия ТОиР
     @FindBy(xpath = "//button/div[contains(text(), 'Мероприятия ТОиР')]/..")
     private WebElement machineArrangements;
-
     // кнопка дефекты
     @FindBy(xpath = "//button/div[contains(text(), 'Дефекты')]/..")
     private WebElement defects;
-
     // кнопка рекомендации
     @FindBy(xpath = "//button/div[contains(text(), 'Рекомендации')]/..")
     private WebElement recommendations;
-
     // кнопка отчеты
     @FindBy(xpath = "//button/div[contains(text(), 'Отчёты')]/..")
     private WebElement reports;
+
+    // кнопки в окне данные измерений
+    // кнопка таблица
+    @FindBy(xpath = "//div[@aria-label='view switcher']/button[contains(@id,'T-1')]")
+    private WebElement buttonTable;
+
+    // таблица в окне данные измерений
+    @FindBy(xpath = "//table[@aria-label='analytics table']")
+    private WebElement tableDataMeasurement;
 
     // прогресс бар списка оборудования
     @FindBy(xpath = "//div[@id='equipment-content']//span[@role='progressbar']")
@@ -146,6 +151,10 @@ public class DashboardPage extends BasePage {
     // название графика в окне данные измерений
     @FindBy(xpath = "//li/span[contains(@style,'Roboto')]")
     private List<WebElement> nameGraph;
+
+    // названия колонок в таблице в окне данные измерений
+    @FindBy(xpath = "//thead/tr")
+    private List<WebElement> columnTitle;
 
     // картинка в окне схема агрегата
     @FindBy(xpath = "//img")
@@ -455,7 +464,31 @@ public class DashboardPage extends BasePage {
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
 
+        takeScreenshotPage("Данные по параметру", dropdownDateMeasurementAll);
+
+        return this;
+    }
+
+    @Step("Выбираю параметр Оборотные вид Таблица")
+    public DashboardPage selectParameterTurnoverTable() {
+        listParameters = new ArrayList<>(1);
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        dropdownList.get(6).click();
+        if (!Boolean.parseBoolean(dropdownDateMeasurementValue.get(0).getAttribute("aria-selected"))) {
+            dropdownDateMeasurement.get(0).click();
+        }
+        listParameters.add(0, dropdownDateMeasurement.get(0).getText());
+
         takeScreenshotPage("Данные по параметру", page);
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(tableDataMeasurement));
+        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
 
         return this;
     }
@@ -663,7 +696,7 @@ public class DashboardPage extends BasePage {
         return speedometer.getSize();
     }
 
-    @Step("Кликаю кнопку вид Вертикальная шкала ")
+    @Step("Кликаю кнопку вид Вертикальная шкала")
     public DashboardPage clickViewScale() {
         scale.click();
         getWait5().until(ExpectedConditions.elementToBeClickable(scaleImage));
@@ -674,5 +707,27 @@ public class DashboardPage extends BasePage {
     @Step("Получаю размер картинки Вертикальная шкала")
     public Dimension getSizeScale() {
         return scaleImage.getSize();
+    }
+
+    @Step("Кликаю кнопку Таблица в окне Данные измерений")
+    public DashboardPage clickButtonTable() {
+        buttonTable.click();
+        getWait5().until(ExpectedConditions.visibilityOf(tableDataMeasurement));
+
+        takeScreenshotPage("Таблица", page);
+
+        return this;
+    }
+
+    @Step("Получаю название колонки")
+    public List<String> getColumnTitle() {
+        List<String> listColumnTitle = new ArrayList<>();
+
+        for (int i = 1; i < columnTitle.size(); i++) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", columnTitle.get(i));
+            listColumnTitle.add(i - 1, getWait5().until(ExpectedConditions.visibilityOf(columnTitle.get(i))).getText());
+        }
+
+        return listColumnTitle;
     }
 }
