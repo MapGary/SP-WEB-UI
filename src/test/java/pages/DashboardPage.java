@@ -421,29 +421,6 @@ public class DashboardPage extends BasePage {
         return graph.getSize();
     }
 
-    public void selectParameters(int count) {
-        dropdownList.get(6).click();
-        listParameters = new ArrayList<>(count);
-
-        if (count == 1) {
-            listParameters.add(0, dropdownDateMeasurement.get(0).getText());
-        } else {
-            for (int i = 0; i < count; i++) {
-                getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(6 + i))).click();
-                listParameters.add(i, dropdownDateMeasurement.get(6 + i).getText());
-            }
-        }
-
-        getWait10().until(ExpectedConditions.visibilityOf(workspaceWindows.get(3).findElement(By.xpath("//div[@id='panel1a-content']//canvas"))));
-        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Step("Выбираю параметр Оборотные")
     public DashboardPage selectParameterTurnover() {
         listParameters = new ArrayList<>(1);
@@ -452,9 +429,8 @@ public class DashboardPage extends BasePage {
         startTimeInterval = System.currentTimeMillis();
 
         dropdownList.get(6).click();
-        if (!Boolean.parseBoolean(dropdownDateMeasurementValue.get(0).getAttribute("aria-selected"))) {
-            dropdownDateMeasurement.get(0).click();
-        }
+        dropdownDateMeasurement.get(0).click();
+
         listParameters.add(0, dropdownDateMeasurement.get(0).getText());
 
         getWait10().until(ExpectedConditions.elementToBeClickable(graph));
@@ -477,9 +453,8 @@ public class DashboardPage extends BasePage {
         startTimeInterval = System.currentTimeMillis();
 
         dropdownList.get(6).click();
-        if (!Boolean.parseBoolean(dropdownDateMeasurementValue.get(0).getAttribute("aria-selected"))) {
-            dropdownDateMeasurement.get(0).click();
-        }
+        dropdownDateMeasurement.get(0).click();
+
         listParameters.add(0, dropdownDateMeasurement.get(0).getText());
 
         takeScreenshotPage("Данные по параметру", page);
@@ -501,9 +476,8 @@ public class DashboardPage extends BasePage {
         startTimeInterval = System.currentTimeMillis();
 
         dropdownList.get(6).click();
-        if (!Boolean.parseBoolean(dropdownDateMeasurementValue.get(0).getAttribute("aria-selected"))) {
-            dropdownDateMeasurement.get(0).click();
-        }
+        dropdownDateMeasurement.get(0).click();
+
         listParameters.add(0, dropdownDateMeasurement.get(0).getText());
         dropdownDateMeasurementValue.get(5).click();
         listParameters.add(1, dropdownDateMeasurement.get(5).getText());
@@ -533,9 +507,7 @@ public class DashboardPage extends BasePage {
             dropdownDateMeasurement.get(0).click();
         }
         for (int i = 6; i < 6 + count; i++) {
-            if (!Boolean.parseBoolean(dropdownDateMeasurementValue.get(i).getAttribute("aria-selected"))) {
-                dropdownDateMeasurement.get(i).click();
-            }
+            dropdownDateMeasurement.get(i).click();
             listParameters.add(i - count - 1, dropdownDateMeasurement.get(i).getText());
         }
 
@@ -566,23 +538,18 @@ public class DashboardPage extends BasePage {
             dropdownDateMeasurement.get(0).click();
         }
 
-        if (!Boolean.parseBoolean(dropdownDateMeasurementValue.get(6).getAttribute("aria-selected"))) {
-            dropdownDateMeasurement.get(6).click();
-        }
+        dropdownDateMeasurement.get(6).click();
+
         listParameters.add(0, dropdownDateMeasurement.get(6).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
 
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownDateMeasurementValue.get(16));
-        if (!Boolean.parseBoolean(dropdownDateMeasurementValue.get(16).getAttribute("aria-selected"))) {
-            dropdownDateMeasurement.get(16).click();
-        }
+        dropdownDateMeasurement.get(16).click();
+
         listParameters.add(1, dropdownDateMeasurement.get(16).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
 
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownDateMeasurementValue.get(26));
-        if (!Boolean.parseBoolean(dropdownDateMeasurementValue.get(26).getAttribute("aria-selected"))) {
-            dropdownDateMeasurement.get(26).click();
-        }
+        dropdownDateMeasurement.get(26).click();
+
         listParameters.add(2, dropdownDateMeasurement.get(26).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
 
