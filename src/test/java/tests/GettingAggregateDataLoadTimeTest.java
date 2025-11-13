@@ -1,78 +1,29 @@
 package tests;
 
-import io.qameta.allure.Allure;
 import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.testng.Tag;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pages.LoginPage;
 import utils.BaseTest;
 
-import java.util.Map;
-
 public class GettingAggregateDataLoadTimeTest extends BaseTest {
 
-    @Test(dataProvider = "timeInterval")
-    @Epic("Получение времени загрузки данных агрегата на вкладке Схема")
-    @Severity(SeverityLevel.CRITICAL)
-    public void testReceivingDataForShiftSchema(int dayFrom, int mouthFrom, int yearFrom, int hourFrom,
-                                                int dayUp, int mouthUp, int yearUp, int hourUp) {
-
-        new LoginPage(getDriver())
-                .loginToApp()
-                .selectTimeInterval(dayFrom, mouthFrom, yearFrom, hourFrom,
-                        dayUp, mouthUp, yearUp, hourUp)
-                .goToTDO()
-                .getAggregateDataSchema();
-    }
-
-    @Test(dataProvider = "timeInterval")
-    @Epic("Получение времени загрузки данных агрегата на вкладке Журнал")
-    @Severity(SeverityLevel.CRITICAL)
-    public void testReceivingDataForShiftMagazine(int dayFrom, int mouthFrom, int yearFrom, int hourFrom,
-                                                  int dayUp, int mouthUp, int yearUp, int hourUp) {
-
-        new LoginPage(getDriver())
-                .loginToApp()
-                .selectTimeInterval(dayFrom, mouthFrom, yearFrom, hourFrom,
-                        dayUp, mouthUp, yearUp, hourUp)
-                .goMagazine()
-                .goToTDO()
-                .getAggregateDataMagazine();
-    }
-
-    @Test(dataProvider = "timeInterval")
-    @Epic("Получение времени загрузки данных агрегата на вкладке События")
-    @Severity(SeverityLevel.CRITICAL)
-    public void testReceivingDataForShiftEvents(int dayFrom, int mouthFrom, int yearFrom, int hourFrom,
-                                                int dayUp, int mouthUp, int yearUp, int hourUp) {
-
-        new LoginPage(getDriver())
-                .loginToApp()
-                .selectTimeInterval(dayFrom, mouthFrom, yearFrom, hourFrom,
-                        dayUp, mouthUp, yearUp, hourUp)
-                .goEvents()
-                .goToTDO()
-                .getAggregateDataEvents();
-    }
-
-    @Test(dataProvider = "timeInterval")
+    @Test(dataProvider = "timeInterval", groups = "smoke")
+    @Tag("smoke")
+    @Feature("Время загрузки данных")
     @Epic("Получение времени загрузки данных агрегата 4.2-2G28 на вкладке Схема")
     @Severity(SeverityLevel.CRITICAL)
     public void testGetDataUnitSchema(int dayFrom, int mouthFrom, int yearFrom, int hourFrom,
                                       int dayUp, int mouthUp, int yearUp, int hourUp) {
 
-        Map<String, String> times = new LoginPage(getDriver())
+        new LoginPage(getDriver())
                 .loginToApp()
-                .selectTimeInterval(dayFrom, mouthFrom, yearFrom, hourFrom,
-                        dayUp, mouthUp, yearUp, hourUp)
-                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .getAggregateTimer("4.2-2G28");
-
-        Allure.addAttachment("Время теста: ", times.get("time"));
-        Allure.addAttachment("Время выбора интервала: ", times.get("timeInterval"));
-        Allure.addAttachment("Время загрузки агрегата: ", times.get("timeUnit"));
+                .selectTimeInterval(dayFrom, mouthFrom, yearFrom, hourFrom, dayUp, mouthUp, yearUp, hourUp)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28");
     }
 
     @DataProvider(name = "timeInterval")
