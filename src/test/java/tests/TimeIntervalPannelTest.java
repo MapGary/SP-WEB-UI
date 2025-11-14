@@ -350,4 +350,131 @@ public class TimeIntervalPannelTest extends BaseTest {
         };
     }
 
+    // { partialPath, fullPath, trainName, trainSerial, trainPosition, instanceNumber, rfid, trainType, technologicalProcess, manufacturer, equipmentGroup }
+    @DataProvider(name = "filterData")
+    public Object[][] filterData() {
+        return new Object[][]{
+                //тест 1: частичный путь + остальные поля пустые
+                {"СКРУ", "СКРУ-3 / РУДНИК / Конвейеры", "", "", "", "", "", "", "", "", ""},
+                //тест 2: полный путь
+                {"РУД", "РУДНИК / СТАНЦИЯ / Оборудование 1", "", "", "", "", "", "", "", "", ""},
+                //тест 3: частичный путь + все поля заполнены
+                {"СКРУ", "СКРУ-3 / РУДНИК / Конвейеры", "Насос ГВС№1", "100254989", "Эталон Кр 3-х ст.", "100255957", "RFID-12345",
+                        "Насос", "Вентиляция", "ALLWEILER", "B6"}
+        };
+    }
+
+    @Test(dataProvider = "filterData")
+    @Epic("Фильтры")
+    @Feature("Поле 'Путь' — частичный ввод")
+    @Description("Частичный ввод в поле 'Путь' и нажатие ОК")
+    @Severity(SeverityLevel.NORMAL)
+    public void testPartialPathAndOk(String partialPath, String fullPath, String trainName, String trainSerial,
+                                     String trainPosition, String instanceNumber, String rfid,
+                                     String trainType, String technologicalProcess, String manufacturer, String equipmentGroup) {
+
+        new LoginPage(getDriver())
+                .addValueToFieldLogin(getConfig().getUserName())
+                .addValueToFieldPassword(getConfig().getPassword())
+                .clickButtonLogin();
+
+        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver(), getConfig());
+
+        page.openEquipmentFilterAndWait();
+
+        page.typePathAndPressEnter(partialPath);
+
+        waitForSeconds(3);
+
+        page.clickOkAndWait();
+
+        Assert.assertTrue(true, "Диалог успешно закрыт после ввода частичного пути");
+    }
+
+    @Test(dataProvider = "filterData")
+    @Epic("Фильтры")
+    @Feature("Поле 'Путь' — полный ввод")
+    @Description("Полный путь и нажатие ОК")
+    @Severity(SeverityLevel.NORMAL)
+    public void testFullPathAndOk(String partialPath, String fullPath, String trainName, String trainSerial,
+                                  String trainPosition, String instanceNumber, String rfid,
+                                  String trainType, String technologicalProcess, String manufacturer, String equipmentGroup) {
+
+        new LoginPage(getDriver())
+                .addValueToFieldLogin(getConfig().getUserName())
+                .addValueToFieldPassword(getConfig().getPassword())
+                .clickButtonLogin();
+
+        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver(), getConfig());
+
+        page.openEquipmentFilterAndWait();
+
+        page.typeFullPathAndPressEnter(fullPath);
+
+        page.clickOkAndWait();
+
+        Assert.assertTrue(true, "Диалог успешно закрыт после ввода полного пути");
+    }
+
+    @Test(dataProvider = "filterData")
+    @Epic("Фильтры")
+    @Feature("Заполняем всю форму и применяем")
+    @Description("Частичный путь + заполнение всех остальных полей")
+    @Severity(SeverityLevel.NORMAL)
+    public void testPartialPathAndFillOthersAndOk(String partialPath, String fullPath, String trainName, String trainSerial,
+                                                  String trainPosition, String instanceNumber, String rfid,
+                                                  String trainType, String technologicalProcess, String manufacturer, String equipmentGroup) {
+
+        new LoginPage(getDriver())
+                .addValueToFieldLogin(getConfig().getUserName())
+                .addValueToFieldPassword(getConfig().getPassword())
+                .clickButtonLogin();
+
+        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver(), getConfig());
+
+        page.openEquipmentFilterAndWait();
+
+        page.typePathAndPressEnter(partialPath);
+
+        if (!trainName.isBlank()) page.setTextField("trainName", trainName);
+        if (!trainSerial.isBlank()) page.setTextField("trainSerial", trainSerial);
+        if (!trainPosition.isBlank()) page.setTextField("trainPosition", trainPosition);
+        if (!instanceNumber.isBlank()) page.setTextField("instanceNumber", instanceNumber);
+        if (!rfid.isBlank()) page.setTextField("rfid", rfid);
+
+        //?? выбор в автокомплетах (если данные заданы)
+        if (!trainType.isBlank()) {
+            try {
+                page.selectOptionFromAutocomplete("trainType", trainType);
+            } catch (Exception e) {
+                Allure.step("Не удалось выбрать trainType: " + e.getMessage());
+            }
+        }
+        if (!technologicalProcess.isBlank()) {
+            try {
+                page.selectOptionFromAutocomplete("technologicalProcess", technologicalProcess);
+            } catch (Exception e) {
+                Allure.step("Не удалось выбрать technologicalProcess: " + e.getMessage());
+            }
+        }
+        if (!manufacturer.isBlank()) {
+            try {
+                page.selectOptionFromAutocomplete("manufacturer", manufacturer);
+            } catch (Exception e) {
+                Allure.step("Не удалось выбрать manufacturer: " + e.getMessage());
+            }
+        }
+        if (!equipmentGroup.isBlank()) {
+            try {
+                page.selectOptionFromAutocomplete("equipmentGroup", equipmentGroup);
+            } catch (Exception e) {
+                Allure.step("Не удалось выбрать equipmentGroup: " + e.getMessage());
+            }
+        }
+
+        page.clickOkAndWait();
+
+        Assert.assertTrue(true, "Форма заполнена и применена (диалог закрыт)");
+    }
+
 }

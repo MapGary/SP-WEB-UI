@@ -117,7 +117,7 @@ public class BasePage {
             wait20 = new WebDriverWait(driver, Duration.ofSeconds(20));
         }
 
-        return wait10;
+        return wait20;
     }
 
     public WebDriverWait getWait10() {
