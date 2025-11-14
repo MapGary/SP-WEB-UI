@@ -373,14 +373,10 @@ public class TimeIntervalPannelTest extends BaseTest {
                                      String trainPosition, String instanceNumber, String rfid,
                                      String trainType, String technologicalProcess, String manufacturer, String equipmentGroup) {
 
-        new LoginPage(getDriver())
-                .addValueToFieldLogin(getConfig().getUserName())
-                .addValueToFieldPassword(getConfig().getPassword())
-                .clickButtonLogin();
+        page.loginToApp();
+        page.openEquipmentFilterAndWait();
 
         DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver(), getConfig());
-
-        page.openEquipmentFilterAndWait();
 
         page.typePathAndPressEnter(partialPath);
 
@@ -400,10 +396,7 @@ public class TimeIntervalPannelTest extends BaseTest {
                                   String trainPosition, String instanceNumber, String rfid,
                                   String trainType, String technologicalProcess, String manufacturer, String equipmentGroup) {
 
-        new LoginPage(getDriver())
-                .addValueToFieldLogin(getConfig().getUserName())
-                .addValueToFieldPassword(getConfig().getPassword())
-                .clickButtonLogin();
+        page.loginToApp();
 
         DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver(), getConfig());
 
@@ -425,10 +418,7 @@ public class TimeIntervalPannelTest extends BaseTest {
                                                   String trainPosition, String instanceNumber, String rfid,
                                                   String trainType, String technologicalProcess, String manufacturer, String equipmentGroup) {
 
-        new LoginPage(getDriver())
-                .addValueToFieldLogin(getConfig().getUserName())
-                .addValueToFieldPassword(getConfig().getPassword())
-                .clickButtonLogin();
+        page.loginToApp();
 
         DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver(), getConfig());
 

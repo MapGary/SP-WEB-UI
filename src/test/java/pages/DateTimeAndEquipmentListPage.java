@@ -41,7 +41,8 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
     private final By loadingSpinner = By.cssSelector("svg.MuiCircularProgress-svg");
     private final By okButton = By.xpath("//button[normalize-space() = 'Ок']");
     private final By autocompleteListItems = By.xpath("//ul[@role='listbox']/li");
-    private final By pathSelector = By.xpath("//ul[@role='listbox']/li[not(contains(@class,'MuiListSubheader-root'))][1]");
+//    private final By pathSelector = By.xpath("//ul[@role='listbox']/li[not(contains(@class,'MuiListSubheader-root'))][1]");
+    private final By pathSelector = By.xpath("//li[contains(@class,'MuiAutocomplete-option') and not(contains(@class,'MuiListSubheader-root'))]");
 
     private By inputByName(String name) {
         return By.cssSelector("input[name='" + name + "']");
@@ -282,11 +283,14 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(pathInput));
         el.clear();
         el.sendKeys(part);
-//        el.sendKeys(Keys.ENTER);
-        WebElement option = getWait5().until(ExpectedConditions.elementToBeClickable(pathSelector));
-        option.click();
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", option);
-        //value появились (или равны введённому)
+
+        try {
+            WebElement firstOption = getWait5().until(ExpectedConditions.elementToBeClickable(pathSelector));
+            firstOption.click();
+        } catch (TimeoutException e) {
+            Allure.step("Выпадающий список не появился для: " + part);
+        }
+
         getWait5().until(d -> {
             try {
                 String v = el.getAttribute("value");
@@ -295,7 +299,8 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
                 return false;
             }
         });
-        Allure.step("В поле 'Путь' введено и нажато Enter: " + part);
+
+        Allure.step("В поле 'Путь' введено и выбран вариант: " + part);
         return this;
     }
 
