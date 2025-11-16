@@ -123,7 +123,7 @@ public abstract class BaseTest {
             }
         }
 
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         LoggerUtil.info(String.format("Open browser: %s", browser));
         driver.manage().window().setSize(new Dimension(1440, 1080));
 
