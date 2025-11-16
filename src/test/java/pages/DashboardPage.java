@@ -133,7 +133,7 @@ public class DashboardPage extends BasePage {
     private List<WebElement> dropdownList;
 
     // поля в выпадающем списке параметр в окне данные измерений вкладка график (для клика)
-    @FindBy(xpath = "//li[contains(@class,'MuiMenuItem-gutters')]/div")
+    @FindBy(xpath = "//li[contains(@class,'MuiMenuItem-gutters')]")
     private List<WebElement> dropdownDateMeasurement;
 
     // поля в выпадающем списке параметр в окне данные измерений вкладка график
@@ -429,18 +429,21 @@ public class DashboardPage extends BasePage {
         startTimeInterval = System.currentTimeMillis();
 
         dropdownList.get(6).click();
-        dropdownDateMeasurement.get(0).click();
 
         listParameters.add(0, dropdownDateMeasurement.get(0).getText());
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
         driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-        getWait10().until(ExpectedConditions.elementToBeClickable(blockNameGraph));
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
 
-        takeScreenshotPage("Данные по параметру", dropdownDateMeasurementAll);
+        takeScreenshotPage("Данные по параметру", page);
 
         return this;
     }
@@ -453,17 +456,78 @@ public class DashboardPage extends BasePage {
         startTimeInterval = System.currentTimeMillis();
 
         dropdownList.get(6).click();
-        dropdownDateMeasurement.get(0).click();
 
         listParameters.add(0, dropdownDateMeasurement.get(0).getText());
 
-        takeScreenshotPage("Данные по параметру", page);
-
-        getWait10().until(ExpectedConditions.elementToBeClickable(tableDataMeasurement));
         driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по параметру", page);
+
+        return this;
+    }
+
+    @Step("Выбираю параметр Параметры вид Таблица")
+    public DashboardPage selectParameterParametersTable() {
+        listParameters = new ArrayList<>(1);
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        dropdownList.get(6).click();
+        listParameters.add(0, dropdownDateMeasurement.get(6).getText());
+        dropdownDateMeasurement.get(6).click();
+
+        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по параметру", page);
+
+        return this;
+    }
+
+    @Step("Выбираю параметр Замеры вид Таблица")
+    public DashboardPage selectParameterMeasurementsTable() {
+        listParameters = new ArrayList<>(2);
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        dropdownList.get(6).click();
+        listParameters.add(0, dropdownDateMeasurement.get(6).getText());
+        dropdownDateMeasurement.get(6).click();
+        dropdownList.get(6).click();
+        listParameters.add(1, dropdownDateMeasurement.get(7).getText());
+        dropdownDateMeasurement.get(7).click();
+
+        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по параметру", page);
 
         return this;
     }
@@ -476,15 +540,18 @@ public class DashboardPage extends BasePage {
         startTimeInterval = System.currentTimeMillis();
 
         dropdownList.get(6).click();
-        dropdownDateMeasurement.get(0).click();
 
         listParameters.add(0, dropdownDateMeasurement.get(0).getText());
-        dropdownDateMeasurementValue.get(5).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(5))).click();
         listParameters.add(1, dropdownDateMeasurement.get(5).getText());
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
         driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-        getWait10().until(ExpectedConditions.elementToBeClickable(blockNameGraph));
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
@@ -502,20 +569,23 @@ public class DashboardPage extends BasePage {
         startTimeInterval = System.currentTimeMillis();
 
         dropdownList.get(6).click();
-        // убираю чек бокс частота вращения
-        if (Boolean.parseBoolean(dropdownDateMeasurementValue.get(0).getAttribute("aria-selected"))) {
-            dropdownDateMeasurement.get(0).click();
-        }
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
+
         for (int i = 6; i < 6 + count; i++) {
             dropdownDateMeasurement.get(i).click();
             listParameters.add(i - count - 1, dropdownDateMeasurement.get(i).getText());
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            getWait10().until(ExpectedConditions.elementToBeClickable(graph));
         }
 
         takeScreenshotPage("Выбранные параметры", dropdownDateMeasurementAll);
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
         driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-        getWait5().until(ExpectedConditions.invisibilityOf(dropdownDateMeasurement.get(6)));
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
@@ -533,29 +603,39 @@ public class DashboardPage extends BasePage {
         startTimeInterval = System.currentTimeMillis();
 
         dropdownList.get(6).click();
-        // убираю чек бокс частота вращения
-        if (Boolean.parseBoolean(dropdownDateMeasurementValue.get(0).getAttribute("aria-selected"))) {
-            dropdownDateMeasurement.get(0).click();
-        }
 
-        dropdownDateMeasurement.get(6).click();
-
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(6))).click();
         listParameters.add(0, dropdownDateMeasurement.get(6).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
 
-        dropdownDateMeasurement.get(16).click();
-
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(16))).click();
         listParameters.add(1, dropdownDateMeasurement.get(16).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
 
-        dropdownDateMeasurement.get(26).click();
-
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(26))).click();
         listParameters.add(2, dropdownDateMeasurement.get(26).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
 
         driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-        getWait5().until(ExpectedConditions.invisibilityOf(dropdownDateMeasurement.get(6)));
-        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
@@ -689,14 +769,8 @@ public class DashboardPage extends BasePage {
     }
 
     @Step("Получаю название колонки")
-    public List<String> getColumnTitle() {
-        List<String> listColumnTitle = new ArrayList<>();
+    public String getColumnTitle() {
 
-        for (int i = 1; i < columnTitle.size(); i++) {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", columnTitle.get(i));
-            listColumnTitle.add(i - 1, getWait5().until(ExpectedConditions.visibilityOf(columnTitle.get(i))).getText());
-        }
-
-        return listColumnTitle;
+        return columnTitle.get(1).getText();
     }
 }

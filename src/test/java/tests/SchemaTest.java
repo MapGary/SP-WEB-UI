@@ -24,7 +24,7 @@ public class SchemaTest extends BaseTest {
     @Link("https://team-b9fb.testit.software/projects/1/tests/95")
     public void testSchemeDataMeasurementTrendTurnoverTable() {
 
-        List<String> columnTitle = new LoginPage(getDriver())
+        String columnTitle = new LoginPage(getDriver())
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
                 .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
@@ -33,7 +33,47 @@ public class SchemaTest extends BaseTest {
                 .getColumnTitle();
 
         Allure.step("Проверяю, что название выбранного параметра соответствует название колонки в таблице");
-        Assert.assertEquals(columnTitle.get(0), listParameters.get(0));
+        Assert.assertEquals(columnTitle, listParameters.get(listParameters.size() - 1));
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Данные измерений")
+    @Description("Работа вкладки Данные измерений модуля Схема, вид измерения - Тренд. Выбран один параметр Параметры. Вид Таблица")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/95")
+    public void testSchemeDataMeasurementTrendParametersTable() {
+
+        String columnTitle = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
+                .clickButtonTable()
+                .selectParameterParametersTable()
+                .getColumnTitle();
+
+        Allure.step("Проверяю, что название выбранного параметра соответствует название колонки в таблице");
+        Assert.assertEquals(columnTitle.replace(" в ", " "), listParameters.get(0));
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Данные измерений")
+    @Description("Работа вкладки Данные измерений модуля Схема, вид измерения - Тренд. Выбран один параметр Замеры. Вид Таблица")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/95")
+    public void testSchemeDataMeasurementTrendMeasurementsTable() {
+
+        String columnTitle = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
+                .clickButtonTable()
+                .selectParameterMeasurementsTable()
+                .getColumnTitle();
+
+        Allure.step("Проверяю, что название выбранного параметра соответствует название колонки в таблице");
+        Assert.assertEquals(columnTitle.replace(" в ", " "), listParameters.get(1));
     }
 
     @Test(groups = "smoke")
