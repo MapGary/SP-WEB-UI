@@ -570,6 +570,12 @@ public class DashboardPage extends BasePage {
 
         dropdownList.get(6).click();
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
 
         for (int i = 6; i < 6 + count; i++) {
@@ -604,6 +610,12 @@ public class DashboardPage extends BasePage {
 
         dropdownList.get(6).click();
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
         getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(6))).click();
         listParameters.add(0, dropdownDateMeasurement.get(6).getText());
@@ -615,8 +627,8 @@ public class DashboardPage extends BasePage {
         }
         getWait10().until(ExpectedConditions.elementToBeClickable(graph));
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(16))).click();
-        listParameters.add(1, dropdownDateMeasurement.get(16).getText());
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(14))).click();
+        listParameters.add(1, dropdownDateMeasurement.get(14).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
         try {
             Thread.sleep(1000);
@@ -625,8 +637,8 @@ public class DashboardPage extends BasePage {
         }
         getWait10().until(ExpectedConditions.elementToBeClickable(graph));
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(26))).click();
-        listParameters.add(2, dropdownDateMeasurement.get(26).getText());
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(21))).click();
+        listParameters.add(2, dropdownDateMeasurement.get(21).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
         try {
             Thread.sleep(1000);
