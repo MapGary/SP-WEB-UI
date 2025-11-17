@@ -127,6 +127,13 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//table[@aria-label='analytics table']")
     private WebElement tableDataMeasurement;
 
+    // активная кнопка следующая страница на данные измерений таблица
+    @FindBy(xpath = "//*[local-name()='svg'][@data-testid='KeyboardArrowRightIcon']/../span")
+    private WebElement tableNext;
+    // кнопка следующая страница на данные измерений таблица
+    @FindBy(xpath = "//*[local-name()='svg'][@data-testid='KeyboardArrowRightIcon']/..")
+    private WebElement tableNextButton;
+
     // прогресс бар списка оборудования
     @FindBy(xpath = "//div[@id='equipment-content']//span[@role='progressbar']")
     private WebElement progressbar;
@@ -156,7 +163,7 @@ public class DashboardPage extends BasePage {
     private List<WebElement> nameGraph;
 
     // названия колонок в таблице в окне данные измерений
-    @FindBy(xpath = "//thead/tr")
+    @FindBy(xpath = "//thead/tr[2]/th")
     private List<WebElement> columnTitle;
 
     // картинка в окне схема агрегата
@@ -645,7 +652,7 @@ public class DashboardPage extends BasePage {
         return this;
     }
 
-    @Step("Выбираю {count} однотипных параметров Замерные на Таблица")
+    @Step("Выбираю один параметр из Замеры на Таблица")
     public DashboardPage selectParameterMeasurementsSameTypeTable(int count) {
         listParameters = new ArrayList<>(count);
 
@@ -668,15 +675,45 @@ public class DashboardPage extends BasePage {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            getWait10().until(ExpectedConditions.elementToBeClickable(table));
+            getWait10().until(ExpectedConditions.elementToBeClickable(tableDataMeasurement));
         }
 
-        takeScreenshotPage("Выбранные параметры", table);
+        takeScreenshotPage("Выбранные параметры", tableDataMeasurement);
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
 
         takeScreenshotPage("Данные по параметрам", page);
+
+        return this;
+    }
+
+    @Step("Выбираю один параметр с точками из Замеры на Таблица")
+    public DashboardPage selectParameterMeasurementsWithPointsTable() {
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        dropdownList.get(6).click();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        dropdownDateMeasurement.get(29).click();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        getWait10().until(ExpectedConditions.elementToBeClickable(tableDataMeasurement));
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Таблица", page);
 
         return this;
     }
@@ -881,18 +918,29 @@ public class DashboardPage extends BasePage {
 
         getWait5().until(ExpectedConditions.elementToBeClickable(graph));
 
-        takeScreenshotPage("Таблица", page);
+        takeScreenshotPage("График", page);
 
         return this;
     }
 
-    @Step("Получаю название колонки")
+    @Step("Получаю названия колонок")
     public List<String> getColumnTitle() {
 
         List<String> listName = new ArrayList<>();
+        int x = 0;
 
-        for (int i = 1; i < columnTitle.size(); i++) {
-            listName.add(i - 1, columnTitle.get(i).getText());
+        try {
+            do {
+                for (int i = 0; i < columnTitle.size(); i++) {
+                    listName.add(i + x, columnTitle.get(i).getText());
+                }
+                tableNextButton.click();
+                x+=3;
+            } while (tableNext.isDisplayed());
+        } catch (Exception e) {}
+
+        for (int i = 0; i < columnTitle.size(); i++) {
+            listName.add(i + x, columnTitle.get(i).getText());
         }
 
         return listName;

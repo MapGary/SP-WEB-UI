@@ -21,7 +21,7 @@ public class SchemaTest extends BaseTest {
     @Feature("Данные измерений")
     @Description("Схема/Данные измерений/График/Тренд/Агрегат/4.2-2G28. Параметр по умолчанию (Частота вращения), перехожу на Таблица")
     @Severity(SeverityLevel.CRITICAL)
-    @Link("")
+    @Link("https://team-b9fb.testit.software/projects/1/tests/96")
     public void testTransitionFromGraphToTable() {
 
         DashboardPage pageGraph = new LoginPage(getDriver())
@@ -45,7 +45,7 @@ public class SchemaTest extends BaseTest {
     @Feature("Данные измерений")
     @Description("Схема/Данные измерений/График/Тренд/Агрегат/4.2-2G28. Параметр по умолчанию (Частота вращения) и добавляю один из Параметры, перехожу на Таблица")
     @Severity(SeverityLevel.CRITICAL)
-    @Link("")
+    @Link("https://team-b9fb.testit.software/projects/1/tests/96")
     public void testTransitionFromGraphToTableWithDefaultAndParameters() {
 
         DashboardPage pageGraph = new LoginPage(getDriver())
@@ -70,7 +70,7 @@ public class SchemaTest extends BaseTest {
     @Feature("Данные измерений")
     @Description("Схема/Данные измерений/График/Тренд/Агрегат/4.2-2G28. Параметр по умолчанию (Частота вращения) убираю и добавляю один из Параметры, перехожу на Таблица")
     @Severity(SeverityLevel.CRITICAL)
-    @Link("")
+    @Link("https://team-b9fb.testit.software/projects/1/tests/96")
     public void testTransitionFromGraphToTableWithParameters() {
 
         DashboardPage pageGraph = new LoginPage(getDriver())
@@ -95,7 +95,7 @@ public class SchemaTest extends BaseTest {
     @Feature("Данные измерений")
     @Description("Схема/Данные измерений/График/Тренд/Агрегат/4.2-2G28. Параметр по умолчанию (Частота вращения) убираю и добавляю один из Параметры, перехожу на Таблица, выбираю один из Замеры, перехожу на График")
     @Severity(SeverityLevel.CRITICAL)
-    @Link("")
+    @Link("https://team-b9fb.testit.software/projects/1/tests/96")
     public void testTransitionFromGraphToTableAndBack() {
 
         DashboardPage pageTable = new LoginPage(getDriver())
@@ -115,6 +115,36 @@ public class SchemaTest extends BaseTest {
 
         Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
         Assert.assertEquals(graphParameterName.get(0), tableParameterName.get(0));
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Данные измерений")
+    @Description("Схема/Данные измерений/График/Тренд/Агрегат/4.2-2G28. Параметр по умолчанию (Частота вращения) убираю и добавляю один из Параметры, перехожу на Таблица, выбираю один из Замеры с несколькими точками, перехожу на График")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://team-b9fb.testit.software/projects/1/tests/96")
+    public void testTransitionFromGraphToTableAndBackMeasurementWithPoints() {
+
+        DashboardPage pageTable = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
+                .clickButtonTable()
+                .selectParameterMeasurementsWithPointsTable();
+
+        List<String> tableParameterName = pageTable
+                .getColumnTitle();
+
+        List<String> graphParameterName = pageTable
+                .clickButtonGraph()
+                .getNameGraph();
+
+        System.out.println(tableParameterName);
+        System.out.println(graphParameterName);
+        Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
+        for (int i = 0; i < tableParameterName.size(); i++) {
+            Assert.assertEquals(graphParameterName.get(i), tableParameterName.get(i));
+        }
     }
 
     @Test(groups = "smoke")
