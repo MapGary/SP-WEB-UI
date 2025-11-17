@@ -116,6 +116,9 @@ public class DashboardPage extends BasePage {
     private WebElement reports;
 
     // кнопки в окне данные измерений
+    // кнопка график
+    @FindBy(xpath = "//div[@aria-label='view switcher']/button[contains(@id,'T-0')]")
+    private WebElement buttonGraph;
     // кнопка таблица
     @FindBy(xpath = "//div[@aria-label='view switcher']/button[contains(@id,'T-1')]")
     private WebElement buttonTable;
@@ -602,8 +605,8 @@ public class DashboardPage extends BasePage {
         return this;
     }
 
-    @Step("Выбираю {count} однотипных параметров Замерные")
-    public DashboardPage selectParameterMeasurementsSameType(int count) {
+    @Step("Выбираю {count} однотипных параметров Замерные на График")
+    public DashboardPage selectParameterMeasurementsSameTypeGraph(int count) {
         listParameters = new ArrayList<>(count);
 
         // засекаю время загрузки временного интервала
@@ -633,6 +636,42 @@ public class DashboardPage extends BasePage {
         takeScreenshotPage("Выбранные параметры", dropdownDateMeasurementAll);
 
         driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по параметрам", page);
+
+        return this;
+    }
+
+    @Step("Выбираю {count} однотипных параметров Замерные на Таблица")
+    public DashboardPage selectParameterMeasurementsSameTypeTable(int count) {
+        listParameters = new ArrayList<>(count);
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        dropdownList.get(6).click();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (int i = 6; i < 6 + count; i++) {
+            listParameters.add(i - 6, dropdownDateMeasurement.get(i).getText());
+            dropdownDateMeasurement.get(i).click();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            getWait10().until(ExpectedConditions.elementToBeClickable(table));
+        }
+
+        takeScreenshotPage("Выбранные параметры", table);
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
@@ -823,6 +862,24 @@ public class DashboardPage extends BasePage {
         }
 
         getWait5().until(ExpectedConditions.elementToBeClickable(tableDataMeasurement));
+
+        takeScreenshotPage("Таблица", page);
+
+        return this;
+    }
+
+    @Step("Кликаю кнопку График в окне Данные измерений")
+    public DashboardPage clickButtonGraph() {
+
+        buttonGraph.click();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(graph));
 
         takeScreenshotPage("Таблица", page);
 
