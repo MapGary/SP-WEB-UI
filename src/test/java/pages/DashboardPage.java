@@ -532,7 +532,7 @@ public class DashboardPage extends BasePage {
         return this;
     }
 
-    @Step("Выбираю параметр Параметры")
+    @Step("Выбираю параметр Параметры и оставляю по умолчанию")
     public DashboardPage selectParameterTurnoverParameters() {
         listParameters = new ArrayList<>(2);
 
@@ -541,9 +541,50 @@ public class DashboardPage extends BasePage {
 
         dropdownList.get(6).click();
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         listParameters.add(0, dropdownDateMeasurement.get(0).getText());
         getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(5))).click();
         listParameters.add(1, dropdownDateMeasurement.get(5).getText());
+
+        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по параметру", page);
+
+        return this;
+    }
+
+    @Step("Выбираю параметр Параметры и убираю по умолчанию")
+    public DashboardPage selectParameterParameters() {
+        listParameters = new ArrayList<>(1);
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        dropdownList.get(6).click();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        dropdownDateMeasurement.get(0).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(5))).click();
+        listParameters.add(0, dropdownDateMeasurement.get(5).getText());
 
         driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
 
@@ -772,8 +813,16 @@ public class DashboardPage extends BasePage {
 
     @Step("Кликаю кнопку Таблица в окне Данные измерений")
     public DashboardPage clickButtonTable() {
+
         buttonTable.click();
-        getWait5().until(ExpectedConditions.visibilityOf(tableDataMeasurement));
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(tableDataMeasurement));
 
         takeScreenshotPage("Таблица", page);
 
@@ -781,8 +830,14 @@ public class DashboardPage extends BasePage {
     }
 
     @Step("Получаю название колонки")
-    public String getColumnTitle() {
+    public List<String> getColumnTitle() {
 
-        return columnTitle.get(1).getText();
+        List<String> listName = new ArrayList<>();
+
+        for (int i = 1; i < columnTitle.size(); i++) {
+            listName.add(i - 1, columnTitle.get(i).getText());
+        }
+
+        return listName;
     }
 }
