@@ -19,7 +19,12 @@ public class SchemaTest extends BaseTest {
     @Test(groups = "smoke")
     @Tag("smoke")
     @Feature("Данные измерений")
-    @Description("Схема/Данные измерений/График/Тренд/Агрегат/4.2-2G28. Параметр по умолчанию (Частота вращения), перехожу на Таблица")
+    @Description("""
+            1. Авторизовался в приложении
+            2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+            3. Перешел к агрегату БКПРУ-4/СОФ/РВК "Б"/Насосное оборудование/4.2-2G28
+            4. Модуль Схема окно Данные измерений вид График - получил название графика
+            5. Модуль Схема окно Данные измерений изменил вид Таблица - получил название столбца с данными""")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://team-b9fb.testit.software/projects/1/tests/96")
     public void testTransitionFromGraphToTable() {
@@ -37,7 +42,9 @@ public class SchemaTest extends BaseTest {
                 .getColumnTitle();
 
         Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
-        Assert.assertEquals(graphParameterName.get(0), tableParameterName.get(0));
+        for (int i = 0; i < tableParameterName.size(); i++) {
+            Assert.assertEquals(graphParameterName.get(i), tableParameterName.get(i));
+        }
     }
 
     @Test(groups = "smoke")
@@ -139,8 +146,6 @@ public class SchemaTest extends BaseTest {
                 .clickButtonGraph()
                 .getNameGraph();
 
-        System.out.println(tableParameterName);
-        System.out.println(graphParameterName);
         Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
         for (int i = 0; i < tableParameterName.size(); i++) {
             Assert.assertEquals(graphParameterName.get(i), tableParameterName.get(i));

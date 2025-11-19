@@ -6,8 +6,10 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.ByteArrayInputStream;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -900,7 +902,7 @@ public class DashboardPage extends BasePage {
 
         getWait5().until(ExpectedConditions.elementToBeClickable(tableDataMeasurement));
 
-        takeScreenshotPage("Таблица", page);
+        takeScreenshotPage("Таблица", tableDataMeasurement);
 
         return this;
     }
@@ -929,20 +931,33 @@ public class DashboardPage extends BasePage {
         List<String> listName = new ArrayList<>();
         int x = 0;
 
-        try {
-            do {
-                for (int i = 0; i < columnTitle.size(); i++) {
-                    listName.add(i + x, columnTitle.get(i).getText());
-                }
-                tableNextButton.click();
-                x+=3;
-            } while (tableNext.isDisplayed());
-        } catch (Exception e) {}
+        if (isElementPresentWithWait(By.xpath("//*[local-name()='svg'][@data-testid='KeyboardArrowRightIcon']/../span"), 1)) {
+            try {
+                do {
+                    for (int i = 0; i < columnTitle.size(); i++) {
+                        listName.add(i + x, columnTitle.get(i).getText());
+                    }
+                    tableNextButton.click();
+                    x += 3;
+                } while (tableNext.isDisplayed());
+            } catch (Exception e) {
+            }
+        }
 
         for (int i = 0; i < columnTitle.size(); i++) {
             listName.add(i + x, columnTitle.get(i).getText());
         }
 
         return listName;
+    }
+
+    public boolean isElementPresentWithWait(By locator, int timeoutSeconds) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
+                    .until(ExpectedConditions.presenceOfElementLocated(locator));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }
