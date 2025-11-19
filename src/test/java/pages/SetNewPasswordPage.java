@@ -256,6 +256,11 @@ public class SetNewPasswordPage extends BasePage {
     public SetNewPasswordPage clickButtonSubmitWithHelper() {
         buttonSubmit.click();
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return this;
     }
 
