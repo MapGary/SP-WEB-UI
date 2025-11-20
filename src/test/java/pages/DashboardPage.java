@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static utils.Data.Dashboard.listParameters;
 
@@ -408,12 +409,20 @@ public class DashboardPage extends BasePage {
         }
     }
 
-    @Step("Сворачиваю окна на Рабочей области")
-    public DashboardPage collapseWindows(int first, int second, int third) {
+    @Step("Сворачиваю/разворачиваю окна на Рабочей области")
+    public DashboardPage collapseWindows(String[] elements) {
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(first - 1))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(second - 1))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(third - 1))).click();
+        for (String el : elements) {
+            for (WebElement element : cap) {
+                if (element.getText().equals(el)) {
+                    element.click();
+                }
+            }
+        }
+
+//        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(first - 1))).click();
+//        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(second - 1))).click();
+//        getWait5().until(ExpectedConditions.elementToBeClickable(cap.get(third - 1))).click();
 
         return this;
     }
@@ -441,6 +450,10 @@ public class DashboardPage extends BasePage {
         startTimeInterval = System.currentTimeMillis();
 
         dropdownList.get(6).click();
+
+        if (Objects.equals(getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).getAttribute("aria-selected"), "false")) {
+            dropdownDateMeasurement.get(0).click();
+        }
 
         listParameters.add(0, dropdownDateMeasurement.get(0).getText());
 
@@ -544,7 +557,7 @@ public class DashboardPage extends BasePage {
         return this;
     }
 
-    @Step("Выбираю параметр Параметры и оставляю по умолчанию")
+    @Step("Выбираю параметр Оборотные и один Параметры")
     public DashboardPage selectParameterTurnoverParameters() {
         listParameters = new ArrayList<>(2);
 
@@ -559,6 +572,9 @@ public class DashboardPage extends BasePage {
             throw new RuntimeException(e);
         }
 
+        if (Objects.equals(getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).getAttribute("aria-selected"), "false")) {
+            dropdownDateMeasurement.get(0).click();
+        }
         listParameters.add(0, dropdownDateMeasurement.get(0).getText());
         getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(5))).click();
         listParameters.add(1, dropdownDateMeasurement.get(5).getText());
@@ -629,16 +645,25 @@ public class DashboardPage extends BasePage {
             throw new RuntimeException(e);
         }
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
+        if (Objects.equals(getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).getAttribute("aria-selected"), "true")) {
+            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
+        }
+        if (Objects.equals(getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(5))).getAttribute("aria-selected"), "true")) {
+            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(5))).click();
+        }
 
         for (int i = 6; i < 6 + count; i++) {
-            dropdownDateMeasurement.get(i).click();
+            if (Objects.equals(dropdownDateMeasurement.get(0).getAttribute("aria-selected"), "false")) {
+                dropdownDateMeasurement.get(i).click();
+            }
             listParameters.add(i - count - 1, dropdownDateMeasurement.get(i).getText());
+
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+
             getWait10().until(ExpectedConditions.elementToBeClickable(graph));
         }
 
@@ -735,18 +760,25 @@ public class DashboardPage extends BasePage {
             throw new RuntimeException(e);
         }
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(6))).click();
-        listParameters.add(0, dropdownDateMeasurement.get(6).getText());
-        takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
+        for (int i = 7; i < 11; i++) {
+            if (Objects.equals(getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(i))).getAttribute("aria-selected"), "true")) {
+                dropdownDateMeasurement.get(i).click();
+            }
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(14))).click();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            getWait10().until(ExpectedConditions.elementToBeClickable(graph));
+        }
+
+        listParameters.add(0, dropdownDateMeasurement.get(6).getText());
+
+        if (Objects.equals(dropdownDateMeasurement.get(0).getAttribute("aria-selected"), "false")) {
+            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(14))).click();
+        }
         listParameters.add(1, dropdownDateMeasurement.get(14).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
         try {
@@ -756,7 +788,9 @@ public class DashboardPage extends BasePage {
         }
         getWait10().until(ExpectedConditions.elementToBeClickable(graph));
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(21))).click();
+        if (Objects.equals(dropdownDateMeasurement.get(0).getAttribute("aria-selected"), "false")) {
+            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(21))).click();
+        }
         listParameters.add(2, dropdownDateMeasurement.get(21).getText());
         takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
         try {
@@ -826,7 +860,7 @@ public class DashboardPage extends BasePage {
         return this;
     }
 
-    @Step("Получаю размер таблицы Дефекты")
+    @Step("Получаю размер таблицы Рекомендации")
     public Dimension getSizeTableRecommendations() {
         return tableRecommendations.getSize();
     }

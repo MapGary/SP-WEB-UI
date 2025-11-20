@@ -1,12 +1,14 @@
 package utils;
 
 import io.qameta.allure.Allure;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -27,7 +29,6 @@ public abstract class BaseTest {
     private WebDriver driver;
     private final TestConfig config = new TestConfig();
     private WebDriverWait wait5;
-    private WebDriverWait wait10;
 
     protected WebDriver getDriver() {
 
@@ -55,14 +56,6 @@ public abstract class BaseTest {
         }
 
         return wait5;
-    }
-
-    public WebDriverWait getWait10() {
-        if (wait10 == null) {
-            wait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        }
-
-        return wait10;
     }
 
     protected void waitForSeconds(int seconds) {
