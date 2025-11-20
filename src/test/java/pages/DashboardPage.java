@@ -36,19 +36,15 @@ public class DashboardPage extends BasePage {
     // поле время от
     @FindBy(xpath = "//div[@class='react-datepicker-wrapper'][1]//input")
     private WebElement fieldFrom;
-
     // поле время до
     @FindBy(xpath = "//div[@class='react-datepicker-wrapper'][2]//input")
     private WebElement fieldUp;
-
     // поле выбора временного интервала
     @FindBy(xpath = "//div[contains(@class, 'MuiBox-root')]/div[contains(@class, 'MuiFormControl-root')]")
     private WebElement timeIntervalField;
-
     // выпадающее меню временного интервала
     @FindBy(xpath = "//ul[contains(@class, 'MuiMenu-list')]")
     private WebElement menuIntervalField;
-
     // За выбранный интервал
     @FindBy(xpath = "//li[contains(@data-value, 'SELECTED_RANGE')]")
     private WebElement getSelectedRange;
@@ -88,6 +84,10 @@ public class DashboardPage extends BasePage {
     // Список оборудования название 4 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-label']"))
     private List<WebElement> level4Name;
+
+    // окно станции со всеми агрегатами
+    @FindBy(xpath = "//div[contains(@class, 'MuiBox-root')]/header/../..")
+    private WebElement windowStation;
 
     // 4 окна на рабочей области
     @FindBy(xpath = "//div[@id='panel1a-content']")
@@ -271,8 +271,8 @@ public class DashboardPage extends BasePage {
         driver.findElement(By.xpath(String.format("//div[@class='react-datepicker-wrapper'][2]/../div[@class='react-datepicker__tab-loop']//div[contains(@class, 'react-datepicker__day react-datepicker__day--%s')]", String.format("%03d", dayUp)))).click();
         driver.findElement(By.xpath(String.format("//div[@class='react-datepicker-wrapper'][2]/../div[@class='react-datepicker__tab-loop']//ul[@class='react-datepicker__time-list']/li[%s]", String.valueOf(hourUp + 1)))).click();
 
-        getWait10().until(ExpectedConditions.invisibilityOf(progressbar));
-
+//        getWait10().until(ExpectedConditions.invisibilityOf(progressbar));
+        getWait10().until(ExpectedConditions.visibilityOf(windowStation));
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
 

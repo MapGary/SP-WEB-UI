@@ -4,6 +4,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.TestConfig;
 
@@ -148,5 +149,16 @@ public class BasePage {
             e.printStackTrace();
         }
         return screenshot;
+    }
+
+
+    public boolean isElementGoneFromDom(By locator, int timeoutSeconds) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
+                    .until(ExpectedConditions.numberOfElementsToBe(locator, 0));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }
