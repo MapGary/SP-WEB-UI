@@ -16,173 +16,85 @@ import static utils.Data.Dashboard.listParameters;
 @Epic("Модуль Схема")
 public class SchemaTest extends BaseTest {
 
-//    @Test(groups = "smoke")
-//    @Tag("smoke")
-//    @Feature("Данные измерений")
-//    @Description("""
-//            1. Авторизовался в приложении
-//            2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
-//            3. Перешел к агрегату БКПРУ-4/СОФ/РВК "Б"/Насосное оборудование/4.2-2G28
-//            4. Модуль Схема окно Данные измерений переход с вида График на Таблица
-//            5. Дефолтное Оборотные значение (Частота вращения) и одно значение из Параметры
-//            6. Дефолтное Оборотные значение (Частота вращения) убираю и одно значение из Параметры
-//            7. Дефолтное Оборотные значение (Частота вращения) убираю и одно значение из Замеры""")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Link(name = "Тест-кейс 96", url = "https://team-b9fb.testit.software/projects/1/tests/96")
-//    public void testTransitionFromGraphToTable() {
-//
-//        DashboardPage dashboard = new LoginPage(getDriver())
-//                .loginToApp()
-//                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-//                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
-//                .collapseWindows(new String[]{"Схема агрегата", "Состояние и прогнозирование", "Табличные данные"});
-//
-//        List<String> graphDefaultName = dashboard
-//                .getNameGraph();
-//
-//        List<String> tableDefaultName = dashboard
-//                .clickButtonTable()
-//                .getColumnTitle();
-//
-//        Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
-//        for (int i = 0; i < tableDefaultName.size(); i++) {
-//            Assert.assertEquals(graphDefaultName.get(i), tableDefaultName.get(i));
-//        }
-//
-//        List<String> graphParameterName = dashboard
-//                .clickButtonGraph()
-//                .selectParameterTurnoverParameters()
-//                .getNameGraph();
-//
-//        List<String> tableParameterName = dashboard
-//                .clickButtonTable()
-//                .getColumnTitle();
-//
-//        Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
-//        for (int i = 0; i < tableDefaultName.size(); i++) {
-//            Assert.assertEquals(graphParameterName.get(0), tableParameterName.get(0));
-//        }
-//    }
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Окно Данные измерений")
+    @Description("""
+            1. Авторизовался в приложении
+            2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+            3. Перешел к агрегату БКПРУ-4/СОФ/РВК "Б"/Насосное оборудование/4.2-2G28
+            4. Модуль Схема окно Данные измерений
+            5. Выбран параметр Оборотные дефолтный (Частота вращения) перехожу с График на Таблица
+            6. Выбран параметр Оборотные дефолтный (Частота вращения) и параметр Параметры перехожу с График на Таблица
+            7. Выбран параметр по умолчанию (Частота вращения) и добавляю параметр Параметры, перехожу на Таблица, выбираю один из Замеры, перехожу на График
+            8. Перехожу на Таблица, выбираю один из Замеры с несколькими точками, перехожу на График""")
+    @Severity(SeverityLevel.CRITICAL)
+    @Link(name = "Тест-кейс 96", url = "https://team-b9fb.testit.software/projects/1/tests/96")
+    public void testMeasurementDataTableParameters() {
 
+        DashboardPage dashboard = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
+                .collapseWindows(new String[]{"Схема агрегата", "Состояние и прогнозирование", "Табличные данные"});
 
-//    @Test(groups = "smoke")
-//    @Tag("smoke")
-//    @Feature("Данные измерений")
-//    @Description("Схема/Данные измерений/График/Тренд/Агрегат/4.2-2G28. Параметр по умолчанию (Частота вращения) убираю и добавляю один из Параметры, перехожу на Таблица, выбираю один из Замеры, перехожу на График")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Link("https://team-b9fb.testit.software/projects/1/tests/96")
-//    public void testTransitionFromGraphToTableAndBack() {
-//
-//        DashboardPage pageTable = new LoginPage(getDriver())
-//                .loginToApp()
-//                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-//                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
-//                .selectParameterTurnoverParameters()
-//                .clickButtonTable()
-//                .selectParameterMeasurementsSameTypeTable(1);
-//
-//        List<String> tableParameterName = pageTable
-//                .getColumnTitle();
-//
-//        List<String> graphParameterName = pageTable
-//                .clickButtonGraph()
-//                .getNameGraph();
-//
-//        Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
-//        Assert.assertEquals(graphParameterName.get(0), tableParameterName.get(0));
-//    }
-//
-//    @Test(groups = "smoke")
-//    @Tag("smoke")
-//    @Feature("Данные измерений")
-//    @Description("Схема/Данные измерений/График/Тренд/Агрегат/4.2-2G28. Параметр по умолчанию (Частота вращения) убираю и добавляю один из Параметры, перехожу на Таблица, выбираю один из Замеры с несколькими точками, перехожу на График")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Link("https://team-b9fb.testit.software/projects/1/tests/96")
-//    public void testTransitionFromGraphToTableAndBackMeasurementWithPoints() {
-//
-//        DashboardPage pageTable = new LoginPage(getDriver())
-//                .loginToApp()
-//                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-//                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
-//                .clickButtonTable()
-//                .selectParameterMeasurementsWithPointsTable();
-//
-//        List<String> tableParameterName = pageTable
-//                .getColumnTitle();
-//
-//        List<String> graphParameterName = pageTable
-//                .clickButtonGraph()
-//                .getNameGraph();
-//
-//        Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
-//        for (int i = 0; i < tableParameterName.size(); i++) {
-//            Assert.assertEquals(graphParameterName.get(i), tableParameterName.get(i));
-//        }
-//    }
-//
-//    @Test(groups = "smoke")
-//    @Tag("smoke")
-//    @Feature("Данные измерений")
-//    @Description("Работа вкладки Данные измерений модуля Схема, вид измерения - Тренд. Выбран один параметр Оборотные. Вид Таблица")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Link("https://team-b9fb.testit.software/projects/1/tests/95")
-//    public void testSchemeDataMeasurementTrendTurnoverTable() {
-//
-//        List<String> columnTitle = new LoginPage(getDriver())
-//                .loginToApp()
-//                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-//                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
-//                .clickButtonTable()
-//                .selectParameterTurnoverTable()
-//                .getColumnTitle();
-//
-//        Allure.step("Проверяю, что название выбранного параметра соответствует название колонки в таблице");
-//        Assert.assertEquals(columnTitle.get(0), listParameters.get(listParameters.size() - 1));
-//    }
-//
-//    @Test(groups = "smoke")
-//    @Tag("smoke")
-//    @Feature("Данные измерений")
-//    @Description("Работа вкладки Данные измерений модуля Схема, вид измерения - Тренд. Выбран один параметр Параметры. Вид Таблица")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Link("https://team-b9fb.testit.software/projects/1/tests/95")
-//    public void testSchemeDataMeasurementTrendParametersTable() {
-//
-//        List<String> columnTitle = new LoginPage(getDriver())
-//                .loginToApp()
-//                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-//                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
-//                .clickButtonTable()
-//                .selectParameterParametersTable()
-//                .getColumnTitle();
-//
-//        Allure.step("Проверяю, что название выбранного параметра соответствует название колонки в таблице");
-//        Assert.assertEquals(columnTitle.get(0).replace(" в ", " "), listParameters.get(0));
-//    }
-//
-//    @Test(groups = "smoke")
-//    @Tag("smoke")
-//    @Feature("Данные измерений")
-//    @Description("Работа вкладки Данные измерений модуля Схема, вид измерения - Тренд. Выбран один параметр Замеры. Вид Таблица")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Link("https://team-b9fb.testit.software/projects/1/tests/95")
-//    public void testSchemeDataMeasurementTrendMeasurementsTable() {
-//
-//        List<String> columnTitle = new LoginPage(getDriver())
-//                .loginToApp()
-//                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
-//                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28")
-//                .clickButtonTable()
-//                .selectParameterMeasurementsTable()
-//                .getColumnTitle();
-//
-//        Allure.step("Проверяю, что название выбранного параметра соответствует название колонки в таблице");
-//        Assert.assertEquals(columnTitle.get(0).replace(" в ", " "), listParameters.get(1));
-//    }
+        List<String> graphDefaultName = dashboard
+                .getNameGraph();
+
+        List<String> tableDefaultName = dashboard
+                .clickButtonTable()
+                .getColumnTitle();
+
+        Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
+        for (int i = 0; i < tableDefaultName.size(); i++) {
+            Assert.assertEquals(graphDefaultName.get(i), tableDefaultName.get(i));
+        }
+
+        List<String> graphParameterName = dashboard
+                .clickButtonGraph()
+                .selectParameterTurnoverParameters()
+                .getNameGraph();
+
+        List<String> tableParameterName = dashboard
+                .clickButtonTable()
+                .getColumnTitle();
+
+        Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
+        for (int i = 0; i < tableParameterName.size(); i++) {
+            Assert.assertEquals(graphParameterName.get(0), tableParameterName.get(0));
+        }
+
+        List<String> tableMeasurementsName = dashboard
+                .selectParameterMeasurementsSameTypeTable(1)
+                .getColumnTitle();
+
+        List<String> graphMeasurementsName = dashboard
+                .clickButtonGraph()
+                .getNameGraph();
+
+        Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
+        for (int i = 0; i < tableMeasurementsName.size(); i++) {
+            Assert.assertEquals(graphMeasurementsName.get(0), tableMeasurementsName.get(0));
+        }
+
+        List<String> tableMeasurementsWithPointsName = dashboard
+                .clickButtonTable()
+                .selectParameterMeasurementsWithPointsTable()
+                .getColumnTitle();
+
+        List<String> graphMeasurementsWithPointsName = dashboard
+                .clickButtonGraph()
+                .getNameGraph();
+
+        Allure.step("Проверяю,что название графика соответствует названию колонки в таблице");
+        for (int i = 0; i < tableMeasurementsWithPointsName.size(); i++) {
+            Assert.assertEquals(graphMeasurementsWithPointsName.get(i), tableMeasurementsWithPointsName.get(i));
+        }
+    }
 
     @Test(groups = "smoke")
     @Tag("smoke")
-    @Feature("Данные измерений")
+    @Feature("Окно Данные измерений")
     @Description("""
             1. Авторизовался в приложении
             2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
@@ -194,7 +106,7 @@ public class SchemaTest extends BaseTest {
             8. Выбрано 3 не однотипных параметра Замеры""")
     @Severity(SeverityLevel.CRITICAL)
     @Link(name = "Тест-кейс 66", url = "https://team-b9fb.testit.software/projects/1/tests/66")
-    public void testSchemeDataMeasurementTrendTurnover() {
+    public void testMeasurementDataGraphParameters() {
 
         DashboardPage dashboardPage = new LoginPage(getDriver())
                 .loginToApp()
