@@ -72,16 +72,16 @@ public class SchemaTest extends BaseTest {
         Allure.step("Проверяю, что график Тренд сигнала отобразился");
         Assert.assertTrue(sizeGraphTrend.width >= 878);
 
-//        dashboardPage
-//                .clickMeasurementType("Орбита")
-//                .selectParameterGraph("ФС 5с")
-//                .checkMeasurementDataWindow();
-//
-//        Dimension sizeGraphOrbit = dashboardPage
-//                .getSizeGraph();
-//
-//        Allure.step("Проверяю, что график Орбита сигнала отобразился");
-//        Assert.assertTrue(sizeGraphOrbit.width >= 878);
+        dashboardPage
+                .clickMeasurementType("Орбита")
+                .selectParameterGraph("ФС 5с")
+                .checkMeasurementDataWindow();
+
+        Dimension sizeGraphOrbit = dashboardPage
+                .getSizeGraph();
+
+        Allure.step("Проверяю, что график Орбита сигнала отобразился");
+        Assert.assertTrue(sizeGraphOrbit.width >= 878);
     }
 
     @Test(groups = "smoke")

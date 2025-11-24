@@ -84,7 +84,7 @@ public class DashboardPage extends BasePage {
     private List<WebElement> level4Name;
 
     // иконка агрегатов для станции
-//    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]//*[local-name()='svg'][contains(@class,'fontSizeMedium ')]")
+//    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]//*[local-name()='svg'][contains(@class,'fontSizeMedium')]")
 //    private List<WebElement> iconUnit;
     @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]")
     private WebElement fieldUnit;
