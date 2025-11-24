@@ -23,14 +23,82 @@ public class SchemaTest extends BaseTest {
             1. Авторизовался в приложении
             2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
             3. Перешел к агрегату БКПРУ-4/СОФ/РВК "Б"/Насосное оборудование/4.2-2G28
-            4. Модуль Схема окно Данные измерений
-            5. Выбран параметр Оборотные дефолтный (Частота вращения) перехожу с График на Таблица
-            6. Выбран параметр Оборотные дефолтный (Частота вращения) и параметр Параметры перехожу с График на Таблица
-            7. Выбран параметр по умолчанию (Частота вращения) и добавляю параметр Параметры, перехожу на Таблица, выбираю один из Замеры, перехожу на График
+            4. Модуль Схема окно Данные измерений вид График
+            5. Выбран параметр Замеры тип измерения Спектр
+            6. Выбран параметр Замеры тип измерения Форма сигнала
+            7. Выбран параметр Замеры тип измерения Тренд
+            8. Выбран параметр Замеры тип измерения Орбита""")
+    @Severity(SeverityLevel.CRITICAL)
+    @Links(value = {@Link(name = "Тест-кейс 67", url = "https://team-b9fb.testit.software/projects/1/tests/67"),
+            @Link(name = "Тест-кейс 68", url = "https://team-b9fb.testit.software/projects/1/tests/68")})
+    public void testMeasurementDataGraphParametersMeasurementType() {
+
+        DashboardPage dashboardPage = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G08")
+                .collapseWindows(new String[]{"Схема агрегата", "Состояние и прогнозирование", "Табличные данные"});
+
+        dashboardPage
+                .clickMeasurementType("Спектр")
+                .selectParameterGraph("СП м/с2")
+                .checkMeasurementDataWindow();
+
+        Dimension sizeGraphSpector = dashboardPage
+                .getSizeGraph();
+
+        Allure.step("Проверяю, что график Спектр отобразился");
+        Assert.assertTrue(sizeGraphSpector.width >= 878);
+
+        dashboardPage
+                .clickMeasurementType("Форма сигнала")
+                .selectParameterGraph("ФС 5с")
+                .checkMeasurementDataWindow();
+
+        Dimension sizeGraphWaveform = dashboardPage
+                .getSizeGraph();
+
+        Allure.step("Проверяю, что график Форма сигнала отобразился");
+        Assert.assertTrue(sizeGraphWaveform.width >= 878);
+
+        dashboardPage
+                .clickMeasurementType("Тренд")
+                .selectParametersMeasurementType(new String[]{"t 1", "ФС 5с"})
+                .checkMeasurementDataWindow();
+
+        Dimension sizeGraphTrend = dashboardPage
+                .getSizeGraph();
+
+        Allure.step("Проверяю, что график Тренд сигнала отобразился");
+        Assert.assertTrue(sizeGraphTrend.width >= 878);
+
+//        dashboardPage
+//                .clickMeasurementType("Орбита")
+//                .selectParameterGraph("ФС 5с")
+//                .checkMeasurementDataWindow();
+//
+//        Dimension sizeGraphOrbit = dashboardPage
+//                .getSizeGraph();
+//
+//        Allure.step("Проверяю, что график Орбита сигнала отобразился");
+//        Assert.assertTrue(sizeGraphOrbit.width >= 878);
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Окно Данные измерений")
+    @Description("""
+            1. Авторизовался в приложении
+            2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+            3. Перешел к агрегату БКПРУ-4/СОФ/РВК "Б"/Насосное оборудование/4.2-2G28
+            4. Модуль Схема окно Данные измерений тип измерения Тренд вид Таблица
+            5. Выбран параметр Оборотные перехожу с График на Таблица
+            6. Выбран параметр Оборотные и параметр Параметры перехожу с График на Таблица
+            7. Нахожусь на Таблица, выбираю один из Замеры, перехожу на График
             8. Перехожу на Таблица, выбираю один из Замеры с несколькими точками, перехожу на График""")
     @Severity(SeverityLevel.CRITICAL)
     @Link(name = "Тест-кейс 96", url = "https://team-b9fb.testit.software/projects/1/tests/96")
-    public void testMeasurementDataTableParameters() {
+    public void testMeasurementDataTableParametersTrend() {
 
         DashboardPage dashboard = new LoginPage(getDriver())
                 .loginToApp()
@@ -52,7 +120,7 @@ public class SchemaTest extends BaseTest {
 
         List<String> graphParameterName = dashboard
                 .clickButtonGraph()
-                .selectParameterTurnoverParameters()
+                .selectParametersMeasurementType(new String[]{"Частота вращения (фактическая)", "ИТС"})
                 .getNameGraph();
 
         List<String> tableParameterName = dashboard
@@ -65,7 +133,7 @@ public class SchemaTest extends BaseTest {
         }
 
         List<String> tableMeasurementsName = dashboard
-                .selectParameterMeasurementsSameTypeTable(1)
+                .selectParameterTable("t 1")
                 .getColumnTitle();
 
         List<String> graphMeasurementsName = dashboard
@@ -79,7 +147,7 @@ public class SchemaTest extends BaseTest {
 
         List<String> tableMeasurementsWithPointsName = dashboard
                 .clickButtonTable()
-                .selectParameterMeasurementsWithPointsTable()
+                .selectParameterTable("ФВЧ10000")
                 .getColumnTitle();
 
         List<String> graphMeasurementsWithPointsName = dashboard
@@ -99,14 +167,14 @@ public class SchemaTest extends BaseTest {
             1. Авторизовался в приложении
             2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
             3. Перешел к агрегату БКПРУ-4/СОФ/РВК "Б"/Насосное оборудование/4.2-2G28
-            4. Модуль Схема окно Данные измерений вид График
-            5. Выбран параметр Оборотные дефолтный (Частота вращения)
+            4. Модуль Схема окно Данные измерений  тип измерения Тренд вид График
+            5. Выбран параметр Оборотные
             6. Выбран параметр Оборотные и один Параметры
             7. Выбрано 5 однотипных параметров Замеры
             8. Выбрано 3 не однотипных параметра Замеры""")
     @Severity(SeverityLevel.CRITICAL)
     @Link(name = "Тест-кейс 66", url = "https://team-b9fb.testit.software/projects/1/tests/66")
-    public void testMeasurementDataGraphParameters() {
+    public void testMeasurementDataGraphParametersTrend() {
 
         DashboardPage dashboardPage = new LoginPage(getDriver())
                 .loginToApp()
@@ -115,7 +183,7 @@ public class SchemaTest extends BaseTest {
                 .collapseWindows(new String[]{"Схема агрегата", "Состояние и прогнозирование", "Табличные данные"});
 
         List<String> nameDefault = dashboardPage
-                .selectParameterTurnover()
+                .selectParametersMeasurementType(new String[]{"Частота вращения (фактическая)"})
                 .getNameGraph();
 
         Allure.step("Проверяю, что график один");
@@ -124,7 +192,7 @@ public class SchemaTest extends BaseTest {
         Assert.assertEquals(nameDefault.get(0), listParameters.get(0));
 
         List<String> nameTurnoverParameters = dashboardPage
-                .selectParameterTurnoverParameters()
+                .selectParametersMeasurementType(new String[]{"Частота вращения (фактическая)", "ИТС"})
                 .getNameGraph();
 
         Allure.step("Проверяю, что графиков два");
@@ -135,7 +203,7 @@ public class SchemaTest extends BaseTest {
         }
 
         List<String> name5Parameters = dashboardPage
-                .selectParameterMeasurementsSameTypeGraph(5)
+                .selectParametersMeasurementType(new String[]{"t 1", "t 2", "t 2П (УЗиД)", "t 3", "t 3П (УЗиД)"})
                 .getNameGraph();
 
         Assert.assertEquals(name5Parameters.size(), 5);
@@ -147,7 +215,7 @@ public class SchemaTest extends BaseTest {
         }
 
         List<String> name3ParametersNotSameType = dashboardPage
-                .selectParameterMeasurementsNotSameType(3)
+                .selectParametersMeasurementType(new String[]{"t 1", "ОУ м/с2", "СП мм/с"})
                 .getNameGraph();
 
         Allure.step("Проверяю, что количество графиков больше чем выбрано параметров");
@@ -253,7 +321,7 @@ public class SchemaTest extends BaseTest {
             @Link(name = "Тест-кейс 76", url = "https://team-b9fb.testit.software/projects/1/tests/76"),
             @Link(name = "Тест-кейс 77", url = "https://team-b9fb.testit.software/projects/1/tests/77"),
             @Link(name = "Тест-кейс 71", url = "https://team-b9fb.testit.software/projects/1/tests/71")})
-    public void testDashboardDownloads() {
+    public void testUnitDashboardDownloads() {
 
         DashboardPage dashboardPage = new LoginPage(getDriver())
                 .loginToApp()
@@ -296,5 +364,54 @@ public class SchemaTest extends BaseTest {
 
         Allure.step("Проверяю, что окно Данные измерений развернулось на весь дашборд");
         Assert.assertTrue(sizeMeasurementData.width >= 878 || sizeMeasurementData.height >= 537);
+    }
+
+    @Test(groups = "smoke")
+    @Tag("smoke")
+    @Feature("Рабочая область")
+    @Description("""
+            1. Авторизовался в приложении
+            2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+            3. Перешел к станции БКПРУ-4
+            4. Модуль Схема
+            5. Данные отображаются Диаграмма
+            6. Данные отображаются Схема
+            7. Перешел к станции СКРУ-3
+            4. Модуль Схема
+            5. Данные отображаются Диаграмма
+            6. Данные отображаются Схема""")
+    @Severity(SeverityLevel.BLOCKER)
+    @Links(value = {@Link(name = "Тест-кейс 72", url = "https://team-b9fb.testit.software/projects/1/tests/72"),
+            @Link(name = "Тест-кейс 73", url = "https://team-b9fb.testit.software/projects/1/tests/73")})
+    public void testStationDashboardDownloads() {
+
+        DashboardPage dashboardPage = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4");
+
+        DashboardPage chartPage = dashboardPage
+                .clickChartButton();
+
+        Assert.assertTrue(chartPage.checkChartStation());
+
+        DashboardPage schemaPage = dashboardPage
+                .clickSchemaButton();
+
+        Assert.assertTrue(schemaPage.checkSchemaStation());
+
+        dashboardPage
+                .goToImage("СКРУ-3");
+
+        DashboardPage imagePage = dashboardPage
+                .clickChartButton();
+
+        Assert.assertTrue(imagePage.checkChartStation());
+
+        DashboardPage imagePageNew = dashboardPage
+                .clickSchemaButton();
+
+        Assert.assertTrue(imagePageNew.checkSchemaStation());
+
     }
 }

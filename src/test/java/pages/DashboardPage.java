@@ -3,17 +3,13 @@ package pages;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.ByteArrayInputStream;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static utils.Data.Dashboard.listParameters;
 
@@ -87,9 +83,27 @@ public class DashboardPage extends BasePage {
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-label']"))
     private List<WebElement> level4Name;
 
-    // окно станции со всеми агрегатами
-    @FindBy(xpath = "//div[contains(@class, 'MuiBox-root')]/header/../..")
-    private WebElement windowStation;
+    // иконка агрегатов для станции
+//    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]//*[local-name()='svg'][contains(@class,'fontSizeMedium ')]")
+//    private List<WebElement> iconUnit;
+    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]")
+    private WebElement fieldUnit;
+
+    // иконки на картинке всех агрегатов для станции
+//    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]/*[local-name()='svg']/*[local-name()='g']")
+    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]/*[local-name()='svg']")
+    private List<WebElement> iconImageUnits;
+
+    // кнопка диаграмма для станции
+    @FindBy(xpath = "//button[contains(@value,'diagram')]")
+    private WebElement buttonDiagram;
+    // кнопка схема для станции
+    @FindBy(xpath = "//button[contains(@value,'default')]")
+    private WebElement buttonGraphStation;
+
+    // все диаграммы для станции
+    @FindBy(xpath = "//div[contains(@class,'MuiBox')]/canvas")
+    private List<WebElement> diagram;
 
     // 4 окна на рабочей области
     @FindBy(xpath = "//div[@id='panel1a-content']")
@@ -127,6 +141,10 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//div[@aria-label='view switcher']/button[contains(@id,'T-1')]")
     private WebElement buttonTable;
 
+    // выпадающий список тип измерения
+    @FindBy(xpath = "//ul[contains(@class,'MuiMenu')]/li")
+    private List<WebElement> dropdownMeasurementType;
+
     // таблица в окне данные измерений
     @FindBy(xpath = "//table[@aria-label='analytics table']")
     private WebElement tableDataMeasurement;
@@ -140,7 +158,11 @@ public class DashboardPage extends BasePage {
 
     // прогресс бар списка оборудования
     @FindBy(xpath = "//div[@id='equipment-content']//span[@role='progressbar']")
-    private WebElement progressbar;
+    private WebElement progressbarMenu;
+
+    // прогресс бар списка оборудования
+    @FindBy(xpath = "//div[contains(@id,'P-1')]//span[@role='progressbar']")
+    private WebElement progressbarDashboard;
 
     // все выпадающие списки
     @FindBy(xpath = "//div[contains(@class,'MuiFormControl-root')]")
@@ -269,8 +291,8 @@ public class DashboardPage extends BasePage {
         driver.findElement(By.xpath(String.format("//div[@class='react-datepicker-wrapper'][2]/../div[@class='react-datepicker__tab-loop']//div[contains(@class, 'react-datepicker__day react-datepicker__day--%s')]", String.format("%03d", dayUp)))).click();
         driver.findElement(By.xpath(String.format("//div[@class='react-datepicker-wrapper'][2]/../div[@class='react-datepicker__tab-loop']//ul[@class='react-datepicker__time-list']/li[%s]", String.valueOf(hourUp + 1)))).click();
 
-//        getWait10().until(ExpectedConditions.invisibilityOf(progressbar));
-        getWait10().until(ExpectedConditions.visibilityOf(windowStation));
+        getWait10().until(ExpectedConditions.invisibilityOf(progressbarMenu));
+//        getWait10().until(ExpectedConditions.visibilityOf(windowStation));
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
 
@@ -317,6 +339,60 @@ public class DashboardPage extends BasePage {
         getMeasurementDataGraph(agr);
 
         getWait10().until(ExpectedConditions.elementToBeClickable(graph));
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по агрегату", page);
+
+        return this;
+    }
+
+    @Step("Перехожу к станции {station}")
+    public DashboardPage goTo(String station) {
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        Allure.step(String.format("1 уровень %s", station));
+        for (int i = 0; i < level1Links.size(); i++) {
+            if (level1Name.get(i).getText().equals(station)) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level1Name.get(i));
+                level1Name.get(i).click();
+                break;
+            }
+        }
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(fieldUnit));
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по агрегату", page);
+
+        return this;
+    }
+
+    @Step("Перехожу к станции {station}")
+    public DashboardPage goToImage(String station) {
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        Allure.step(String.format("1 уровень %s", station));
+        for (int i = 0; i < level1Links.size(); i++) {
+            if (level1Name.get(i).getText().equals(station)) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level1Name.get(i));
+                level1Name.get(i).click();
+                break;
+            }
+        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        getWait10().until(ExpectedConditions.invisibilityOf(progressbarDashboard));
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
@@ -396,7 +472,7 @@ public class DashboardPage extends BasePage {
         }
     }
 
-    @Step("Проверяю, что загрузилась таблица в окне Данные измерений")
+    @Step("Проверяю, что загрузился график в окне Данные измерений")
     public boolean checkMeasurementDataWindow() {
         try {
             getWait5().until(ExpectedConditions.visibilityOf(graph));
@@ -435,40 +511,8 @@ public class DashboardPage extends BasePage {
         return graph.getSize();
     }
 
-    @Step("Выбираю параметр Оборотные")
-    public DashboardPage selectParameterTurnover() {
-        listParameters = new ArrayList<>(1);
-
-        // засекаю время загрузки временного интервала
-        startTimeInterval = System.currentTimeMillis();
-
-        dropdownList.get(6).click();
-
-        if (Objects.equals(getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).getAttribute("aria-selected"), "false")) {
-            dropdownDateMeasurement.get(0).click();
-        }
-
-        listParameters.add(0, dropdownDateMeasurement.get(0).getText());
-
-        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        // останавливаю время загрузки временного интервала
-        endTimeInterval = System.currentTimeMillis();
-
-        takeScreenshotPage("Данные по параметру", page);
-
-        return this;
-    }
-
-    @Step("Выбираю параметр Оборотные и один Параметры")
-    public DashboardPage selectParameterTurnoverParameters() {
-        listParameters = new ArrayList<>(2);
+    public DashboardPage selectParameterMeasurementType(String parameter) {
+        listParameters = new ArrayList<>();
 
         // засекаю время загрузки временного интервала
         startTimeInterval = System.currentTimeMillis();
@@ -481,147 +525,67 @@ public class DashboardPage extends BasePage {
             throw new RuntimeException(e);
         }
 
-        if (Objects.equals(getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).getAttribute("aria-selected"), "false")) {
-            dropdownDateMeasurement.get(0).click();
-        }
-        listParameters.add(0, dropdownDateMeasurement.get(0).getText());
-        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(5))).click();
-        listParameters.add(1, dropdownDateMeasurement.get(5).getText());
+        for (int i = 0; i < dropdownDateMeasurement.size(); i++) {
+            if (i > 0) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownDateMeasurement.get(i - 1));
+            }
 
-        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        // останавливаю время загрузки временного интервала
-        endTimeInterval = System.currentTimeMillis();
-
-        takeScreenshotPage("Данные по параметру", page);
-
-        return this;
-    }
-
-    @Step("Выбираю {count} однотипных параметров Замерные на График")
-    public DashboardPage selectParameterMeasurementsSameTypeGraph(int count) {
-        listParameters = new ArrayList<>(count);
-
-        // засекаю время загрузки временного интервала
-        startTimeInterval = System.currentTimeMillis();
-
-        dropdownList.get(6).click();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (Objects.equals(getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).getAttribute("aria-selected"), "true")) {
-            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0))).click();
-        }
-        if (Objects.equals(getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(5))).getAttribute("aria-selected"), "true")) {
-            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(5))).click();
-        }
-
-        for (int i = 6; i < 6 + count; i++) {
-            if (Objects.equals(dropdownDateMeasurement.get(0).getAttribute("aria-selected"), "false")) {
+            if (dropdownDateMeasurement.get(i).getText().equals(parameter)) {
                 dropdownDateMeasurement.get(i).click();
+                break;
             }
-            listParameters.add(i - count - 1, dropdownDateMeasurement.get(i).getText());
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            getWait10().until(ExpectedConditions.elementToBeClickable(graph));
         }
 
-        takeScreenshotPage("Выбранные параметры", dropdownDateMeasurementAll);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
-
-        // останавливаю время загрузки временного интервала
-        endTimeInterval = System.currentTimeMillis();
-
-        takeScreenshotPage("Данные по параметрам", page);
+//        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
+//
+////        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+//
+//        // останавливаю время загрузки временного интервала
+//        endTimeInterval = System.currentTimeMillis();
+//
+//        takeScreenshotPage("Данные по параметрам", page);
 
         return this;
     }
 
-    @Step("Выбираю один параметр из Замеры на Таблица")
-    public DashboardPage selectParameterMeasurementsSameTypeTable(int count) {
-        listParameters = new ArrayList<>(count);
+    @Step("Выбираю параметр {parameter} на Таблица")
+    public DashboardPage selectParameterTable(String parameter) {
+        selectParameterMeasurementType(parameter);
 
-        // засекаю время загрузки временного интервала
-        startTimeInterval = System.currentTimeMillis();
-
-        dropdownList.get(6).click();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        for (int i = 6; i < 6 + count; i++) {
-            listParameters.add(i - 6, dropdownDateMeasurement.get(i).getText());
-            dropdownDateMeasurement.get(i).click();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            getWait10().until(ExpectedConditions.elementToBeClickable(tableDataMeasurement));
-        }
-
-        takeScreenshotPage("Выбранные параметры", tableDataMeasurement);
-
-        // останавливаю время загрузки временного интервала
-        endTimeInterval = System.currentTimeMillis();
-
-        takeScreenshotPage("Данные по параметрам", page);
-
-        return this;
-    }
-
-    @Step("Выбираю один параметр с точками из Замеры на Таблица")
-    public DashboardPage selectParameterMeasurementsWithPointsTable() {
-
-        // засекаю время загрузки временного интервала
-        startTimeInterval = System.currentTimeMillis();
-
-        dropdownList.get(6).click();
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        dropdownDateMeasurement.get(29).click();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         getWait10().until(ExpectedConditions.elementToBeClickable(tableDataMeasurement));
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
 
-        takeScreenshotPage("Таблица", page);
+        takeScreenshotPage("Данные по параметрам", tableDataMeasurement);
 
         return this;
     }
 
-    @Step("Выбираю {count} не однотипных параметров Замерные")
-    public DashboardPage selectParameterMeasurementsNotSameType(int count) {
-        listParameters = new ArrayList<>(count);
+    @Step("Выбираю параметр {parameter} на График")
+    public DashboardPage selectParameterGraph(String parameter) {
+        selectParameterMeasurementType(parameter);
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по параметрам", graph);
+
+        return this;
+    }
+
+    @Step("Выбираю параметры {parameters}")
+    public DashboardPage selectParametersMeasurementType(String[] parameters) {
+        listParameters = new ArrayList<>();
+        int x = 0;
 
         // засекаю время загрузки временного интервала
         startTimeInterval = System.currentTimeMillis();
@@ -634,53 +598,58 @@ public class DashboardPage extends BasePage {
             throw new RuntimeException(e);
         }
 
-        for (int i = 7; i < 11; i++) {
-            if (Objects.equals(getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(i))).getAttribute("aria-selected"), "true")) {
-                dropdownDateMeasurement.get(i).click();
+        // снимаю чек боксы
+        for (int i = 0; i < dropdownDateMeasurement.size(); i++) {
+            if (i != 0) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownDateMeasurement.get(i - 1));
             }
+            WebElement element = dropdownDateMeasurement.get(i);
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            if (element.getAttribute("aria-selected").equals("true")) {
+                element.click();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+//                getWait10().until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[contains(@class,'MuiBox')]/*[local-name()='svg']/*[local-name()='svg'][@data-testid=\"AnalyticsIcon\"]"))));
             }
-
-            getWait10().until(ExpectedConditions.elementToBeClickable(graph));
         }
-
-        listParameters.add(0, dropdownDateMeasurement.get(6).getText());
-        takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
-
-        if (Objects.equals(dropdownDateMeasurement.get(0).getAttribute("aria-selected"), "false")) {
-            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(14))).click();
-        }
-        listParameters.add(1, dropdownDateMeasurement.get(14).getText());
-        takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
-
-        if (Objects.equals(dropdownDateMeasurement.get(0).getAttribute("aria-selected"), "false")) {
-            getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(21))).click();
-        }
-        listParameters.add(2, dropdownDateMeasurement.get(21).getText());
-        takeScreenshotPage("Выбранный параметр", dropdownDateMeasurementAll);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
 
         driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+        dropdownList.get(6).click();
+
+        // ставлю чек боксы
+        for (String parameter : parameters) {
+            for (int j = 0; j < dropdownDateMeasurement.size(); j++) {
+                if (j != 0) {
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownDateMeasurement.get(j - 1));
+                }
+
+                WebElement element = dropdownDateMeasurement.get(j);
+
+                if (element.getText().equals(parameter)) {
+                    listParameters.add(x, element.getText());
+                    x++;
+                    element.click();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    getWait10().until(ExpectedConditions.elementToBeClickable(graph));
+                    break;
+                }
+            }
+        }
+
+        driver.switchTo().activeElement().sendKeys(Keys.ESCAPE);
+        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
 
-        takeScreenshotPage("Данные по параметрам", page);
+        takeScreenshotPage("Данные по параметрам", graph);
 
         return this;
     }
@@ -858,5 +827,62 @@ public class DashboardPage extends BasePage {
         }
 
         return listName;
+    }
+
+    @Step("Открываю выпадающий список Тип измерения выбираю {type}")
+    public DashboardPage clickMeasurementType(String type) {
+
+        dropdownList.get(3).click();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownMeasurementType.get(0)));
+
+        for (WebElement dropdown : dropdownMeasurementType) {
+            if (dropdown.getText().equals(type)) {
+                dropdown.click();
+                break;
+            }
+        }
+
+        return this;
+    }
+
+    @Step("Кликаю кнопку Диаграмма")
+    public DashboardPage clickChartButton() {
+        buttonDiagram.click();
+
+        return this;
+    }
+
+    @Step("Проверяю, что загрузились диаграммы для станции")
+    public boolean checkChartStation() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(diagram.get(0)));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Кликаю кнопку Диаграмма")
+    public DashboardPage clickSchemaButton() {
+        buttonGraphStation.click();
+
+        return this;
+    }
+
+    @Step("Проверяю, что загрузились иконки агрегатов для станции")
+    public boolean checkSchemaStation() {
+        try {
+            getWait10().until(ExpectedConditions.invisibilityOf(progressbarDashboard));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
