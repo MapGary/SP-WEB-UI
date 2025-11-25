@@ -118,11 +118,6 @@ public abstract class BaseTest {
 
         driver.get(config.getBaseUrl());
 
-        if (remoteUrl != null) {
-            driver.findElement(By.id("details-button")).click();
-            getWait5().until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("final-paragraph")))).click();
-        }
-
         LoggerUtil.info(String.format("Run %s.%s", this.getClass().getName().replace("tests.", ""), method.getName()));
     }
 
