@@ -61,6 +61,10 @@ public class DashboardPage extends BasePage {
     // Список оборудования название 1 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li[contains(@class, 'MuiTreeItem')]/div/div[@class='MuiTreeItem-label']"))
     private List<WebElement> level1Name;
+    // Верхняя станция токрытая по дефолту
+    @FindBy(xpath = "//li[contains(@class,'MuiTreeItem')]")
+    private List<WebElement> stationLinks;
+
 
     // Список оборудования ссылки 2 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
@@ -82,6 +86,20 @@ public class DashboardPage extends BasePage {
     // Список оборудования название 4 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/div/div[@class='MuiTreeItem-label']"))
     private List<WebElement> level4Name;
+
+    // кнопка модуль журнал
+    @FindBy(xpath = "//button[contains(@id,'T-2')]")
+    private WebElement buttonModuleMagazine;
+
+    // нижняя часть таблицы модуль журнал
+    @FindBy(xpath = "//div[contains(@class,'MuiDataGrid')][@role='grid']/div/div[contains(@class,'MuiBox')]")
+    private WebElement footerTableModuleMagazine;
+    // столбец с точками таблица модуль журнал
+    @FindBy(xpath = "//div[contains(@class,'pinnedColumns')]")
+    private WebElement columnTableModuleMagazine;
+    // столбец с замерами таблица модуль журнал
+    @FindBy(xpath = "//div[contains(@class,'pinnedColumns--right')]/div[@role='row']")
+    private List<WebElement> countMeteringTableModuleMagazine;
 
     // иконка агрегатов для станции
 //    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]//*[local-name()='svg'][contains(@class,'fontSizeMedium')]")
@@ -357,6 +375,45 @@ public class DashboardPage extends BasePage {
         return this;
     }
 
+    @Step("Прохожусь по оборудованию к агрегату {st1}/{st2}/{st3}/{st4}/{agr}")
+    public DashboardPage goToMagazine(String st1, String st2, String st3, String st4, String agr) {
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        Allure.step(String.format("4 уровень %s", st4));
+        System.out.println("4");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        getStations(level4Links, level4Name, st4);
+        Allure.step(String.format("Агрегат %s", agr));
+        System.out.println("4");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        getMeasurementDataGraph(agr);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        getWait10().until(ExpectedConditions.visibilityOf(footerTableModuleMagazine));
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по агрегату", page);
+
+        return this;
+    }
+
     @Step("Перехожу к станции {station}")
     public DashboardPage goTo(String station) {
 
@@ -377,7 +434,48 @@ public class DashboardPage extends BasePage {
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
 
-        takeScreenshotPage("Данные по агрегату", page);
+        takeScreenshotPage("Данные по станции", page);
+
+        return this;
+    }
+
+    @Step("Прохожусь по оборудованию к станции {st1}/{st2}/{st3}/{st4}")
+    public DashboardPage goTo(String st1, String st2, String st3, String st4) {
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        Allure.step(String.format("1 уровень %s", st1));
+        for (int i = 0; i < level1Links.size(); i++) {
+            if (level1Name.get(i).getText().equals(st1)) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level1Name.get(i));
+                level1Name.get(i).click();
+                break;
+            }
+        }
+        Allure.step(String.format("2 уровень %s", st2));
+        getStations(level2Links, level2Name, st2);
+        Allure.step(String.format("3 уровень %s", st3));
+        getStations(level3Links, level3Name, st3);
+        Allure.step(String.format("4 уровень %s", st4));
+        getStations(level4Links, level4Name, st4);
+//        private void getStations(List<WebElement> link, List<WebElement> name, String station) {
+        for (int i = 0; i < level4Name.size(); i++) {
+            getWait5().until(ExpectedConditions.elementToBeClickable(level4Links.get(i)));
+            if (level4Name.get(i).getText().equals(st4)) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", level4Name.get(i));
+                level4Name.get(i).click();
+                break;
+            }
+        }
+//        }
+
+        getWait10().until(ExpectedConditions.visibilityOf(fieldUnit));
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по станции", page);
 
         return this;
     }
@@ -610,6 +708,8 @@ public class DashboardPage extends BasePage {
         }
 
         // снимаю чек боксы
+        getWait10().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0)));
+
         for (int i = 0; i < dropdownDateMeasurement.size(); i++) {
             if (i != 0) {
                 ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownDateMeasurement.get(i - 1));
@@ -623,7 +723,6 @@ public class DashboardPage extends BasePage {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-//                getWait10().until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[contains(@class,'MuiBox')]/*[local-name()='svg']/*[local-name()='svg'][@data-testid=\"AnalyticsIcon\"]"))));
             }
         }
 
@@ -849,10 +948,9 @@ public class DashboardPage extends BasePage {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("1");
+
         getWait5().until(ExpectedConditions.elementToBeClickable(dropdownMeasurementType.get(0)));
 
-        System.out.println("2");
         for (WebElement dropdown : dropdownMeasurementType) {
             if (dropdown.getText().equals(type)) {
                 dropdown.click();
@@ -933,5 +1031,36 @@ public class DashboardPage extends BasePage {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Step("Перешел в модуль Журнал")
+    public DashboardPage clickSchemaModul() {
+        buttonModuleMagazine.click();
+        getWait10().until(ExpectedConditions.visibilityOf(footerTableModuleMagazine));
+
+        takeScreenshotPage("Дашборд Журнал", page);
+
+        return this;
+    }
+
+    @Step("Получил названия колонок в таблице")
+    public boolean getNameColumnTableModuleMagazine() {
+
+        if (columnTableModuleMagazine.getText().equals("")) {
+            return false;
+        }
+        return true;
+    }
+
+    @Step("Получил количество замеров в таблице")
+    public int getCountMetering() {
+
+        int summa = 0;
+
+        for (int i = 1; i < countMeteringTableModuleMagazine.size(); i++) {
+            summa += Integer.parseInt(countMeteringTableModuleMagazine.get(i).getText());
+        }
+
+        return summa;
     }
 }
