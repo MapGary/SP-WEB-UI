@@ -90,6 +90,9 @@ public class DashboardPage extends BasePage {
     // кнопка модуль журнал
     @FindBy(xpath = "//button[contains(@id,'T-2')]")
     private WebElement buttonModuleMagazine;
+    // кнопка модуль события
+    @FindBy(xpath = "//button[contains(@id,'T-3')]")
+    private WebElement buttonModuleEvents;
 
     // нижняя часть таблицы модуль журнал
     @FindBy(xpath = "//div[contains(@class,'MuiDataGrid')][@role='grid']/div/div[contains(@class,'MuiBox')]")
@@ -100,6 +103,13 @@ public class DashboardPage extends BasePage {
     // столбец с замерами таблица модуль журнал
     @FindBy(xpath = "//div[contains(@class,'pinnedColumns--right')]/div[@role='row']")
     private List<WebElement> countMeteringTableModuleMagazine;
+
+    // таблица модуль события
+    @FindBy(xpath = "//table[contains(@class,'MuiTable')]")
+    private WebElement tableEventsModule;
+    // хедер таблицы модуль события
+    @FindBy(xpath = "//div[contains(@id,'P-3')]//div[contains(@class,'columnHeaders ')]")
+    private WebElement headerTableEventsModule;
 
     // иконка агрегатов для станции
 //    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]//*[local-name()='svg'][contains(@class,'fontSizeMedium')]")
@@ -393,6 +403,33 @@ public class DashboardPage extends BasePage {
         }
 
         getWait10().until(ExpectedConditions.visibilityOf(footerTableModuleMagazine));
+
+        // останавливаю время загрузки временного интервала
+        endTimeInterval = System.currentTimeMillis();
+
+        takeScreenshotPage("Данные по агрегату", page);
+
+        return this;
+    }
+
+    @Step("Прохожусь по оборудованию к агрегату {st1}/{st2}/{st3}/{st4}/{agr}")
+    public DashboardPage goToEvents(String st1, String st2, String st3, String st4, String agr) {
+
+        // засекаю время загрузки временного интервала
+        startTimeInterval = System.currentTimeMillis();
+
+        Allure.step(String.format("4 уровень %s", st4));
+        getStations(level4Links, level4Name, st4);
+        Allure.step(String.format("Агрегат %s", agr));
+        getMeasurementDataGraph(agr);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        getWait10().until(ExpectedConditions.visibilityOf(headerTableEventsModule));
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
@@ -1022,7 +1059,7 @@ public class DashboardPage extends BasePage {
     }
 
     @Step("Перешел в модуль Журнал")
-    public DashboardPage clickSchemaModul() {
+    public DashboardPage clickMagazineModul() {
         buttonModuleMagazine.click();
         getWait10().until(ExpectedConditions.visibilityOf(footerTableModuleMagazine));
 
@@ -1050,5 +1087,35 @@ public class DashboardPage extends BasePage {
         }
 
         return summa;
+    }
+
+    @Step("Перешел в модуль События")
+    public DashboardPage clickEventsModul() {
+        buttonModuleEvents.click();
+        getWait10().until(ExpectedConditions.visibilityOf(tableEventsModule));
+
+        takeScreenshotPage("Дашборд События", page);
+
+        return this;
+    }
+
+    @Step("Проверяю, что в таблице построена")
+    public boolean checkStationTableEvents() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(tableEventsModule));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Проверяю, что в таблице построена")
+    public boolean checkUnitTableEvents() {
+        try {
+            getWait5().until(ExpectedConditions.visibilityOf(headerTableEventsModule));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

@@ -8,8 +8,8 @@ import pages.DashboardPage;
 import pages.LoginPage;
 import utils.BaseTest;
 
-@Epic("Модуль Журнал")
-public class MagazineTest extends BaseTest {
+@Epic("Модуль События")
+public class EventsTest extends BaseTest {
 
     @Test(groups = "smoke")
     @Tag("smoke")
@@ -19,13 +19,14 @@ public class MagazineTest extends BaseTest {
             2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
             3. Перешел к станции БКПРУ-4/СОФ/РВК "Б"/Конвейерный транспорт
             4. Модуль Схема
-            5. Перешел в модуль Журнал
+            5. Перешел в модуль События
             6. Данные в таблице заполнены
             7. Перешел к станции БКПРУ-4/СОФ/РВК "Б"/Насосное оборудование/4.2-2G28
-            8. Модуль Журнал
+            8. Модуль События
             9. Данные в таблице заполнены""")
     @Severity(SeverityLevel.CRITICAL)
-    @Links(value = {@Link(name = "Тест-кейс 152", url = "https://team-b9fb.testit.software/projects/1/tests/152")})
+    @Links(value = {@Link(name = "Тест-кейс 143", url = "https://team-b9fb.testit.software/projects/1/tests/143"),
+            @Link(name = "Тест-кейс 144", url = "https://team-b9fb.testit.software/projects/1/tests/144")})
     public void testDashboardDownloads() {
 
         DashboardPage dashboardPage = new LoginPage(getDriver())
@@ -34,13 +35,13 @@ public class MagazineTest extends BaseTest {
                 .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Конвейерный транспорт");
 
         DashboardPage station = dashboardPage
-                .clickMagazineModul();
+                .clickEventsModul();
 
-        Assert.assertTrue(station.getCountMetering() > 0);
+        Assert.assertTrue(station.checkStationTableEvents());
 
         DashboardPage unit = dashboardPage
-                .goToMagazine("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28");
+                .goToEvents("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование", "4.2-2G28");
 
-        Assert.assertTrue(unit.getNameColumnTableModuleMagazine());
+        Assert.assertTrue(unit.checkUnitTableEvents());
     }
 }

@@ -15,6 +15,7 @@
             <class name="tests.TimeIntervalPannelTest"/>
             <class name="tests.SchemaTest"/>
             <class name="tests.MagazineTest"/>
+            <class name="tests.EventsTest"/>
         </classes>
     </test>
 
@@ -32,6 +33,7 @@
             <class name="tests.TimeIntervalPannelTest"/>
             <class name="tests.SchemaTest"/>
             <class name="tests.MagazineTest"/>
+            <class name="tests.EventsTest"/>
         </classes>
     </test>
 
@@ -49,6 +51,7 @@
             <class name="tests.TimeIntervalPannelTest"/>
             <class name="tests.SchemaTest"/>
             <class name="tests.MagazineTest"/>
+            <class name="tests.EventsTest"/>
         </classes>
     </test>
 
