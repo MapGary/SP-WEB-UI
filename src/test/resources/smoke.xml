@@ -14,6 +14,7 @@
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
             <class name="tests.SchemaTest"/>
+            <class name="tests.MagazineTest"/>
         </classes>
     </test>
 
@@ -30,6 +31,7 @@
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
             <class name="tests.SchemaTest"/>
+            <class name="tests.MagazineTest"/>
         </classes>
     </test>
 
@@ -46,6 +48,7 @@
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
             <class name="tests.SchemaTest"/>
+            <class name="tests.MagazineTest"/>
         </classes>
     </test>
 
