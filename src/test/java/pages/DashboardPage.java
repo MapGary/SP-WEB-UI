@@ -382,20 +382,8 @@ public class DashboardPage extends BasePage {
         startTimeInterval = System.currentTimeMillis();
 
         Allure.step(String.format("4 уровень %s", st4));
-        System.out.println("4");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         getStations(level4Links, level4Name, st4);
         Allure.step(String.format("Агрегат %s", agr));
-        System.out.println("4");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         getMeasurementDataGraph(agr);
 
         try {
