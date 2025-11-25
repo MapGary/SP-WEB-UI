@@ -85,6 +85,10 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//div[contains(@class, 'MuiBox-root')]/header/../..")
     private WebElement windowStation;
 
+    // иконка агрегатов для станции
+    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]")
+    private WebElement fieldUnit;
+
     @Step("Добавляю значение в поле Логин")
     public LoginPage addValueToFieldLogin(String login) {
         fieldLogin.sendKeys(login);
@@ -118,8 +122,11 @@ public class LoginPage extends BasePage {
         // жду обновления дашборд на вкладке Схема
         getWait10().until(ExpectedConditions.urlContains("tab=1"));
 //        isElementGoneFromDom(By.xpath("//div[@id='equipment-content']//span[@role='progressbar']"), 10);
-//        getWait20().until(ExpectedConditions.invisibilityOf(progressbar));
-        getWait10().until(ExpectedConditions.visibilityOf(windowStation));
+        try {
+            getWait10().until(ExpectedConditions.invisibilityOf(progressbar));
+        } catch (Exception e) {
+            getWait5().until(ExpectedConditions.visibilityOf(fieldUnit));
+        }
 
         return new DashboardPage(driver);
     }

@@ -141,6 +141,9 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//div[@aria-label='view switcher']/button[contains(@id,'T-1')]")
     private WebElement buttonTable;
 
+    // выпадающее меню тип измерения
+    @FindBy(xpath = "//ul[contains(@id,'rgi')]")
+    private WebElement dropdownMenuMeasurementType;
     // выпадающий список тип измерения
     @FindBy(xpath = "//ul[contains(@class,'MuiMenu')]/li")
     private List<WebElement> dropdownMeasurementType;
@@ -159,10 +162,12 @@ public class DashboardPage extends BasePage {
     // прогресс бар списка оборудования
     @FindBy(xpath = "//div[@id='equipment-content']//span[@role='progressbar']")
     private WebElement progressbarMenu;
-
     // прогресс бар дашборд
     @FindBy(xpath = "//div[contains(@id,'P-1')]//span[@role='progressbar']")
     private WebElement progressbarDashboard;
+    // прогресс бар окно данные измерений
+    @FindBy(xpath = "//div[@id='panel1a-content']//span[@role='progressbar']")
+    private WebElement progressbarMeasurementDate;
 
     // все выпадающие списки
     @FindBy(xpath = "//div[contains(@class,'MuiFormControl-root')]")
@@ -342,7 +347,7 @@ public class DashboardPage extends BasePage {
         Allure.step(String.format("Агрегат %s", agr));
         getMeasurementDataGraph(agr);
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
+        getWait10().until(ExpectedConditions.visibilityOf(graph));
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
@@ -844,9 +849,10 @@ public class DashboardPage extends BasePage {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
+        System.out.println("1");
         getWait5().until(ExpectedConditions.elementToBeClickable(dropdownMeasurementType.get(0)));
 
+        System.out.println("2");
         for (WebElement dropdown : dropdownMeasurementType) {
             if (dropdown.getText().equals(type)) {
                 dropdown.click();
@@ -872,7 +878,11 @@ public class DashboardPage extends BasePage {
 
         clickMeasurementType(type);
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(graph));
+        try {
+            getWait5().until(ExpectedConditions.invisibilityOf(progressbarMeasurementDate));
+        } catch (Exception e) {
+            getWait10().until(ExpectedConditions.visibilityOf(graph));
+        }
 
         return this;
     }
