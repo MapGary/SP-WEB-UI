@@ -5,7 +5,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -118,7 +117,7 @@ public abstract class BaseTest {
         driver.manage().window().setSize(new Dimension(1440, 1080));
 
         driver.get(config.getBaseUrl());
-        
+
         if (config.getBaseUrl().contains("https")) {
             driver.findElement(By.id("details-button")).click();
             getWait5().until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("final-paragraph")))).click();
