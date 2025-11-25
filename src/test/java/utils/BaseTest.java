@@ -118,7 +118,7 @@ public abstract class BaseTest {
 
         driver.get(config.getBaseUrl());
 
-        if (config.getBaseUrl().contains("https") || remoteUrl != null) {
+        if (remoteUrl != null) {
             driver.findElement(By.id("details-button")).click();
             getWait5().until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("final-paragraph")))).click();
         }
