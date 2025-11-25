@@ -40,7 +40,7 @@ public class SchemaTest extends BaseTest {
                 .collapseWindows(new String[]{"Схема агрегата", "Состояние и прогнозирование", "Табличные данные"});
 
         dashboardPage
-                .clickMeasurementType("Спектр")
+                .clickMeasurementTypeIcon("Спектр")
                 .selectParameterGraph("СП м/с2")
                 .checkMeasurementDataWindow();
 
@@ -51,7 +51,7 @@ public class SchemaTest extends BaseTest {
         Assert.assertTrue(sizeGraphSpector.width >= 878);
 
         dashboardPage
-                .clickMeasurementType("Форма сигнала")
+                .clickMeasurementTypeIcon("Форма сигнала")
                 .selectParameterGraph("ФС 5с")
                 .checkMeasurementDataWindow();
 
@@ -62,7 +62,7 @@ public class SchemaTest extends BaseTest {
         Assert.assertTrue(sizeGraphWaveform.width >= 878);
 
         dashboardPage
-                .clickMeasurementType("Тренд")
+                .clickMeasurementTypeGraph("Тренд")
                 .selectParametersMeasurementType(new String[]{"t 1", "ФС 5с"})
                 .checkMeasurementDataWindow();
 
@@ -73,7 +73,7 @@ public class SchemaTest extends BaseTest {
         Assert.assertTrue(sizeGraphTrend.width >= 878);
 
         dashboardPage
-                .clickMeasurementType("Орбита")
+                .clickMeasurementTypeNull("Орбита")
                 .selectParameterGraph("ФС 5с")
                 .checkMeasurementDataWindow();
 

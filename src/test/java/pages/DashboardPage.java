@@ -160,7 +160,7 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//div[@id='equipment-content']//span[@role='progressbar']")
     private WebElement progressbarMenu;
 
-    // прогресс бар списка оборудования
+    // прогресс бар дашборд
     @FindBy(xpath = "//div[contains(@id,'P-1')]//span[@role='progressbar']")
     private WebElement progressbarDashboard;
 
@@ -235,6 +235,10 @@ public class DashboardPage extends BasePage {
     // окно состояние и прогнозирование вертикальная шкала
     @FindBy(xpath = "//div[contains(@class,'MuiBox-root')]/*[local-name()='svg']/*[local-name()='rect']/..")
     private WebElement scaleImage;
+
+    // катринка нет данных в окне данные измерений
+    @FindBy(xpath = "//div[contains(@class,'MuiBox')]/*[local-name()='svg']/*[local-name()='svg'][@data-testid='AnalyticsIcon']")
+    private WebElement iconNotData;
 
     @Step("Открываю выпадающий список временных интервалов")
     public DashboardPage openTimeIntervalDropdown() {
@@ -524,6 +528,8 @@ public class DashboardPage extends BasePage {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownDateMeasurement.get(0)));
 
         for (int i = 0; i < dropdownDateMeasurement.size(); i++) {
             if (i > 0) {
@@ -829,10 +835,9 @@ public class DashboardPage extends BasePage {
         return listName;
     }
 
-    @Step("Открываю выпадающий список Тип измерения выбираю {type}")
-    public DashboardPage clickMeasurementType(String type) {
+    private DashboardPage clickMeasurementType(String type) {
 
-        dropdownList.get(3).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(dropdownList.get(3))).click();
 
         try {
             Thread.sleep(1000);
@@ -847,6 +852,40 @@ public class DashboardPage extends BasePage {
                 dropdown.click();
                 break;
             }
+        }
+
+        return this;
+    }
+
+    @Step("Открываю выпадающий список Тип измерения выбираю {type}")
+    public DashboardPage clickMeasurementTypeIcon(String type) {
+
+        clickMeasurementType(type);
+
+        getWait10().until(ExpectedConditions.visibilityOf(iconNotData));
+
+        return this;
+    }
+
+    @Step("Открываю выпадающий список Тип измерения выбираю {type}")
+    public DashboardPage clickMeasurementTypeGraph(String type) {
+
+        clickMeasurementType(type);
+
+        getWait5().until(ExpectedConditions.elementToBeClickable(graph));
+
+        return this;
+    }
+
+    @Step("Открываю выпадающий список Тип измерения выбираю {type}")
+    public DashboardPage clickMeasurementTypeNull(String type) {
+
+        clickMeasurementType(type);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
         return this;
