@@ -1,14 +1,13 @@
 package utils;
 
 import io.qameta.allure.Allure;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -119,6 +118,11 @@ public abstract class BaseTest {
         driver.manage().window().setSize(new Dimension(1440, 1080));
 
         driver.get(config.getBaseUrl());
+        
+        if (config.getBaseUrl().contains("https")) {
+            driver.findElement(By.id("details-button")).click();
+            getWait5().until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("final-paragraph")))).click();
+        }
 
         LoggerUtil.info(String.format("Run %s.%s", this.getClass().getName().replace("tests.", ""), method.getName()));
     }
