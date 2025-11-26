@@ -1,1 +1,0 @@
-Поле settings не найдено: Cannot invoke "String.getBytes(java.nio.charset.Charset)" because "content" is null

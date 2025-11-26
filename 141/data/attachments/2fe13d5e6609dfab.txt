@@ -1,0 +1,1 @@
+https://web.staging.diatechnic.ru/dashboard?view=0&measureType=0&object=0&precision=hour&tab=1&startTimestamp=2020-01-01T23%3A00%3A00.0Z&endTimestamp=2025-10-07T00%3A00%3A59.0Z&rangeType=SELECTED_RANGE&trainId=1987&idObject=1987&idParameter=t+1&idMeasure=0
