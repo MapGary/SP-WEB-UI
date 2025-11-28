@@ -9,13 +9,15 @@
         </groups>
         <parameter name="browser" value="chrome"/>
         <classes>
+            <class name="tests.AnalyticsTest"/>
             <class name="tests.AuthLoginTest"/>
+            <class name="tests.EventsTest"/>
+            <class name="tests.GettingAggregateDataLoadTimeTest"/>
+            <class name="tests.MagazineTest"/>
+            <class name="tests.SchemaTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
-            <class name="tests.SchemaTest"/>
-            <class name="tests.MagazineTest"/>
-            <class name="tests.EventsTest"/>
         </classes>
     </test>
 
@@ -27,13 +29,15 @@
         </groups>
         <parameter name="browser" value="edge"/>
         <classes>
+            <class name="tests.AnalyticsTest"/>
             <class name="tests.AuthLoginTest"/>
+            <class name="tests.EventsTest"/>
+            <class name="tests.GettingAggregateDataLoadTimeTest"/>
+            <class name="tests.MagazineTest"/>
+            <class name="tests.SchemaTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
-            <class name="tests.SchemaTest"/>
-            <class name="tests.MagazineTest"/>
-            <class name="tests.EventsTest"/>
         </classes>
     </test>
 
@@ -45,13 +49,15 @@
         </groups>
         <parameter name="browser" value="yandex"/>
         <classes>
+            <class name="tests.AnalyticsTest"/>
             <class name="tests.AuthLoginTest"/>
+            <class name="tests.EventsTest"/>
+            <class name="tests.GettingAggregateDataLoadTimeTest"/>
+            <class name="tests.MagazineTest"/>
+            <class name="tests.SchemaTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
-            <class name="tests.SchemaTest"/>
-            <class name="tests.MagazineTest"/>
-            <class name="tests.EventsTest"/>
         </classes>
     </test>
 
