@@ -21,7 +21,9 @@ public class AnalyticsTest extends BaseTest {
             4. Модуль Схема
             5. Перешел в модуль Аналитика
             6. Выбрал шаблон Статистика агрегатов по заключениям
-            7. Построены диаграммы""")
+            7. Построены диаграммы
+            8. Выбрал тип отображения Таблица
+            9. Построены таблицы""")
     @Severity(SeverityLevel.CRITICAL)
     @Links(value = {@Link(name = "Тест-кейс 135", url = "https://team-b9fb.testit.software/projects/1/tests/135")})
     public void testDashboardDownloads() {
@@ -30,12 +32,17 @@ public class AnalyticsTest extends BaseTest {
                 .loginToApp()
                 .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
                 .goTo("БКПРУ-4", "СОФ", "РВК \"Б\"", "Насосное оборудование")
-                .clickAnalyticsModule();
+                .clickAnalyticsModule()
+                .selectSampleAnalyticsModule("Статистика агрегатов по заключениям");
 
         DashboardPage diagram = dashboardPage
-                .selectSampleAnalyticsModule("Статистика агрегатов по заключениям")
                 .clickButtonApply();
 
         Assert.assertTrue(diagram.checkDiagramAnalyticsModul());
+
+        DashboardPage table = dashboardPage
+                .selectViewStyleAnalyticsModul("Таблица");
+
+        Assert.assertTrue(table.checkTableAnalyticsModul());
     }
 }

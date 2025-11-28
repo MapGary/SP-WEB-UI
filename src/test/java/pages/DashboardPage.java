@@ -122,6 +122,9 @@ public class DashboardPage extends BasePage {
     // блок с диаграммами модуль аналитика
     @FindBy(xpath = "//h3/..")
     private WebElement blockDiagrams;
+    // блок с таблицами модуль аналитика
+    @FindBy(xpath = "//table")
+    private WebElement blockTables;
 
     // поле для ввода данных шаблона модуль аналитика
     @FindBy(xpath = "//input[@name='templateId']")
@@ -1179,8 +1182,6 @@ public class DashboardPage extends BasePage {
     public DashboardPage clickButtonApply() {
         getWait5().until(ExpectedConditions.elementToBeClickable(buttonApplyAnalyticsModule)).click();
 
-        takeScreenshotPage("Дашборд Аналитика", page);
-
         return this;
     }
 
@@ -1191,6 +1192,41 @@ public class DashboardPage extends BasePage {
             return true;
         } catch (Exception e) {
             return false;
+        } finally {
+            takeScreenshotPage("Дашборд Аналитика", page);
+        }
+    }
+
+    @Step("Выбрал Вид отображения таблица")
+    public DashboardPage selectViewStyleAnalyticsModul(String value) {
+        fieldViewStyle.click();
+
+        for (WebElement element : listSample) {
+            if (element.getText().equals(value)) {
+                element.click();
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                break;
+            }
+        }
+
+        return this;
+    }
+
+    @Step("Проверяю, что построены таблицы")
+    public boolean checkTableAnalyticsModul() {
+        try {
+            getWait10().until(ExpectedConditions.visibilityOf(blockTables));
+            return true;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            takeScreenshotPage("Дашборд Аналитика", page);
         }
     }
 }
