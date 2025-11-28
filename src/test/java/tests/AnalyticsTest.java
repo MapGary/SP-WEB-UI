@@ -25,7 +25,8 @@ public class AnalyticsTest extends BaseTest {
             8. Выбрал тип отображения Таблица
             9. Построены таблицы""")
     @Severity(SeverityLevel.CRITICAL)
-    @Links(value = {@Link(name = "Тест-кейс 135", url = "https://team-b9fb.testit.software/projects/1/tests/135")})
+    @Links(value = {@Link(name = "Тест-кейс 135", url = "https://team-b9fb.testit.software/projects/1/tests/135"),
+            @Link(name = "Тест-кейс 135", url = "https://team-b9fb.testit.software/projects/1/tests/135")})
     public void testDashboardDownloads() {
 
         DashboardPage dashboardPage = new LoginPage(getDriver())
