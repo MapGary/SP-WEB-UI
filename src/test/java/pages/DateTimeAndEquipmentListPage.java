@@ -21,6 +21,9 @@ import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.Thread.sleep;
+import static java.sql.DriverManager.getDriver;
+
 public class DateTimeAndEquipmentListPage extends DashboardPage{
 
     private final WebDriver driver;
@@ -43,6 +46,8 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
     private final By autocompleteListItems = By.xpath("//ul[@role='listbox']/li");
 //    private final By pathSelector = By.xpath("//ul[@role='listbox']/li[not(contains(@class,'MuiListSubheader-root'))][1]");
     private final By pathSelector = By.xpath("//li[contains(@class,'MuiAutocomplete-option') and not(contains(@class,'MuiListSubheader-root'))]");
+
+    private final By firstResult = By.xpath("//li[@data-option-index='1']");
 
     private By inputByName(String name) {
         return By.cssSelector("input[name='" + name + "']");
@@ -290,6 +295,9 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         } catch (TimeoutException e) {
             Allure.step("Выпадающий список не появился для: " + part);
         }
+
+        WebElement option = getWait5().until(ExpectedConditions.elementToBeClickable(firstResult));
+        option.click();
 
         getWait5().until(d -> {
             try {
