@@ -93,6 +93,9 @@ public class DashboardPage extends BasePage {
     // кнопка модуль события
     @FindBy(xpath = "//button[contains(@id,'T-3')]")
     private WebElement buttonModuleEvents;
+    // кнопка модуль аналитика
+    @FindBy(xpath = "//button[contains(@id,'T-4')]")
+    private WebElement buttonModuleAnalytics;
 
     // нижняя часть таблицы модуль журнал
     @FindBy(xpath = "//div[contains(@class,'MuiDataGrid')][@role='grid']/div/div[contains(@class,'MuiBox')]")
@@ -110,6 +113,25 @@ public class DashboardPage extends BasePage {
     // хедер таблицы модуль события
     @FindBy(xpath = "//div[contains(@id,'P-3')]//div[contains(@class,'columnHeaders ')]")
     private WebElement headerTableEventsModule;
+    // поле шаблон модуль аналитика
+    @FindBy(xpath = "//div[contains(@class,'MuiAutocomplete')]//label[contains(@id,'label')]/..")
+    private WebElement fieldSampleAnalyticsModule;
+    // поле вид отображения модуль аналитика
+    @FindBy(xpath = "//div[@id='viewStyle-select']")
+    private WebElement fieldViewStyle;
+    // блок с диаграммами модуль аналитика
+    @FindBy(xpath = "//h3/..")
+    private WebElement blockDiagrams;
+
+    // поле для ввода данных шаблона модуль аналитика
+    @FindBy(xpath = "//input[@name='templateId']")
+    private WebElement fieldValueSampleAnalyticsModule;
+    // выпадающий список шаблонов модуль аналитика
+    @FindBy(xpath = "//div[@role='presentation']//li")
+    private List<WebElement> listSample;
+    // кнопка применить модуль аналитика
+    @FindBy(xpath = "//button[contains(@class,'MuiButton-contained')]")
+    private WebElement buttonApplyAnalyticsModule;
 
     // иконка агрегатов для станции
 //    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]//*[local-name()='svg'][contains(@class,'fontSizeMedium')]")
@@ -1113,6 +1135,59 @@ public class DashboardPage extends BasePage {
     public boolean checkUnitTableEvents() {
         try {
             getWait5().until(ExpectedConditions.visibilityOf(headerTableEventsModule));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Step("Перешел в модуль Аналитика")
+    public DashboardPage clickAnalyticsModule() {
+        buttonModuleAnalytics.click();
+        getWait10().until(ExpectedConditions.visibilityOf(fieldSampleAnalyticsModule));
+
+        takeScreenshotPage("Дашборд Аналитика", page);
+
+        return this;
+    }
+
+    @Step("Выбрал шаблон {value}")
+    public DashboardPage selectSampleAnalyticsModule(String value) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(fieldSampleAnalyticsModule)).click();
+        getWait5().until(ExpectedConditions.visibilityOf(listSample.get(0)));
+
+        for (WebElement element : listSample) {
+            if (element.getText().equals(value)) {
+                element.click();
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                break;
+            }
+        }
+
+        getWait10().until(ExpectedConditions.visibilityOf(fieldViewStyle));
+
+        return this;
+    }
+
+    @Step("Нажал кнопку Применить")
+    public DashboardPage clickButtonApply() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonApplyAnalyticsModule)).click();
+
+        takeScreenshotPage("Дашборд Аналитика", page);
+
+        return this;
+    }
+
+    @Step("Проверяю, что построены диаграммы")
+    public boolean checkDiagramAnalyticsModul() {
+        try {
+            getWait10().until(ExpectedConditions.visibilityOf(blockDiagrams));
             return true;
         } catch (Exception e) {
             return false;
