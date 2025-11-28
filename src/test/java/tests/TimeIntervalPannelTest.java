@@ -2,6 +2,7 @@ package tests;
 
 import io.qameta.allure.*;
 import io.qameta.allure.testng.Tag;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -13,6 +14,8 @@ import utils.TimeUtils;
 import java.time.*;
 import java.util.List;
 import pages.LoginPage;
+
+import static org.testng.AssertJUnit.assertTrue;
 import static pages.DateTimeAndEquipmentListPage.EXPECTED_INTERVALS;
 import static utils.TimeUtils.assertTimestampClose;
 
@@ -465,6 +468,79 @@ public class TimeIntervalPannelTest extends BaseTest {
         page.clickOkAndWait();
 
         Assert.assertTrue(true, "Форма заполнена и применена (диалог закрыт)");
+    }
+
+    @Test
+    @Epic("Фильтры")
+    @Feature("Фильтрация по кнопкам")
+    @Description("Фильтрация оборудования по статусу 'Предупреждение' и 'Авария'")
+    @Severity(SeverityLevel.TRIVIAL)
+    public void testClickSecondButton() {
+        page.loginToApp();
+
+        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver());
+
+        //элементы ДО нажатия
+        int before = page.getWorkAreaItemCount();
+
+        page.clickSecondButton();
+
+        //элементы ПОСЛЕ нажатия
+        int after = page.getWorkAreaItemCount();
+
+        Allure.step("Before count = " + before + ", After count = " + after);
+
+        Assert.assertNotEquals(before, after,
+                "Рабочая область должна измениться после нажатия второй кнопки");
+    }
+
+    @Test
+    @Epic("Фильтры")
+    @Feature("Фильтрация по кнопкам")
+    @Description("Фильтрация оборудования по статусам, которые не относятся к 'Норма', 'Предупреждение' и 'Авария'")
+    @Severity(SeverityLevel.TRIVIAL)
+    public void testClickThirdButton() {
+        page.loginToApp();
+
+        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver());
+
+        //элементы ДО нажатия
+        int before = page.getWorkAreaItemCount();
+
+        page.clickThirdButton();
+
+        //элементы ПОСЛЕ нажатия
+        int after = page.getWorkAreaItemCount();
+
+        Allure.step("Before count = " + before + ", After count = " + after);
+
+        Assert.assertNotEquals(before, after,
+                "Рабочая область должна измениться после нажатия третьей кнопки");
+    }
+
+    @Test
+    @Epic("Фильтры")
+    @Feature("Фильтрация по кнопкам")
+    @Description("Фильтрация по всему оборудованию")
+    @Severity(SeverityLevel.TRIVIAL)
+    public void testClickFirstButton() {
+        page.loginToApp();
+
+        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver());
+
+        page.clickThirdButton();
+        //ДО нажатия
+        int before = page.getWorkAreaItemCount();
+
+        page.clickFirstButton();
+
+        //элементы ПОСЛЕ нажатия
+        int after = page.getWorkAreaItemCount();
+
+        Allure.step("Before count = " + before + ", After count = " + after);
+
+        Assert.assertNotEquals(before, after,
+                "Рабочая область должна измениться после нажатия первой кнопки");
     }
 
 }

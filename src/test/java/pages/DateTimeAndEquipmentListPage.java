@@ -35,6 +35,13 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         this.config = config;
     }
 
+    public DateTimeAndEquipmentListPage(WebDriver driver) {
+        super(driver);
+        this.driver = driver;
+        this.config = null; // если config не нужен в этом случае
+    }
+
+
     private static final DateTimeFormatter READABLE_FMT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
     private final By equipmentFilterBtn = By.cssSelector("button svg[data-testid='TuneIcon']");
@@ -48,6 +55,16 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
     private final By pathSelector = By.xpath("//li[contains(@class,'MuiAutocomplete-option') and not(contains(@class,'MuiListSubheader-root'))]");
 
     private final By firstResult = By.xpath("//li[@data-option-index='1']");
+
+    // Всё оборудование (красный, жёлтый, зелёный)
+    private final By buttonFirst = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[3]");
+
+    // Оборудование со статусом предупреждение или авария (красный, жёлтый)
+    private final By buttonSecond = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[4]");
+
+    // Остальное оборудование (синий, фиолетовый)
+    private final By buttonThird = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[5]");
+
 
     private By inputByName(String name) {
         return By.cssSelector("input[name='" + name + "']");
@@ -395,6 +412,71 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         getWait10().until(ExpectedConditions.invisibilityOfElementLocated(dialogContainer));
         Allure.step("Нажата кнопка Ок, диалог закрылся");
         return this;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации 'Всё оборудование' (красный-жёлтый-зелёный)")
+    public DateTimeAndEquipmentListPage clickFirstButton() {
+        WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(buttonFirst));
+        el.click();
+        Allure.step("Нажата кнопка фильтрации 'Всё оборудование'");
+        return this;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации 'Оборудование со статусом 'Предупреждение' и 'Авария''(красный-жёлтый)")
+    public DateTimeAndEquipmentListPage clickSecondButton() {
+        WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(buttonSecond));
+        el.click();
+        Allure.step("Нажата кнопка фильтрации по статусам 'Предупреждение' и 'Авария'");
+        return this;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации ''(синий-фиолетовый)")
+    public DateTimeAndEquipmentListPage clickThirdButton() {
+        WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(buttonThird));
+        el.click();
+        Allure.step("Нажата кнопка фильтрации");
+        return this;
+    }
+
+    private final List<By> workAreaCandidates = List.of(
+            // 1) дата-тестовый атрибут (часто используют)
+            By.cssSelector("[data-testid='work-area']"),
+            // 2) общий контейнер main / role=main
+            By.cssSelector("main"),
+            By.cssSelector("div[role='main']"),
+            // 3) таблицы — строки
+            By.cssSelector("table tbody tr"),
+            // 4) списки / элементы списков
+            By.cssSelector("ul li"),
+            // 5) карточки (common class patterns)
+            By.cssSelector("div[class*='Card']"),
+            By.cssSelector("div[class*='card']"),
+            By.cssSelector("div[class*='Item']"),
+            By.cssSelector("div[class*='item']"),
+            // 6) любые повторяющиеся блоки в основном контейнере
+            By.xpath("//div[@id='root']//div/*[count(.//*)>0]"),
+            // 7) fallback — все непосредственные div внутри body (очень грубо)
+            By.cssSelector("body > div > div")
+    );
+
+    @Step("Получаю количество элементов рабочего поля (авто-поиск локатора)")
+    public int getWorkAreaItemCount() {
+        for (By candidate : workAreaCandidates) {
+            try {
+                List<WebElement> found = driver.findElements(candidate);
+                if (found != null && !found.isEmpty()) {
+                    // attach which candidate worked and size
+                    Allure.addAttachment("WorkArea locator", candidate.toString() + " -> found: " + found.size());
+                    return found.size();
+                }
+            } catch (Exception e) {
+                // если локатор вызывает исключение — логируем и пробуем дальше
+                Allure.addAttachment("WorkArea locator error", candidate.toString() + " -> " + e.getMessage());
+            }
+        }
+        // ничего не найдено — добавим аттач и вернём 0
+        Allure.addAttachment("WorkArea locator", "No candidates matched, returning count 0");
+        return 0;
     }
 
 }
