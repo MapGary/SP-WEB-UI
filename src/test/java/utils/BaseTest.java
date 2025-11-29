@@ -13,11 +13,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import pages.DashboardPage;
-import pages.LoginPage;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,7 +27,6 @@ public abstract class BaseTest {
     private WebDriver driver;
     private final TestConfig config = new TestConfig();
     private WebDriverWait wait5;
-    private WebDriverWait wait10;
 
     protected WebDriver getDriver() {
 
@@ -58,14 +54,6 @@ public abstract class BaseTest {
         }
 
         return wait5;
-    }
-
-    public WebDriverWait getWait10() {
-        if (wait10 == null) {
-            wait10 = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-        }
-
-        return wait10;
     }
 
     protected void waitForSeconds(int seconds) {
@@ -130,7 +118,7 @@ public abstract class BaseTest {
 
         driver.get(config.getBaseUrl());
 
-        LoggerUtil.info(String.format("Run %s.%s", this.getClass().getName(), method.getName()));
+        LoggerUtil.info(String.format("Run %s.%s", this.getClass().getName().replace("tests.", ""), method.getName()));
     }
 
     @AfterMethod(groups = {"smoke"})
@@ -150,7 +138,7 @@ public abstract class BaseTest {
 
             Allure.addAttachment("URL ", driver.getCurrentUrl());
 
-            LoggerUtil.error(String.format("Crashed with an error %s.%s", this.getClass().getName(), method.getName()));
+            LoggerUtil.error(String.format("Crashed with an error %s.%s", this.getClass().getName().replace("tests.", ""), method.getName()));
         }
 
         closeDriver();
