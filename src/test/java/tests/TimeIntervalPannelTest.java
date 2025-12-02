@@ -7,12 +7,15 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import pages.DashboardPage;
 import pages.DateTimeAndEquipmentListPage;
 import pages.IntervalData;
 import utils.BaseTest;
 import utils.TimeUtils;
+
 import java.time.*;
 import java.util.List;
+
 import pages.LoginPage;
 
 import static org.testng.AssertJUnit.assertTrue;
@@ -469,78 +472,104 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         Assert.assertTrue(true, "Форма заполнена и применена (диалог закрыт)");
     }
+//
+//    @Test
+//    @Epic("Фильтры")
+//    @Feature("Фильтрация по кнопкам")
+//    @Description("Фильтрация оборудования по статусу 'Предупреждение' и 'Авария'")
+//    @Severity(SeverityLevel.TRIVIAL)
+//    public void testClickSecondButton() {
+//        page.loginToApp();
+//
+//        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver());
+//
+//        //элементы ДО нажатия
+//        int before = page.getWorkAreaItemCount();
+//
+//        page.clickSecondButton();
+//
+//        //элементы ПОСЛЕ нажатия
+//        int after = page.getWorkAreaItemCount();
+//
+//        Allure.step("Before count = " + before + ", After count = " + after);
+//
+//        Assert.assertNotEquals(before, after,
+//                "Рабочая область должна измениться после нажатия второй кнопки");
+//    }
+//
+//    @Test
+//    @Epic("Фильтры")
+//    @Feature("Фильтрация по кнопкам")
+//    @Description("Фильтрация оборудования по статусам, которые не относятся к 'Норма', 'Предупреждение' и 'Авария'")
+//    @Severity(SeverityLevel.TRIVIAL)
+//    public void testClickThirdButton() {
+//        page.loginToApp();
+//
+//        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver());
+//
+//        //элементы ДО нажатия
+//        int before = page.getWorkAreaItemCount();
+//
+//        page.clickThirdButton();
+//
+//        //элементы ПОСЛЕ нажатия
+//        int after = page.getWorkAreaItemCount();
+//
+//        Allure.step("Before count = " + before + ", After count = " + after);
+//
+//        Assert.assertNotEquals(before, after,
+//                "Рабочая область должна измениться после нажатия третьей кнопки");
+//    }
 
     @Test
     @Epic("Фильтры")
     @Feature("Фильтрация по кнопкам")
-    @Description("Фильтрация оборудования по статусу 'Предупреждение' и 'Авария'")
+    @Description("""
+            1. Авторизовался в приложении
+            2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+            3. Перешел к станции БКПРУ-4
+            4. Выбрал второй фильтр
+            5. Выбрал третий фильтр
+            6. Выбрал первый фильтр""")
     @Severity(SeverityLevel.TRIVIAL)
-    public void testClickSecondButton() {
-        page.loginToApp();
+    public void testFilterButton() {
 
-        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver());
+        DashboardPage dashboardPage = new LoginPage(getDriver())
+                .loginToApp()
+                .selectTimeInterval(1, 1, 2020, 23, 7, 10, 2025, 0)
+                .goTo("БКПРУ-4");
 
-        //элементы ДО нажатия
-        int before = page.getWorkAreaItemCount();
+        int countUnitsBeforeFilter = dashboardPage
+                .getCountUnits();
 
-        page.clickSecondButton();
+        int countUnitsSecondFilter = dashboardPage
+                .clickSecondButton()
+                .getCountUnits();
 
-        //элементы ПОСЛЕ нажатия
-        int after = page.getWorkAreaItemCount();
-
-        Allure.step("Before count = " + before + ", After count = " + after);
-
-        Assert.assertNotEquals(before, after,
+        Assert.assertNotEquals(countUnitsBeforeFilter, countUnitsSecondFilter,
                 "Рабочая область должна измениться после нажатия второй кнопки");
-    }
+        Assert.assertEquals(countUnitsSecondFilter, 637,
+                "Количество агрегатов соответствует ожидаемому");
 
-    @Test
-    @Epic("Фильтры")
-    @Feature("Фильтрация по кнопкам")
-    @Description("Фильтрация оборудования по статусам, которые не относятся к 'Норма', 'Предупреждение' и 'Авария'")
-    @Severity(SeverityLevel.TRIVIAL)
-    public void testClickThirdButton() {
-        page.loginToApp();
+        int countUnitsThirdFilter = dashboardPage
+                .clickThirdButton()
+                .getCountUnits();
 
-        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver());
-
-        //элементы ДО нажатия
-        int before = page.getWorkAreaItemCount();
-
-        page.clickThirdButton();
-
-        //элементы ПОСЛЕ нажатия
-        int after = page.getWorkAreaItemCount();
-
-        Allure.step("Before count = " + before + ", After count = " + after);
-
-        Assert.assertNotEquals(before, after,
+        Assert.assertNotEquals(countUnitsBeforeFilter, countUnitsThirdFilter,
                 "Рабочая область должна измениться после нажатия третьей кнопки");
-    }
+        Assert.assertEquals(countUnitsThirdFilter, 1038,
+                "Количество агрегатов соответствует ожидаемому");
 
-    @Test
-    @Epic("Фильтры")
-    @Feature("Фильтрация по кнопкам")
-    @Description("Фильтрация по всему оборудованию")
-    @Severity(SeverityLevel.TRIVIAL)
-    public void testClickFirstButton() {
-        page.loginToApp();
+        int countUnitsFirstFilter = dashboardPage
+                .clickFirstButton()
+                .getCountUnits();
 
-        DateTimeAndEquipmentListPage page = new DateTimeAndEquipmentListPage(getDriver());
-
-        page.clickThirdButton();
-        //ДО нажатия
-        int before = page.getWorkAreaItemCount();
-
-        page.clickFirstButton();
-
-        //элементы ПОСЛЕ нажатия
-        int after = page.getWorkAreaItemCount();
-
-        Allure.step("Before count = " + before + ", After count = " + after);
-
-        Assert.assertNotEquals(before, after,
-                "Рабочая область должна измениться после нажатия первой кнопки");
+        Assert.assertEquals(countUnitsBeforeFilter, countUnitsFirstFilter,
+                "Рабочая область не должна измениться после нажатия первой кнопки");
+        Assert.assertEquals(countUnitsFirstFilter, 2266,
+                "Количество агрегатов соответствует ожидаемому");
+        Assert.assertEquals(countUnitsFirstFilter, countUnitsBeforeFilter,
+                "Количество агрегатов соответствует результату без применения фильтров");
     }
 
 }

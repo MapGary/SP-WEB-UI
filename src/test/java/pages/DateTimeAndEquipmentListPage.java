@@ -35,11 +35,11 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         this.config = config;
     }
 
-    public DateTimeAndEquipmentListPage(WebDriver driver) {
-        super(driver);
-        this.driver = driver;
-        this.config = null; // если config не нужен в этом случае
-    }
+//    public DateTimeAndEquipmentListPage(WebDriver driver) {
+//        super(driver);
+//        this.driver = driver;
+//        this.config = null; // если config не нужен в этом случае
+//    }
 
 
     private static final DateTimeFormatter READABLE_FMT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
@@ -162,27 +162,27 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         if (instant == null) return "null";
         return READABLE_FMT.withZone(zone).format(instant);
     }
-
-    /**
-     * Возвращает Map с start/end Instant и форматированными строками.
-     * keys:
-     *  - "startInstant" Instant or null
-     *  - "endInstant" Instant or null
-     *  - "startFormatted" String
-     *  - "endFormatted" String
-     */
-    @Step("Получаю start и end из URL и форматирую для отчёта")
-    public Map<String, Object> getStartEndFromUrlFormatted(String url, ZoneId displayZone) {
-        Instant start = getInstantFromUrl(url, "startTimestamp");
-        Instant end = getInstantFromUrl(url, "endTimestamp");
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("startInstant", start);
-        result.put("endInstant", end);
-        result.put("startFormatted", formatInstantForReport(start, displayZone));
-        result.put("endFormatted", formatInstantForReport(end, displayZone));
-        return result;
-    }
+//
+//    /**
+//     * Возвращает Map с start/end Instant и форматированными строками.
+//     * keys:
+//     *  - "startInstant" Instant or null
+//     *  - "endInstant" Instant or null
+//     *  - "startFormatted" String
+//     *  - "endFormatted" String
+//     */
+//    @Step("Получаю start и end из URL и форматирую для отчёта")
+//    public Map<String, Object> getStartEndFromUrlFormatted(String url, ZoneId displayZone) {
+//        Instant start = getInstantFromUrl(url, "startTimestamp");
+//        Instant end = getInstantFromUrl(url, "endTimestamp");
+//
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("startInstant", start);
+//        result.put("endInstant", end);
+//        result.put("startFormatted", formatInstantForReport(start, displayZone));
+//        result.put("endFormatted", formatInstantForReport(end, displayZone));
+//        return result;
+//    }
 
     // Преобразует секунды в человекочитаемый формат "Xh Ym Zs"
     @Step("Форматирую длительность в часы/минуты/секунды")
@@ -334,29 +334,29 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         return typePathAndPressEnter(full);
     }
 
-    @Step("Открываю выпадающий список 'Путь' и выбираю элемент, содержащий: {visibleText}")
-    public DateTimeAndEquipmentListPage selectPathFromDropdownByVisibleText(String visibleText) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(pathOpenButton)).click();
-
-        List<WebElement> items = getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(autocompleteListItems));
-
-        for (WebElement item : items) {
-            String text = item.getText();
-            if (text != null && text.toLowerCase().contains(visibleText.toLowerCase())) {
-                try {
-                    getWait5().until(ExpectedConditions.elementToBeClickable(item));
-                    item.click();
-                } catch (Exception e) {
-                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", item);
-                }
-                Allure.step("Выбран элемент в 'Путь': " + text);
-                return this;
-            }
-        }
-
-        Allure.addAttachment("Dropdown items (path)", String.join("\n", items.stream().map(WebElement::getText).toList()));
-        throw new NoSuchElementException("Не найден вариант в Path dropdown содержащий: " + visibleText);
-    }
+//    @Step("Открываю выпадающий список 'Путь' и выбираю элемент, содержащий: {visibleText}")
+//    public DateTimeAndEquipmentListPage selectPathFromDropdownByVisibleText(String visibleText) {
+//        getWait5().until(ExpectedConditions.elementToBeClickable(pathOpenButton)).click();
+//
+//        List<WebElement> items = getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(autocompleteListItems));
+//
+//        for (WebElement item : items) {
+//            String text = item.getText();
+//            if (text != null && text.toLowerCase().contains(visibleText.toLowerCase())) {
+//                try {
+//                    getWait5().until(ExpectedConditions.elementToBeClickable(item));
+//                    item.click();
+//                } catch (Exception e) {
+//                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", item);
+//                }
+//                Allure.step("Выбран элемент в 'Путь': " + text);
+//                return this;
+//            }
+//        }
+//
+//        Allure.addAttachment("Dropdown items (path)", String.join("\n", items.stream().map(WebElement::getText).toList()));
+//        throw new NoSuchElementException("Не найден вариант в Path dropdown содержащий: " + visibleText);
+//    }
 
     @Step("Заполняю поле {name} значением '{value}'")
     public DateTimeAndEquipmentListPage setTextField(String name, String value) {
@@ -401,10 +401,10 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         throw new NoSuchElementException("Не найден вариант '" + optionText + "' в автокомплете " + inputName);
     }
 
-    @Step("Получаю значение поля {name}")
-    public String getTextFieldValue(String name) {
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(inputByName(name))).getAttribute("value");
-    }
+//    @Step("Получаю значение поля {name}")
+//    public String getTextFieldValue(String name) {
+//        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(inputByName(name))).getAttribute("value");
+//    }
 
     @Step("Нажимаю кнопку 'Ок' и жду закрытия диалога")
     public DateTimeAndEquipmentListPage clickOkAndWait() {
@@ -438,45 +438,45 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         return this;
     }
 
-    private final List<By> workAreaCandidates = List.of(
-            // 1) дата-тестовый атрибут (часто используют)
-            By.cssSelector("[data-testid='work-area']"),
-            // 2) общий контейнер main / role=main
-            By.cssSelector("main"),
-            By.cssSelector("div[role='main']"),
-            // 3) таблицы — строки
-            By.cssSelector("table tbody tr"),
-            // 4) списки / элементы списков
-            By.cssSelector("ul li"),
-            // 5) карточки (common class patterns)
-            By.cssSelector("div[class*='Card']"),
-            By.cssSelector("div[class*='card']"),
-            By.cssSelector("div[class*='Item']"),
-            By.cssSelector("div[class*='item']"),
-            // 6) любые повторяющиеся блоки в основном контейнере
-            By.xpath("//div[@id='root']//div/*[count(.//*)>0]"),
-            // 7) fallback — все непосредственные div внутри body (очень грубо)
-            By.cssSelector("body > div > div")
-    );
+//    private final List<By> workAreaCandidates = List.of(
+//            // 1) дата-тестовый атрибут (часто используют)
+//            By.cssSelector("[data-testid='work-area']"),
+//            // 2) общий контейнер main / role=main
+//            By.cssSelector("main"),
+//            By.cssSelector("div[role='main']"),
+//            // 3) таблицы — строки
+//            By.cssSelector("table tbody tr"),
+//            // 4) списки / элементы списков
+//            By.cssSelector("ul li"),
+//            // 5) карточки (common class patterns)
+//            By.cssSelector("div[class*='Card']"),
+//            By.cssSelector("div[class*='card']"),
+//            By.cssSelector("div[class*='Item']"),
+//            By.cssSelector("div[class*='item']"),
+//            // 6) любые повторяющиеся блоки в основном контейнере
+//            By.xpath("//div[@id='root']//div/*[count(.//*)>0]"),
+//            // 7) fallback — все непосредственные div внутри body (очень грубо)
+//            By.cssSelector("body > div > div")
+//    );
 
-    @Step("Получаю количество элементов рабочего поля (авто-поиск локатора)")
-    public int getWorkAreaItemCount() {
-        for (By candidate : workAreaCandidates) {
-            try {
-                List<WebElement> found = driver.findElements(candidate);
-                if (found != null && !found.isEmpty()) {
-                    // attach which candidate worked and size
-                    Allure.addAttachment("WorkArea locator", candidate.toString() + " -> found: " + found.size());
-                    return found.size();
-                }
-            } catch (Exception e) {
-                // если локатор вызывает исключение — логируем и пробуем дальше
-                Allure.addAttachment("WorkArea locator error", candidate.toString() + " -> " + e.getMessage());
-            }
-        }
-        // ничего не найдено — добавим аттач и вернём 0
-        Allure.addAttachment("WorkArea locator", "No candidates matched, returning count 0");
-        return 0;
-    }
+//    @Step("Получаю количество элементов рабочего поля (авто-поиск локатора)")
+//    public int getWorkAreaItemCount() {
+//        for (By candidate : workAreaCandidates) {
+//            try {
+//                List<WebElement> found = driver.findElements(candidate);
+//                if (found != null && !found.isEmpty()) {
+//                    // attach which candidate worked and size
+//                    Allure.addAttachment("WorkArea locator", candidate.toString() + " -> found: " + found.size());
+//                    return found.size();
+//                }
+//            } catch (Exception e) {
+//                // если локатор вызывает исключение — логируем и пробуем дальше
+//                Allure.addAttachment("WorkArea locator error", candidate.toString() + " -> " + e.getMessage());
+//            }
+//        }
+//        // ничего не найдено — добавим аттач и вернём 0
+//        Allure.addAttachment("WorkArea locator", "No candidates matched, returning count 0");
+//        return 0;
+//    }
 
 }

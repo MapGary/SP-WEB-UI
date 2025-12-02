@@ -51,9 +51,27 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/ul//li")
     private List<WebElement> listAggregate;
 
+    // лист агрегатов на рабочей области для станции модуль схема
+    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]/div/div")
+    private List<WebElement> listUnitsDashboard;
+
     // Вся страница
     @FindBy(xpath = "//div[contains(@class, 'MuiBox-root')]/header/../..")
     private WebElement page;
+
+    // стрелка первая страница с агрегатами на дашборде для станции
+    @FindBy(xpath = "//button[@aria-label='first page']")
+    private WebElement firstPage;
+    // стрелка следующая страница с агрегатами на дашборде для станции
+    @FindBy(xpath = "//button[@aria-label='next page']")
+    private WebElement nextPage;
+
+    // фильтр оборудования Всё оборудование (красный, жёлтый, зелёный)
+    private final By buttonFirst = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[3]");
+    // Оборудование со статусом предупреждение или авария (красный, жёлтый)
+    private final By buttonSecond = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[4]");
+    // Остальное оборудование (синий, фиолетовый)
+    private final By buttonThird = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[5]");
 
     // Список оборудования ссылки 1 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li[contains(@class, 'MuiTreeItem')]/div/div[@class='MuiTreeItem-iconContainer']"))
@@ -64,7 +82,6 @@ public class DashboardPage extends BasePage {
     // Верхняя станция токрытая по дефолту
     @FindBy(xpath = "//li[contains(@class,'MuiTreeItem')]")
     private List<WebElement> stationLinks;
-
 
     // Список оборудования ссылки 2 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
@@ -294,7 +311,7 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//div[contains(@class,'MuiBox-root')]/*[local-name()='svg']/*[local-name()='rect']/..")
     private WebElement scaleImage;
 
-    // катринка нет данных в окне данные измерений
+    // картинка нет данных в окне данные измерений
     @FindBy(xpath = "//div[contains(@class,'MuiBox')]/*[local-name()='svg']/*[local-name()='svg'][@data-testid='AnalyticsIcon']")
     private WebElement iconNotData;
 
@@ -1228,5 +1245,54 @@ public class DashboardPage extends BasePage {
         } finally {
             takeScreenshotPage("Дашборд Аналитика", page);
         }
+    }
+
+    @Step("Получаю количество всех агрегатов")
+    public int getCountUnits() {
+
+        int count = 0;
+
+        try {
+            do {
+                count += listUnitsDashboard.size();
+                nextPage.click();
+            } while (nextPage.isDisplayed());
+        } catch (Exception e) {
+        }
+
+        return count;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации 'Всё оборудование' (красный-жёлтый-зелёный)")
+    public DashboardPage clickFirstButton() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonFirst)).click();
+
+        if (firstPage.getAttribute("tabindex").equals("0")) {
+            firstPage.click();
+        }
+
+        return this;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации 'Оборудование со статусом 'Предупреждение' и 'Авария''(красный-жёлтый)")
+    public DashboardPage clickSecondButton() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonSecond)).click();
+
+        if (firstPage.getAttribute("tabindex").equals("0")) {
+            firstPage.click();
+        }
+
+        return this;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации ''(синий-фиолетовый)")
+    public DashboardPage clickThirdButton() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonThird)).click();
+
+        if (firstPage.getAttribute("tabindex").equals("0")) {
+            firstPage.click();
+        }
+
+        return this;
     }
 }
