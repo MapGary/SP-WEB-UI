@@ -2,9 +2,7 @@ package pages;
 
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,11 +16,13 @@ import java.time.*;
 
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.lang.Thread.sleep;
+import static java.sql.DriverManager.getDriver;
 
 public class DateTimeAndEquipmentListPage extends DashboardPage{
 
@@ -35,7 +35,45 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         this.config = config;
     }
 
+//    public DateTimeAndEquipmentListPage(WebDriver driver) {
+//        super(driver);
+//        this.driver = driver;
+//        this.config = null; // если config не нужен в этом случае
+//    }
+
+
     private static final DateTimeFormatter READABLE_FMT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+
+    private final By equipmentFilterBtn = By.cssSelector("button svg[data-testid='TuneIcon']");
+    private final By dialogContainer = By.cssSelector("div[role='dialog']");
+    private final By pathInput = By.cssSelector("input[name='path']");
+    private final By pathOpenButton = By.xpath("//input[@name='path']/following::button[@title='Open'][1]");
+    private final By loadingSpinner = By.cssSelector("svg.MuiCircularProgress-svg");
+    private final By okButton = By.xpath("//button[normalize-space() = 'Ок']");
+    private final By autocompleteListItems = By.xpath("//ul[@role='listbox']/li");
+//    private final By pathSelector = By.xpath("//ul[@role='listbox']/li[not(contains(@class,'MuiListSubheader-root'))][1]");
+    private final By pathSelector = By.xpath("//li[contains(@class,'MuiAutocomplete-option') and not(contains(@class,'MuiListSubheader-root'))]");
+
+    private final By firstResult = By.xpath("//li[@data-option-index='1']");
+
+    // Всё оборудование (красный, жёлтый, зелёный)
+    private final By buttonFirst = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[3]");
+
+    // Оборудование со статусом предупреждение или авария (красный, жёлтый)
+    private final By buttonSecond = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[4]");
+
+    // Остальное оборудование (синий, фиолетовый)
+    private final By buttonThird = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[5]");
+
+
+    private By inputByName(String name) {
+        return By.cssSelector("input[name='" + name + "']");
+    }
+
+    private void openAutocompleteForInput(String inputName) {
+        By openBtn = By.xpath("//input[@name='" + inputName + "']/following::button[@title='Open'][1]");
+        getWait5().until(ExpectedConditions.elementToBeClickable(openBtn)).click();
+    }
 
     @Step("Получаю параметр из URL")
     public String getUrlParam(String url, String name) {
@@ -124,27 +162,27 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         if (instant == null) return "null";
         return READABLE_FMT.withZone(zone).format(instant);
     }
-
-    /**
-     * Возвращает Map с start/end Instant и форматированными строками.
-     * keys:
-     *  - "startInstant" Instant or null
-     *  - "endInstant" Instant or null
-     *  - "startFormatted" String
-     *  - "endFormatted" String
-     */
-    @Step("Получаю start и end из URL и форматирую для отчёта")
-    public Map<String, Object> getStartEndFromUrlFormatted(String url, ZoneId displayZone) {
-        Instant start = getInstantFromUrl(url, "startTimestamp");
-        Instant end = getInstantFromUrl(url, "endTimestamp");
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("startInstant", start);
-        result.put("endInstant", end);
-        result.put("startFormatted", formatInstantForReport(start, displayZone));
-        result.put("endFormatted", formatInstantForReport(end, displayZone));
-        return result;
-    }
+//
+//    /**
+//     * Возвращает Map с start/end Instant и форматированными строками.
+//     * keys:
+//     *  - "startInstant" Instant or null
+//     *  - "endInstant" Instant or null
+//     *  - "startFormatted" String
+//     *  - "endFormatted" String
+//     */
+//    @Step("Получаю start и end из URL и форматирую для отчёта")
+//    public Map<String, Object> getStartEndFromUrlFormatted(String url, ZoneId displayZone) {
+//        Instant start = getInstantFromUrl(url, "startTimestamp");
+//        Instant end = getInstantFromUrl(url, "endTimestamp");
+//
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("startInstant", start);
+//        result.put("endInstant", end);
+//        result.put("startFormatted", formatInstantForReport(start, displayZone));
+//        result.put("endFormatted", formatInstantForReport(end, displayZone));
+//        return result;
+//    }
 
     // Преобразует секунды в человекочитаемый формат "Xh Ym Zs"
     @Step("Форматирую длительность в часы/минуты/секунды")
@@ -188,25 +226,6 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
 
         return data;
     }
-
-//    @Step("DEBUG - Сравнение временных меток")
-//    public void debugTimeComparison(IntervalData data) {
-//        Instant systemNow = Instant.now();
-//        ZonedDateTime utcNow = ZonedDateTime.now(ZoneOffset.UTC);
-//        ZonedDateTime moscowNow = ZonedDateTime.now(ZoneId.of("Europe/Moscow"));
-//
-//        Allure.step("System Instant.now(): " + systemNow);
-//        Allure.step("UTC ZonedDateTime.now(): " + utcNow);
-//        Allure.step("Moscow ZonedDateTime.now(): " + moscowNow);
-//        Allure.step("URL start: " + data.startInstant);
-//        Allure.step("URL end: " + data.endInstant);
-//        Allure.step("Expected start: " + data.expectedStart);
-//        Allure.step("Expected end: " + data.expectedEnd);
-//
-//        // Разница между системным временем и временем из URL
-//        long diffSystemVsUrl = Duration.between(systemNow, data.endInstant).getSeconds();
-//        Allure.step("Разница System.now() vs URL end: " + diffSystemVsUrl + " секунд");
-//    }
 
     @Step("Выбираю пользовательский временной интервал от {dayFrom}-{mouthFrom}-{yearFrom} {hourFrom}:00" +
             " до {dayUp}-{mouthUp}-{yearUp} {hourUp}:00")
@@ -255,10 +274,6 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
         ZonedDateTime actualStart = urlStart.atZone(zoneId).withSecond(0);
         ZonedDateTime actualEnd = urlEnd.atZone(zoneId).withSecond(0);
 
-//        LocalDateTime actualStart = urlStart.atZone(ZoneOffset.UTC).toLocalDateTime().withSecond(0);
-//        LocalDateTime actualEnd = urlEnd.atZone(ZoneOffset.UTC).toLocalDateTime().withSecond(0);
-
-
 
         Allure.step(String.format("Ожидаемая дата начала: %s (%s)", expectedStart, zoneId));
         Allure.step(String.format("Фактическая дата начала из URL: %s (%s)", actualStart, zoneId));
@@ -272,5 +287,196 @@ public class DateTimeAndEquipmentListPage extends DashboardPage{
 
         Allure.step("Проверка дат пройдена: даты в URL соответствуют выбранным в UI");
     }
+
+    @Step("Открываю фильтр оборудования и ожидаю загрузку поля 'Путь'")
+    public DateTimeAndEquipmentListPage openEquipmentFilterAndWait() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(equipmentFilterBtn)).click();
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(dialogContainer));
+        // жду исчезновение спиннера
+        getWait10().until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        // жду доступности поля Путь
+        getWait10().until(ExpectedConditions.elementToBeClickable(pathInput));
+        Allure.step("Диалог открыт, поле 'Путь' доступно");
+        return this;
+    }
+
+    @Step("Ввожу в поле 'Путь' (частично) и нажимаю Enter: {part}")
+    public DateTimeAndEquipmentListPage typePathAndPressEnter(String part) {
+        WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(pathInput));
+        el.clear();
+        el.sendKeys(part);
+
+        try {
+            WebElement firstOption = getWait5().until(ExpectedConditions.elementToBeClickable(pathSelector));
+            firstOption.click();
+        } catch (TimeoutException e) {
+            Allure.step("Выпадающий список не появился для: " + part);
+        }
+
+        WebElement option = getWait5().until(ExpectedConditions.elementToBeClickable(firstResult));
+        option.click();
+
+        getWait5().until(d -> {
+            try {
+                String v = el.getAttribute("value");
+                return v != null && (v.equals(part) || v.contains(part));
+            } catch (StaleElementReferenceException e) {
+                return false;
+            }
+        });
+
+        Allure.step("В поле 'Путь' введено и выбран вариант: " + part);
+        return this;
+    }
+
+    @Step("Ввожу в поле 'Путь' (полностью) и нажимаю Enter: {full}")
+    public DateTimeAndEquipmentListPage typeFullPathAndPressEnter(String full) {
+        return typePathAndPressEnter(full);
+    }
+
+//    @Step("Открываю выпадающий список 'Путь' и выбираю элемент, содержащий: {visibleText}")
+//    public DateTimeAndEquipmentListPage selectPathFromDropdownByVisibleText(String visibleText) {
+//        getWait5().until(ExpectedConditions.elementToBeClickable(pathOpenButton)).click();
+//
+//        List<WebElement> items = getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(autocompleteListItems));
+//
+//        for (WebElement item : items) {
+//            String text = item.getText();
+//            if (text != null && text.toLowerCase().contains(visibleText.toLowerCase())) {
+//                try {
+//                    getWait5().until(ExpectedConditions.elementToBeClickable(item));
+//                    item.click();
+//                } catch (Exception e) {
+//                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", item);
+//                }
+//                Allure.step("Выбран элемент в 'Путь': " + text);
+//                return this;
+//            }
+//        }
+//
+//        Allure.addAttachment("Dropdown items (path)", String.join("\n", items.stream().map(WebElement::getText).toList()));
+//        throw new NoSuchElementException("Не найден вариант в Path dropdown содержащий: " + visibleText);
+//    }
+
+    @Step("Заполняю поле {name} значением '{value}'")
+    public DateTimeAndEquipmentListPage setTextField(String name, String value) {
+        By locator = inputByName(name);
+        WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(locator));
+        el.clear();
+        el.sendKeys(value);
+
+        getWait5().until(d -> {
+            try {
+                String v = el.getAttribute("value");
+                return v != null && (v.equals(value) || v.contains(value));
+            } catch (StaleElementReferenceException ex) {
+                return false;
+            }
+        });
+        Allure.step(String.format("Поле %s заполнено: %s", name, value));
+        return this;
+    }
+
+    @Step("Выбираю вариант '{optionText}' в автокомплете поля {inputName}")
+    public DateTimeAndEquipmentListPage selectOptionFromAutocomplete(String inputName, String optionText) {
+        openAutocompleteForInput(inputName);
+
+        List<WebElement> items = getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(autocompleteListItems));
+
+        for (WebElement item : items) {
+            String text = item.getText();
+            if (text != null && text.toLowerCase().contains(optionText.toLowerCase())) {
+                try {
+                    getWait5().until(ExpectedConditions.elementToBeClickable(item));
+                    item.click();
+                } catch (Exception e) {
+                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", item);
+                }
+                Allure.step(String.format("Выбран '%s' для поля %s", text, inputName));
+                return this;
+            }
+        }
+
+        Allure.addAttachment("Dropdown items for " + inputName, String.join("\n", items.stream().map(WebElement::getText).toList()));
+        throw new NoSuchElementException("Не найден вариант '" + optionText + "' в автокомплете " + inputName);
+    }
+
+//    @Step("Получаю значение поля {name}")
+//    public String getTextFieldValue(String name) {
+//        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(inputByName(name))).getAttribute("value");
+//    }
+
+    @Step("Нажимаю кнопку 'Ок' и жду закрытия диалога")
+    public DateTimeAndEquipmentListPage clickOkAndWait() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(okButton)).click();
+        getWait10().until(ExpectedConditions.invisibilityOfElementLocated(dialogContainer));
+        Allure.step("Нажата кнопка Ок, диалог закрылся");
+        return this;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации 'Всё оборудование' (красный-жёлтый-зелёный)")
+    public DateTimeAndEquipmentListPage clickFirstButton() {
+        WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(buttonFirst));
+        el.click();
+        Allure.step("Нажата кнопка фильтрации 'Всё оборудование'");
+        return this;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации 'Оборудование со статусом 'Предупреждение' и 'Авария''(красный-жёлтый)")
+    public DateTimeAndEquipmentListPage clickSecondButton() {
+        WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(buttonSecond));
+        el.click();
+        Allure.step("Нажата кнопка фильтрации по статусам 'Предупреждение' и 'Авария'");
+        return this;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации ''(синий-фиолетовый)")
+    public DateTimeAndEquipmentListPage clickThirdButton() {
+        WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(buttonThird));
+        el.click();
+        Allure.step("Нажата кнопка фильтрации");
+        return this;
+    }
+
+//    private final List<By> workAreaCandidates = List.of(
+//            // 1) дата-тестовый атрибут (часто используют)
+//            By.cssSelector("[data-testid='work-area']"),
+//            // 2) общий контейнер main / role=main
+//            By.cssSelector("main"),
+//            By.cssSelector("div[role='main']"),
+//            // 3) таблицы — строки
+//            By.cssSelector("table tbody tr"),
+//            // 4) списки / элементы списков
+//            By.cssSelector("ul li"),
+//            // 5) карточки (common class patterns)
+//            By.cssSelector("div[class*='Card']"),
+//            By.cssSelector("div[class*='card']"),
+//            By.cssSelector("div[class*='Item']"),
+//            By.cssSelector("div[class*='item']"),
+//            // 6) любые повторяющиеся блоки в основном контейнере
+//            By.xpath("//div[@id='root']//div/*[count(.//*)>0]"),
+//            // 7) fallback — все непосредственные div внутри body (очень грубо)
+//            By.cssSelector("body > div > div")
+//    );
+
+//    @Step("Получаю количество элементов рабочего поля (авто-поиск локатора)")
+//    public int getWorkAreaItemCount() {
+//        for (By candidate : workAreaCandidates) {
+//            try {
+//                List<WebElement> found = driver.findElements(candidate);
+//                if (found != null && !found.isEmpty()) {
+//                    // attach which candidate worked and size
+//                    Allure.addAttachment("WorkArea locator", candidate.toString() + " -> found: " + found.size());
+//                    return found.size();
+//                }
+//            } catch (Exception e) {
+//                // если локатор вызывает исключение — логируем и пробуем дальше
+//                Allure.addAttachment("WorkArea locator error", candidate.toString() + " -> " + e.getMessage());
+//            }
+//        }
+//        // ничего не найдено — добавим аттач и вернём 0
+//        Allure.addAttachment("WorkArea locator", "No candidates matched, returning count 0");
+//        return 0;
+//    }
 
 }

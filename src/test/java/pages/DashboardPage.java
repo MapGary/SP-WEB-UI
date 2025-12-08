@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static utils.Data.Dashboard.listParameters;
 
@@ -31,6 +32,24 @@ public class DashboardPage extends BasePage {
     // селектор для элементов внутри listbox: все li с role='option'
     private final By listOptions = By.xpath("//ul[@role='listbox']/li[@role='option']");
 
+    // кнопка фильров в меню оборудование
+    private final By equipmentFilterBtn = By.cssSelector("button svg[data-testid='TuneIcon']");
+    // окно список фильтров
+    private final By dialogContainer = By.cssSelector("div[role='dialog']");
+    // спинер в окне список фильтров
+    private final By loadingSpinner = By.cssSelector("svg.MuiCircularProgress-svg");
+    // поле путь в окне список фильтров
+    private final By pathInput = By.cssSelector("input[name='path']");
+    // выпадающий список поля в окне список фильтров
+//    private final By pathSelector = By.xpath("//li[contains(@class,'MuiAutocomplete-option') and not(contains(@class,'MuiListSubheader-root'))]");
+    @FindBy(xpath = "//li[contains(@class,'MuiAutocomplete-option') and not(contains(@class,'MuiListSubheader-root'))]")
+    private List<WebElement> dropdownListWindowFilterList;
+    // первый результат в выпадающем списке поля путь
+    private final By firstResult = By.xpath("//li[@data-option-index='1']");
+    // кнопка ОК в окне список фильтров
+    private final By okButton = By.xpath("//button[normalize-space() = 'Ок']");
+    private final By autocompleteListItems = By.xpath("//ul[@role='listbox']/li");
+
     // поле время от
     @FindBy(xpath = "//div[@class='react-datepicker-wrapper'][1]//input")
     private WebElement fieldFrom;
@@ -51,9 +70,27 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/ul[@role='group']/div/div/li/ul/div/div/li/ul//li")
     private List<WebElement> listAggregate;
 
+    // лист агрегатов на рабочей области для станции модуль схема
+    @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]/div/div")
+    private List<WebElement> listUnitsDashboard;
+
     // Вся страница
     @FindBy(xpath = "//div[contains(@class, 'MuiBox-root')]/header/../..")
     private WebElement page;
+
+    // стрелка первая страница с агрегатами на дашборде для станции
+    @FindBy(xpath = "//button[@aria-label='first page']")
+    private WebElement firstPage;
+    // стрелка следующая страница с агрегатами на дашборде для станции
+    @FindBy(xpath = "//button[@aria-label='next page']")
+    private WebElement nextPage;
+
+    // фильтр оборудования Всё оборудование (красный, жёлтый, зелёный)
+    private final By buttonFirst = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[3]");
+    // Оборудование со статусом предупреждение или авария (красный, жёлтый)
+    private final By buttonSecond = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[4]");
+    // Остальное оборудование (синий, фиолетовый)
+    private final By buttonThird = By.xpath("(//div[contains(@class,'MuiToolbar-root')]//button)[5]");
 
     // Список оборудования ссылки 1 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li[contains(@class, 'MuiTreeItem')]/div/div[@class='MuiTreeItem-iconContainer']"))
@@ -64,7 +101,6 @@ public class DashboardPage extends BasePage {
     // Верхняя станция токрытая по дефолту
     @FindBy(xpath = "//li[contains(@class,'MuiTreeItem')]")
     private List<WebElement> stationLinks;
-
 
     // Список оборудования ссылки 2 уровень
     @FindBys(@FindBy(xpath = "//ul[@role='tree']/li/ul[@role='group']/div/div/li/div/div[@class='MuiTreeItem-iconContainer']"))
@@ -294,7 +330,7 @@ public class DashboardPage extends BasePage {
     @FindBy(xpath = "//div[contains(@class,'MuiBox-root')]/*[local-name()='svg']/*[local-name()='rect']/..")
     private WebElement scaleImage;
 
-    // катринка нет данных в окне данные измерений
+    // картинка нет данных в окне данные измерений
     @FindBy(xpath = "//div[contains(@class,'MuiBox')]/*[local-name()='svg']/*[local-name()='svg'][@data-testid='AnalyticsIcon']")
     private WebElement iconNotData;
 
@@ -1228,5 +1264,227 @@ public class DashboardPage extends BasePage {
         } finally {
             takeScreenshotPage("Дашборд Аналитика", page);
         }
+    }
+
+    @Step("Получаю количество всех агрегатов")
+    public int getCountUnits() {
+
+        int count = 0;
+
+        try {
+            do {
+                count += listUnitsDashboard.size();
+                nextPage.click();
+            } while (nextPage.isDisplayed());
+        } catch (Exception e) {
+        }
+
+        return count;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации 'Всё оборудование' (красный-жёлтый-зелёный)")
+    public DashboardPage clickFirstButton() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonFirst)).click();
+
+        if (firstPage.getAttribute("tabindex").equals("0")) {
+            firstPage.click();
+        }
+
+        return this;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации 'Оборудование со статусом 'Предупреждение' и 'Авария''(красный-жёлтый)")
+    public DashboardPage clickSecondButton() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonSecond)).click();
+
+        if (firstPage.getAttribute("tabindex").equals("0")) {
+            firstPage.click();
+        }
+
+        return this;
+    }
+
+    @Step("Нажимаю на кнопку фильтрации ''(синий-фиолетовый)")
+    public DashboardPage clickThirdButton() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(buttonThird)).click();
+
+        if (firstPage.getAttribute("tabindex").equals("0")) {
+            firstPage.click();
+        }
+
+        return this;
+    }
+
+    @Step("Открываю фильтр оборудования и ожидаю загрузку поля 'Путь'")
+    public DashboardPage openEquipmentFilterAndWait() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(equipmentFilterBtn)).click();
+        getWait10().until(ExpectedConditions.visibilityOfElementLocated(dialogContainer));
+        // жду исчезновение спиннера
+        getWait10().until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        // жду доступности поля Путь
+        getWait10().until(ExpectedConditions.elementToBeClickable(pathInput));
+        Allure.step("Диалог открыт, поле 'Путь' доступно");
+        return this;
+    }
+
+    @Step("Ввожу в поле 'Путь': {part}")
+    public DashboardPage setPath(String part) {
+
+        if (!part.equals("")) {
+            WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(pathInput));
+            el.clear();
+            el.sendKeys(part);
+
+            try {
+                WebElement firstOption = getWait5().until(ExpectedConditions.elementToBeClickable(dropdownListWindowFilterList.get(0)));
+                dropdownListWindowFilterList.get(0).click();
+//            firstOption.click();
+//            WebElement option = getWait5().until(ExpectedConditions.elementToBeClickable(firstResult));
+//            option.click();
+            } catch (TimeoutException e) {
+                Allure.step("Выпадающий список не появился для: " + part);
+            }
+
+            getWait5().until(d -> {
+                try {
+                    String v = getWait5().until(ExpectedConditions.elementToBeClickable(pathInput)).getAttribute("value");
+                    return v != null && (v.equals(part) || v.contains(part));
+                } catch (StaleElementReferenceException e) {
+                    return false;
+                }
+            });
+        }
+
+        Allure.step("В поле 'Путь' введено и выбран вариант: " + part);
+
+        return this;
+    }
+
+    @Step("Заполняю все поля")
+    public DashboardPage setAllFields(String trainName, String trainSerial,
+                                      String trainPosition, String instanceNumber, String rfid,
+                                      String trainType, String technologicalProcess, String manufacturer, String equipmentGroup) {
+
+        if (!trainName.isBlank()) setTextField("trainName", trainName);
+        if (!trainSerial.isBlank()) setTextField("trainSerial", trainSerial);
+        if (!trainPosition.isBlank()) setTextField("trainPosition", trainPosition);
+        if (!instanceNumber.isBlank()) setTextField("instanceNumber", instanceNumber);
+        if (!rfid.isBlank()) setTextField("rfid", rfid);
+
+        //?? выбор в автокомплетах (если данные заданы)
+        if (!trainType.isBlank()) {
+            try {
+                selectOptionFromAutocomplete("trainType", trainType);
+            } catch (Exception e) {
+                Allure.step("Не удалось выбрать trainType: " + e.getMessage());
+            }
+        }
+        if (!technologicalProcess.isBlank()) {
+            try {
+                selectOptionFromAutocomplete("technologicalProcess", technologicalProcess);
+            } catch (Exception e) {
+                Allure.step("Не удалось выбрать technologicalProcess: " + e.getMessage());
+            }
+        }
+        if (!manufacturer.isBlank()) {
+            try {
+                selectOptionFromAutocomplete("manufacturer", manufacturer);
+            } catch (Exception e) {
+                Allure.step("Не удалось выбрать manufacturer: " + e.getMessage());
+            }
+        }
+        if (!equipmentGroup.isBlank()) {
+            try {
+                selectOptionFromAutocomplete("equipmentGroup", equipmentGroup);
+            } catch (Exception e) {
+                Allure.step("Не удалось выбрать equipmentGroup: " + e.getMessage());
+            }
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        takeScreenshotPage("Список фильтров", page);
+
+        return this;
+    }
+
+    private By inputByName(String name) {
+        return By.cssSelector("input[name='" + name + "']");
+    }
+
+    private void openAutocompleteForInput(String inputName) {
+        By openBtn = By.xpath("//input[@name='" + inputName + "']/following::button[@title='Open'][1]");
+        getWait5().until(ExpectedConditions.elementToBeClickable(openBtn)).click();
+    }
+
+    @Step("Заполняю поле {name} значением '{value}'")
+    private DashboardPage setTextField(String name, String value) {
+        By locator = inputByName(name);
+        WebElement el = getWait5().until(ExpectedConditions.elementToBeClickable(locator));
+        el.clear();
+        el.sendKeys(value);
+
+        getWait5().until(d -> {
+            try {
+                String v = el.getAttribute("value");
+                return v != null && (v.equals(value) || v.contains(value));
+            } catch (StaleElementReferenceException ex) {
+                return false;
+            }
+        });
+        Allure.step(String.format("Поле %s заполнено: %s", name, value));
+
+        return this;
+    }
+
+    @Step("Выбираю вариант '{optionText}' в автокомплете поля {inputName}")
+    private DashboardPage selectOptionFromAutocomplete(String inputName, String optionText) {
+        openAutocompleteForInput(inputName);
+
+        getWait10().until(ExpectedConditions.elementToBeClickable(dropdownListWindowFilterList.get(0)));
+
+        for (WebElement value : dropdownListWindowFilterList) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", value);
+            if (value.getText().equals(optionText)) {
+                value.click();
+//                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", value);
+                Allure.step(String.format("Выбран '%s' для поля %s", value.getText(), inputName));
+                break;
+            }
+        }
+
+        return this;
+
+//        List<WebElement> items = getWait10().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(autocompleteListItems));
+//
+//        for (WebElement item : items) {
+//            String text = item.getText();
+//            if (text != null && text.toLowerCase().contains(optionText.toLowerCase())) {
+//                try {
+//                    getWait5().until(ExpectedConditions.elementToBeClickable(item));
+//                    item.click();
+//                } catch (Exception e) {
+//                    ((JavascriptExecutor) driver).executeScript("arguments[0].click();", item);
+//                }
+//                Allure.step(String.format("Выбран '%s' для поля %s", text, inputName));
+//                return this;
+//            }
+//        }
+//
+//        Allure.addAttachment("Dropdown items for " + inputName, String.join("\n", items.stream().map(WebElement::getText).toList()));
+//        throw new NoSuchElementException("Не найден вариант '" + optionText + "' в автокомплете " + inputName);
+    }
+
+    @Step("Нажимаю кнопку 'Ок' и жду закрытия диалога")
+    public DashboardPage clickOkAndWait() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(okButton)).click();
+        getWait10().until(ExpectedConditions.invisibilityOfElementLocated(dialogContainer));
+        Allure.step("Нажата кнопка Ок, диалог закрылся");
+        takeScreenshotPage("Рабочая область после фильтра", page);
+        return this;
     }
 }
