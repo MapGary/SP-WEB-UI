@@ -3,11 +3,15 @@
 
     <test name="Браузер">
         <classes>
-            <class name="tests.TimeIntervalPannelTest"/>
+            <class name="tests.AnalyticsTest"/>
+            <class name="tests.AuthLoginTest"/>
+            <class name="tests.EventsTest"/>
+            <class name="tests.GettingAggregateDataLoadTimeTest"/>
+            <class name="tests.MagazineTest"/>
+            <class name="tests.SchemaTest"/>
             <class name="tests.SecuritySqlInjectionTest"/>
             <class name="tests.SetNewPasswordTest"/>
             <class name="tests.TimeIntervalPannelTest"/>
-            <class name="tests.SchemaTest"/>
         </classes>
     </test>
 

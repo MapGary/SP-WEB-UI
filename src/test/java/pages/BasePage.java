@@ -4,6 +4,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.TestConfig;
 
@@ -20,7 +21,6 @@ public class BasePage {
     String jwt_asu = null;
     String user = null;
     String settings = null;
-    private WebDriverWait wait20;
     private WebDriverWait wait10;
     private WebDriverWait wait5;
     private final TestConfig config = new TestConfig();
@@ -112,14 +112,6 @@ public class BasePage {
         return settings;
     }
 
-    public WebDriverWait getWait20() {
-        if (wait20 == null) {
-            wait20 = new WebDriverWait(driver, Duration.ofSeconds(20));
-        }
-
-        return wait10;
-    }
-
     public WebDriverWait getWait10() {
         if (wait10 == null) {
             wait10 = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -148,5 +140,16 @@ public class BasePage {
             e.printStackTrace();
         }
         return screenshot;
+    }
+
+    // ждет и проверят наличие элемента
+    public boolean isElementPresentWithWait(By locator, int timeoutSeconds) {
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
+                    .until(ExpectedConditions.presenceOfElementLocated(locator));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }
