@@ -353,8 +353,8 @@ public class DashboardPage extends BasePage {
         driver.findElement(By.xpath(String.format("//div[@class='react-datepicker-wrapper'][2]/../div[@class='react-datepicker__tab-loop']//div[contains(@class, 'react-datepicker__day react-datepicker__day--%s')]", String.format("%03d", dayUp)))).click();
         driver.findElement(By.xpath(String.format("//div[@class='react-datepicker-wrapper'][2]/../div[@class='react-datepicker__tab-loop']//ul[@class='react-datepicker__time-list']/li[%s]", String.valueOf(hourUp + 1)))).click();
 
-        getWait10().until(ExpectedConditions.invisibilityOf(progressbarMenu));
-//        getWait10().until(ExpectedConditions.visibilityOf(windowStation));
+        isElementPresentWithWait(By.xpath("//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]"), 1000);
+//        getWait10().until(ExpectedConditions.invisibilityOf(progressbarMenu));
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
 

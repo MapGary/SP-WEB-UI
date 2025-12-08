@@ -3,6 +3,7 @@ package pages;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -35,12 +36,6 @@ public class LoginPage extends BasePage {
     @FindBy(tagName = "h2")
     private WebElement nameForm;
 
-    @FindBy(name = "login")
-    private WebElement fieldLogin;
-
-    @FindBy(name = "password")
-    private WebElement fieldPassword;
-
     @FindBy(xpath = "//input[@name='login']/../../label")
     private WebElement labelFieldLogin;
 
@@ -49,9 +44,6 @@ public class LoginPage extends BasePage {
 
     @FindBy(xpath = "//input[@name='password']/..")
     private WebElement elementFieldPassword;
-
-    @FindBy(xpath = "//button[@data-testid='LoginButton']")
-    private WebElement buttonLogin;
 
     @FindBy(id = ":r1:-helper-text")
     private WebElement helperLogin;
@@ -89,6 +81,46 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]")
     private WebElement fieldUnit;
 
+    @FindBy(name = "login")
+    private WebElement fieldLogin;
+
+    @FindBy(name = "password")
+    private WebElement fieldPassword;
+
+    @FindBy(xpath = "//button[@data-testid='LoginButton']")
+    private WebElement buttonLogin;
+
+    @Step("Кликаю в поле Логин")
+    public LoginPage clickToFieldLogin() {
+        fieldLogin.click();
+
+        return this;
+    }
+
+    @Step("Кликаю в поле Пароль")
+    public LoginPage clickToFieldPassword() {
+        fieldPassword.click();
+
+        return this;
+    }
+
+    @Step("Кликаю кнопку Войти")
+    public DashboardPage clickButtonLogin() {
+        buttonLogin.click();
+
+        // жду обновления дашборд на вкладке Схема
+        getWait10().until(ExpectedConditions.urlContains("tab=1"));
+        isElementPresentWithWait(By.xpath("//div[@aria-label='Station scheme view']/../../div[contains(@class,'MuiBox')]"), 1000);
+
+//        try {
+//            getWait10().until(ExpectedConditions.invisibilityOf(progressbar));
+//        } catch (Exception e) {
+//            getWait5().until(ExpectedConditions.visibilityOf(fieldUnit));
+//        }
+
+        return new DashboardPage(driver);
+    }
+
     @Step("Добавляю значение в поле Логин")
     public LoginPage addValueToFieldLogin(String login) {
         fieldLogin.sendKeys(login);
@@ -113,36 +145,6 @@ public class LoginPage extends BasePage {
     public String getValueToFieldPassword() {
 
         return fieldPassword.getDomAttribute("value");
-    }
-
-    @Step("Кликаю кнопку Войти")
-    public DashboardPage clickButtonLogin() {
-        buttonLogin.click();
-
-        // жду обновления дашборд на вкладке Схема
-        getWait10().until(ExpectedConditions.urlContains("tab=1"));
-//        isElementGoneFromDom(By.xpath("//div[@id='equipment-content']//span[@role='progressbar']"), 10);
-        try {
-            getWait10().until(ExpectedConditions.invisibilityOf(progressbar));
-        } catch (Exception e) {
-            getWait5().until(ExpectedConditions.visibilityOf(fieldUnit));
-        }
-
-        return new DashboardPage(driver);
-    }
-
-    @Step("Кликаю в поле Логин")
-    public LoginPage clickToFieldLogin() {
-        fieldLogin.click();
-
-        return this;
-    }
-
-    @Step("Кликаю в поле Пароль")
-    public LoginPage clickToFieldPassword() {
-        fieldPassword.click();
-
-        return this;
     }
 
     @Step("Кликаю кнопку Войти с подсказкой")
