@@ -1,1 +1,0 @@
-{"layoutDirection":"ltr","language":"RU"}
