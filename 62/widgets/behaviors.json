@@ -1,1 +1,0 @@
-{"total":2,"items":[{"uid":"649db058cf3b31f7f20d69291e77141d","name":"Безопасность","statistic":{"failed":1,"broken":0,"skipped":0,"passed":0,"unknown":0,"total":1}},{"uid":"6f53fa6cea7d2278b4e8e72bf5093020","name":"Авторизация и аутентификация","statistic":{"failed":0,"broken":0,"skipped":0,"passed":7,"unknown":1,"total":8}}]}
