@@ -47,7 +47,7 @@ public class DashboardPage extends BasePage {
     // первый результат в выпадающем списке поля путь
     private final By firstResult = By.xpath("//li[@data-option-index='1']");
     // кнопка ОК в окне список фильтров
-    private final By okButton = By.xpath("//button[normalize-space() = 'Ок']");
+    private final By okButton = By.xpath("// div[@id='reports-dialog-content']/../div[2]/button[3]");
     private final By autocompleteListItems = By.xpath("//ul[@role='listbox']/li");
 
     // поле время от
