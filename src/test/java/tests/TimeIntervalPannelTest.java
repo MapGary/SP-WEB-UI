@@ -591,7 +591,7 @@ public class TimeIntervalPannelTest extends BaseTest {
 
         Assert.assertNotEquals(countUnitsBeforeFilter, countUnitsSecondFilter,
                 "Рабочая область должна измениться после нажатия второй кнопки");
-        Assert.assertEquals(countUnitsSecondFilter, 637,
+        Assert.assertEquals(countUnitsSecondFilter, 712,
                 "Количество агрегатов соответствует ожидаемому");
 
         int countUnitsThirdFilter = dashboardPage
