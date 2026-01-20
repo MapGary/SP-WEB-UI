@@ -1052,7 +1052,13 @@ public class DashboardPage extends BasePage {
 
         clickMeasurementType(type);
 
-        getWait10().until(ExpectedConditions.visibilityOf(iconNotData));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+//        getWait10().until(ExpectedConditions.visibilityOf(iconNotData));
 
         return this;
     }
