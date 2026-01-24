@@ -183,7 +183,7 @@ public class SchemaTest extends BaseTest {
                 .collapseWindows(new String[]{"Схема агрегата", "Состояние и прогнозирование", "Табличные данные"});
 
         List<String> nameDefault = dashboardPage
-                .selectParametersMeasurementType(new String[]{"Частота вращения (фактическая)"})
+                .selectParametersMeasurementType(new String[]{"Частота вращения электродвигател"})
                 .getNameGraph();
 
         Allure.step("Проверяю, что график один");
@@ -192,7 +192,7 @@ public class SchemaTest extends BaseTest {
         Assert.assertEquals(nameDefault.get(0), listParameters.get(0));
 
         List<String> nameTurnoverParameters = dashboardPage
-                .selectParametersMeasurementType(new String[]{"Частота вращения (фактическая)", "ИТС"})
+                .selectParametersMeasurementType(new String[]{"Частота вращения электродвигател", "ИТС"})
                 .getNameGraph();
 
         Allure.step("Проверяю, что графиков два");
