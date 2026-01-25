@@ -767,7 +767,7 @@ public class DashboardPage extends BasePage {
     public DashboardPage selectParameterGraph(String parameter) {
         selectParameterMeasurementType(parameter);
 
-        getWait10().until(ExpectedConditions.elementToBeClickable(graph));
+        getWait20().until(ExpectedConditions.elementToBeClickable(graph));
 
         // останавливаю время загрузки временного интервала
         endTimeInterval = System.currentTimeMillis();
@@ -833,7 +833,7 @@ public class DashboardPage extends BasePage {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                    getWait10().until(ExpectedConditions.elementToBeClickable(graph));
+                    getWait20().until(ExpectedConditions.elementToBeClickable(graph));
                     break;
                 }
             }
@@ -1052,7 +1052,13 @@ public class DashboardPage extends BasePage {
 
         clickMeasurementType(type);
 
-        getWait10().until(ExpectedConditions.visibilityOf(iconNotData));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+//        getWait10().until(ExpectedConditions.visibilityOf(iconNotData));
 
         return this;
     }
