@@ -1,0 +1,418 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","45453","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 05:07:20 UTC 2026","passed","Tue Mar 03 05:08:06 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"Проверить, что можно выбрать интервал 'За выбранный интервал'","13457","testSelectCustomRange","Мультибраузерное тестирование","Tue Mar 03 05:11:24 UTC 2026","passed","Tue Mar 03 05:11:37 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testSelectCustomRange"
+"Проверка видимости пароля (иконка 'глаз') на странице Login","2831","testCheckingPasswordVisibility","Мультибраузерное тестирование","Tue Mar 03 04:11:28 UTC 2026","passed","Tue Mar 03 04:11:31 UTC 2026","tests.AuthLoginTest","Браузер Chrome","tests.AuthLoginTest","testCheckingPasswordVisibility"
+"Проверить, что можно выбрать интервал 'За неделю'","13662","testSelectWeek","Мультибраузерное тестирование","Tue Mar 03 05:12:35 UTC 2026","passed","Tue Mar 03 05:12:49 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testSelectWeek"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема
+5. 4 окна в рабочей области загрузились
+6. Каждое из 4 окон растянулось на всю рабочую область","22410","testUnitDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:22:01 UTC 2026","failed","Tue Mar 03 04:22:23 UTC 2026","tests.SchemaTest","Браузер Chrome","tests.SchemaTest","testUnitDashboardDownloads"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4
+4. Модуль Схема
+5. Данные отображаются Диаграмма
+6. Данные отображаются Схема
+7. Перешел к станции СКРУ-3
+4. Модуль Схема
+5. Данные отображаются Диаграмма
+6. Данные отображаются Схема","57229","testStationDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 05:01:21 UTC 2026","passed","Tue Mar 03 05:02:19 UTC 2026","tests.SchemaTest","Браузер Yandex","tests.SchemaTest","testStationDashboardDownloads"
+"Проверить, что можно выбрать интервал 'За год'","14213","testSelectYear","Мультибраузерное тестирование","Tue Mar 03 04:31:43 UTC 2026","passed","Tue Mar 03 04:31:57 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testSelectYear"
+"Проверить, что можно выбрать интервал 'За смену (8 часов)'","11829","testSelectWorkDay","Мультибраузерное тестирование","Tue Mar 03 05:12:56 UTC 2026","passed","Tue Mar 03 05:13:08 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testSelectWorkDay"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G02
+4. Модуль Схема окно Табличные данные
+5. Данные отображаются в виде События, Мероприятия ТОиР, Дефекты, Рекомендации, Отчеты","20668","testTabularDataDisplayTypes","Мультибраузерное тестирование","Tue Mar 03 04:42:11 UTC 2026","broken","Tue Mar 03 04:42:32 UTC 2026","tests.SchemaTest","Браузер Edge","tests.SchemaTest","testTabularDataDisplayTypes"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","51487","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 04:27:31 UTC 2026","passed","Tue Mar 03 04:28:22 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"Ввод неверного логина или пароля","1453","testEnterIncorrectLoginOrPassword","Мультибраузерное тестирование","Tue Mar 03 04:53:42 UTC 2026","passed","Tue Mar 03 04:53:44 UTC 2026","tests.AuthLoginTest","Браузер Yandex","tests.AuthLoginTest","testEnterIncorrectLoginOrPassword"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема окно Состояние и прогнозирование
+5. Меняю вид отображения на Шкала","23070","testStatusForecastingScaleWindowCoversEntireWorkArea","Мультибраузерное тестирование","Tue Mar 03 05:02:27 UTC 2026","passed","Tue Mar 03 05:02:50 UTC 2026","tests.SchemaTest","Браузер Yandex","tests.SchemaTest","testStatusForecastingScaleWindowCoversEntireWorkArea"
+"Повторное использование пароля при смене пароля","1688","testPasswordReuse","Мультибраузерное тестирование","Tue Mar 03 05:05:39 UTC 2026","passed","Tue Mar 03 05:05:41 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testPasswordReuse"
+"Переключения языка (RU/EN)","1682","testSwitchLanguage","Мультибраузерное тестирование","Tue Mar 03 04:33:47 UTC 2026","passed","Tue Mar 03 04:33:49 UTC 2026","tests.AuthLoginTest","Браузер Edge","tests.AuthLoginTest","testSwitchLanguage"
+"Переключения языка (RU/EN)","1671","testSwitchLanguage","Мультибраузерное тестирование","Tue Mar 03 04:54:27 UTC 2026","passed","Tue Mar 03 04:54:29 UTC 2026","tests.AuthLoginTest","Браузер Yandex","tests.AuthLoginTest","testSwitchLanguage"
+"Новый пароль не соответствует требованиям (например, без цифры или спецсимвола) при смене пароля","963","testNewPasswordNotMeetRequirements","Мультибраузерное тестирование","Tue Mar 03 04:44:39 UTC 2026","passed","Tue Mar 03 04:44:40 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testNewPasswordNotMeetRequirements"
+"Новый пароль не соответствует требованиям (например, без цифры или спецсимвола) при смене пароля","967","testNewPasswordNotMeetRequirements","Мультибраузерное тестирование","Tue Mar 03 05:05:30 UTC 2026","passed","Tue Mar 03 05:05:31 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testNewPasswordNotMeetRequirements"
+"Новый пароль содержит запрещённое слово (например, Moscow)","0","testNewPasswordNotContainForbiddenWord","Мультибраузерное тестирование","Tue Mar 03 04:52:32 UTC 2026","unknown","Tue Mar 03 04:52:32 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testNewPasswordNotContainForbiddenWord"
+"Проверка видимости пароля (иконка 'глаз') на странице Login","2698","testCheckingPasswordVisibility","Мультибраузерное тестирование","Tue Mar 03 04:53:15 UTC 2026","passed","Tue Mar 03 04:53:18 UTC 2026","tests.AuthLoginTest","Браузер Yandex","tests.AuthLoginTest","testCheckingPasswordVisibility"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","44925","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 04:49:00 UTC 2026","passed","Tue Mar 03 04:49:44 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"Попытка отправки формы с пустыми полями при смене пароля","1623","testSubmittingFormWithEmptyFields","Мультибраузерное тестирование","Tue Mar 03 04:44:57 UTC 2026","passed","Tue Mar 03 04:44:59 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testSubmittingFormWithEmptyFields"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема окно Данные измерений тип измерения Тренд вид Таблица
+5. Выбран параметр Оборотные перехожу с График на Таблица
+6. Выбран параметр Оборотные и параметр Параметры перехожу с График на Таблица
+7. Нахожусь на Таблица, выбираю один из Замеры, перехожу на График
+8. Перехожу на Таблица, выбираю один из Замеры с несколькими точками, перехожу на График","76447","testMeasurementDataTableParametersTrend","Мультибраузерное тестирование","Tue Mar 03 04:39:23 UTC 2026","failed","Tue Mar 03 04:40:39 UTC 2026","tests.SchemaTest","Браузер Edge","tests.SchemaTest","testMeasurementDataTableParametersTrend"
+"","17601","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:14:15 UTC 2026","passed","Tue Mar 03 04:14:33 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Chrome","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Клик по лого на странице Сменить пароль ","395","testClickLogo","Мультибраузерное тестирование","Tue Mar 03 05:04:45 UTC 2026","passed","Tue Mar 03 05:04:45 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testClickLogo"
+"","17452","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:36:12 UTC 2026","passed","Tue Mar 03 04:36:29 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Edge","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Отображение подсказки под полем 'Текущий пароль' в форме смены пароля","328","testHelperCurrentPassword","Мультибраузерное тестирование","Tue Mar 03 04:44:12 UTC 2026","passed","Tue Mar 03 04:44:13 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testHelperCurrentPassword"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4
+4. Модуль Схема
+5. Данные отображаются Диаграмма
+6. Данные отображаются Схема
+7. Перешел к станции СКРУ-3
+4. Модуль Схема
+5. Данные отображаются Диаграмма
+6. Данные отображаются Схема","58546","testStationDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:19:52 UTC 2026","passed","Tue Mar 03 04:20:51 UTC 2026","tests.SchemaTest","Браузер Chrome","tests.SchemaTest","testStationDashboardDownloads"
+"Попытка SQL-injection в поля логина/пароля не должна приводить к успешной аутентификации","1585","testSqlInjectionDoesNotBypassAuthentication","Мультибраузерное тестирование","Tue Mar 03 04:22:33 UTC 2026","passed","Tue Mar 03 04:22:35 UTC 2026","tests.SecuritySqlInjectionTest","Браузер Chrome","tests.SecuritySqlInjectionTest","testSqlInjectionDoesNotBypassAuthentication"
+"Проверить, что при открытии выпадающего списка отображаются все ожидаемые варианты","7068","testDropdownContainsAllExpectedOptions","Мультибраузерное тестирование","Tue Mar 03 04:24:44 UTC 2026","passed","Tue Mar 03 04:24:51 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testDropdownContainsAllExpectedOptions"
+"Проверить, что можно выбрать интервал 'За неделю'","14481","testSelectWeek","Мультибраузерное тестирование","Tue Mar 03 04:31:02 UTC 2026","passed","Tue Mar 03 04:31:16 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testSelectWeek"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","45476","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 05:09:10 UTC 2026","passed","Tue Mar 03 05:09:55 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"Ввод неверного логина или пароля","1461","testEnterIncorrectLoginOrPassword","Мультибраузерное тестирование","Tue Mar 03 04:33:07 UTC 2026","passed","Tue Mar 03 04:33:08 UTC 2026","tests.AuthLoginTest","Браузер Edge","tests.AuthLoginTest","testEnterIncorrectLoginOrPassword"
+"Проверить, что при открытии выпадающего списка отображаются все ожидаемые варианты","6121","testDropdownContainsAllExpectedOptions","Мультибраузерное тестирование","Tue Mar 03 04:45:29 UTC 2026","passed","Tue Mar 03 04:45:35 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testDropdownContainsAllExpectedOptions"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Конвейерный транспорт
+4. Модуль Схема
+5. Перешел в модуль События
+6. Данные в таблице заполнены
+7. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+8. Модуль События
+9. Данные в таблице заполнены","19299","testDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:54:37 UTC 2026","passed","Tue Mar 03 04:54:56 UTC 2026","tests.EventsTest","Браузер Yandex","tests.EventsTest","testDashboardDownloads"
+"Вход с валидными логином и паролем","6922","testLoginWithValidUsernameAndPassword","Мультибраузерное тестирование","Tue Mar 03 04:54:10 UTC 2026","passed","Tue Mar 03 04:54:17 UTC 2026","tests.AuthLoginTest","Браузер Yandex","tests.AuthLoginTest","testLoginWithValidUsernameAndPassword"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G02
+4. Модуль Схема окно Табличные данные
+5. Данные отображаются в виде События, Мероприятия ТОиР, Дефекты, Рекомендации, Отчеты","21988","testTabularDataDisplayTypes","Мультибраузерное тестирование","Tue Mar 03 04:21:31 UTC 2026","passed","Tue Mar 03 04:21:53 UTC 2026","tests.SchemaTest","Браузер Chrome","tests.SchemaTest","testTabularDataDisplayTypes"
+"Проверка поля Пароль на sql инъекцию на странице Логин","1479","testSqlInjectionFieldPassword","Мультибраузерное тестирование","Tue Mar 03 04:22:42 UTC 2026","passed","Tue Mar 03 04:22:43 UTC 2026","tests.SecuritySqlInjectionTest","Браузер Chrome","tests.SecuritySqlInjectionTest","testSqlInjectionFieldPassword"
+"Переключение языка на форме смены пароля","1744","testSwitchLanguage","Мультибраузерное тестирование","Tue Mar 03 04:45:06 UTC 2026","passed","Tue Mar 03 04:45:08 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testSwitchLanguage"
+"Клик по лого на странице Login","215","testClickLogo","Мультибраузерное тестирование","Tue Mar 03 04:32:59 UTC 2026","passed","Tue Mar 03 04:32:59 UTC 2026","tests.AuthLoginTest","Браузер Edge","tests.AuthLoginTest","testClickLogo"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема
+5. 4 окна в рабочей области загрузились
+6. Каждое из 4 окон растянулось на всю рабочую область","23104","testUnitDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 05:03:28 UTC 2026","failed","Tue Mar 03 05:03:51 UTC 2026","tests.SchemaTest","Браузер Yandex","tests.SchemaTest","testUnitDashboardDownloads"
+"","18918","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:13:49 UTC 2026","passed","Tue Mar 03 04:14:08 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Chrome","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Проверка видимости пароля (иконка 'глаз') для поля Новый пароль на странице Cменить пароль","2776","testCheckingNewPasswordVisibility","Мультибраузерное тестирование","Tue Mar 03 04:43:37 UTC 2026","passed","Tue Mar 03 04:43:40 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testCheckingNewPasswordVisibility"
+"Повторное использование пароля при смене пароля","1703","testPasswordReuse","Мультибраузерное тестирование","Tue Mar 03 04:24:02 UTC 2026","passed","Tue Mar 03 04:24:03 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testPasswordReuse"
+"","19481","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:55:33 UTC 2026","passed","Tue Mar 03 04:55:52 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Yandex","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","45673","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 04:48:07 UTC 2026","passed","Tue Mar 03 04:48:53 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"Вход с валидными логином и паролем","7490","testLoginWithValidUsernameAndPassword","Мультибраузерное тестирование","Tue Mar 03 04:12:24 UTC 2026","passed","Tue Mar 03 04:12:31 UTC 2026","tests.AuthLoginTest","Браузер Chrome","tests.AuthLoginTest","testLoginWithValidUsernameAndPassword"
+"","20792","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:13:19 UTC 2026","passed","Tue Mar 03 04:13:39 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Chrome","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Проверка видимости пароля (иконка 'глаз') для поля Новый пароль на странице Cменить пароль","2814","testCheckingNewPasswordVisibility","Мультибраузерное тестирование","Tue Mar 03 04:23:01 UTC 2026","passed","Tue Mar 03 04:23:04 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testCheckingNewPasswordVisibility"
+"Вход с пустыми полями логина и пароля","1503","testLoginWithEmptyUsernameAndPassword","Мультибраузерное тестирование","Tue Mar 03 04:12:14 UTC 2026","passed","Tue Mar 03 04:12:15 UTC 2026","tests.AuthLoginTest","Браузер Chrome","tests.AuthLoginTest","testLoginWithEmptyUsernameAndPassword"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема
+5. 4 окна в рабочей области загрузились
+6. Каждое из 4 окон растянулось на всю рабочую область","21555","testUnitDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:42:39 UTC 2026","failed","Tue Mar 03 04:43:01 UTC 2026","tests.SchemaTest","Браузер Edge","tests.SchemaTest","testUnitDashboardDownloads"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","46183","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 05:10:02 UTC 2026","passed","Tue Mar 03 05:10:49 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Конвейерный транспорт
+4. Модуль Схема
+5. Перешел в модуль События
+6. Данные в таблице заполнены
+7. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+8. Модуль События
+9. Данные в таблице заполнены","20152","testDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:33:56 UTC 2026","passed","Tue Mar 03 04:34:16 UTC 2026","tests.EventsTest","Браузер Edge","tests.EventsTest","testDashboardDownloads"
+"Текущий пароль указан неверно при смене пароля","1620","testCurrentPasswordIncorrect","Мультибраузерное тестирование","Tue Mar 03 05:04:53 UTC 2026","passed","Tue Mar 03 05:04:54 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testCurrentPasswordIncorrect"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","46137","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 04:26:27 UTC 2026","passed","Tue Mar 03 04:27:13 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"Логин указан неверно при смене пароля","1655","testLoginIncorrect","Мультибраузерное тестирование","Tue Mar 03 05:05:09 UTC 2026","passed","Tue Mar 03 05:05:11 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testLoginIncorrect"
+"Проверка работы пользовательского временного интервала","22312","testReceivingDataForShiftEvents","Мультибраузерное тестирование","Tue Mar 03 04:49:54 UTC 2026","passed","Tue Mar 03 04:50:16 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testReceivingDataForShiftEvents"
+"Вход с пустыми полями логина и пароля","1456","testLoginWithEmptyUsernameAndPassword","Мультибраузерное тестирование","Tue Mar 03 04:33:25 UTC 2026","passed","Tue Mar 03 04:33:26 UTC 2026","tests.AuthLoginTest","Браузер Edge","tests.AuthLoginTest","testLoginWithEmptyUsernameAndPassword"
+"Попытка отправки формы с пустыми полями при смене пароля","1600","testSubmittingFormWithEmptyFields","Мультибраузерное тестирование","Tue Mar 03 05:05:53 UTC 2026","passed","Tue Mar 03 05:05:55 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testSubmittingFormWithEmptyFields"
+"Переход по кнопке 'Сменить пароль'","309","testClickChangePasswordButton","Мультибраузерное тестирование","Tue Mar 03 04:53:26 UTC 2026","passed","Tue Mar 03 04:53:26 UTC 2026","tests.AuthLoginTest","Браузер Yandex","tests.AuthLoginTest","testClickChangePasswordButton"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4
+4. Выбрал второй фильтр
+5. Выбрал третий фильтр
+6. Выбрал первый фильтр","33385","testFilterButton","Мультибраузерное тестирование","Tue Mar 03 04:45:43 UTC 2026","passed","Tue Mar 03 04:46:17 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testFilterButton"
+"Новый пароль содержит запрещённое слово (например, Moscow)","0","testNewPasswordNotContainForbiddenWord","Мультибраузерное тестирование","Tue Mar 03 04:31:57 UTC 2026","unknown","Tue Mar 03 04:31:57 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testNewPasswordNotContainForbiddenWord"
+"","18262","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:15:08 UTC 2026","passed","Tue Mar 03 04:15:27 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Chrome","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Переход по кнопке 'Сменить пароль'","334","testClickChangePasswordButton","Мультибраузерное тестирование","Tue Mar 03 04:11:38 UTC 2026","passed","Tue Mar 03 04:11:38 UTC 2026","tests.AuthLoginTest","Браузер Chrome","tests.AuthLoginTest","testClickChangePasswordButton"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G08
+4. Модуль Схема окно Данные измерений вид График
+5. Выбран параметр Замеры тип измерения Спектр
+6. Выбран параметр Замеры тип измерения Форма сигнала
+7. Выбран параметр Замеры тип измерения Тренд
+8. Выбран параметр Замеры тип измерения Орбита","66637","testMeasurementDataGraphParametersMeasurementType","Мультибраузерное тестирование","Tue Mar 03 04:16:09 UTC 2026","passed","Tue Mar 03 04:17:16 UTC 2026","tests.SchemaTest","Браузер Chrome","tests.SchemaTest","testMeasurementDataGraphParametersMeasurementType"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование
+4. Модуль Схема
+5. Перешел в модуль Аналитика
+6. Выбрал шаблон Статистика агрегатов по заключениям
+7. Построены диаграммы
+8. Выбрал тип отображения Таблица
+9. Построены таблицы","25656","testDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:32:05 UTC 2026","passed","Tue Mar 03 04:32:31 UTC 2026","tests.AnalyticsTest","Браузер Edge","tests.AnalyticsTest","testDashboardDownloads"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4
+4. Выбрал второй фильтр
+5. Выбрал третий фильтр
+6. Выбрал первый фильтр","32821","testFilterButton","Мультибраузерное тестирование","Tue Mar 03 05:06:39 UTC 2026","passed","Tue Mar 03 05:07:12 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testFilterButton"
+"Переход по кнопке 'Сменить пароль'","313","testClickChangePasswordButton","Мультибраузерное тестирование","Tue Mar 03 04:32:49 UTC 2026","passed","Tue Mar 03 04:32:49 UTC 2026","tests.AuthLoginTest","Браузер Edge","tests.AuthLoginTest","testClickChangePasswordButton"
+"Проверить, что можно выбрать интервал 'За месяц'","12884","testSelectMonth","Мультибраузерное тестирование","Tue Mar 03 04:51:13 UTC 2026","passed","Tue Mar 03 04:51:26 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testSelectMonth"
+"Новый пароль и старый одинаковые","621","testNewPasswordAndCurrentPasswordMatches","Мультибраузерное тестирование","Tue Mar 03 05:05:19 UTC 2026","passed","Tue Mar 03 05:05:19 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testNewPasswordAndCurrentPasswordMatches"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4
+4. Модуль Схема
+5. Данные отображаются Диаграмма
+6. Данные отображаются Схема
+7. Перешел к станции СКРУ-3
+4. Модуль Схема
+5. Данные отображаются Диаграмма
+6. Данные отображаются Схема","45401","testStationDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:40:48 UTC 2026","passed","Tue Mar 03 04:41:33 UTC 2026","tests.SchemaTest","Браузер Edge","tests.SchemaTest","testStationDashboardDownloads"
+"Переключение языка на форме смены пароля","1755","testSwitchLanguage","Мультибраузерное тестирование","Tue Mar 03 04:24:21 UTC 2026","passed","Tue Mar 03 04:24:23 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testSwitchLanguage"
+"Проверить, что по умолчанию указывается временной интервал 'За смену (8 часов)'","5722","testDefaultTimeIntervalIsWorkDay","Мультибраузерное тестирование","Tue Mar 03 05:06:10 UTC 2026","passed","Tue Mar 03 05:06:16 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testDefaultTimeIntervalIsWorkDay"
+"Проверка поля Пароль на sql инъекцию на странице Логин","1480","testSqlInjectionFieldPassword","Мультибраузерное тестирование","Tue Mar 03 04:43:18 UTC 2026","passed","Tue Mar 03 04:43:19 UTC 2026","tests.SecuritySqlInjectionTest","Браузер Edge","tests.SecuritySqlInjectionTest","testSqlInjectionFieldPassword"
+"Проверить, что можно выбрать интервал 'За сутки'","13242","testSelectFullDay","Мультибраузерное тестирование","Tue Mar 03 04:30:17 UTC 2026","passed","Tue Mar 03 04:30:30 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testSelectFullDay"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема окно Состояние и прогнозирование
+5. Меняю вид отображения на Шкала","22907","testStatusForecastingScaleWindowCoversEntireWorkArea","Мультибраузерное тестирование","Tue Mar 03 04:20:59 UTC 2026","passed","Tue Mar 03 04:21:22 UTC 2026","tests.SchemaTest","Браузер Chrome","tests.SchemaTest","testStatusForecastingScaleWindowCoversEntireWorkArea"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование
+4. Модуль Схема
+5. Перешел в модуль Аналитика
+6. Выбрал шаблон Статистика агрегатов по заключениям
+7. Построены диаграммы
+8. Выбрал тип отображения Таблица
+9. Построены таблицы","25564","testDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:10:54 UTC 2026","passed","Tue Mar 03 04:11:19 UTC 2026","tests.AnalyticsTest","Браузер Chrome","tests.AnalyticsTest","testDashboardDownloads"
+"Попытка отправки формы с пустыми полями при смене пароля","1605","testSubmittingFormWithEmptyFields","Мультибраузерное тестирование","Tue Mar 03 04:24:11 UTC 2026","passed","Tue Mar 03 04:24:13 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testSubmittingFormWithEmptyFields"
+"Клик по лого на странице Login","220","testClickLogo","Мультибраузерное тестирование","Tue Mar 03 04:11:48 UTC 2026","passed","Tue Mar 03 04:11:48 UTC 2026","tests.AuthLoginTest","Браузер Chrome","tests.AuthLoginTest","testClickLogo"
+"Попытка SQL-injection в поля логина/пароля не должна приводить к успешной аутентификации","1572","testSqlInjectionDoesNotBypassAuthentication","Мультибраузерное тестирование","Tue Mar 03 05:04:04 UTC 2026","passed","Tue Mar 03 05:04:05 UTC 2026","tests.SecuritySqlInjectionTest","Браузер Yandex","tests.SecuritySqlInjectionTest","testSqlInjectionDoesNotBypassAuthentication"
+"","19300","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:34:55 UTC 2026","passed","Tue Mar 03 04:35:14 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Edge","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Новый пароль и старый одинаковые","628","testNewPasswordAndCurrentPasswordMatches","Мультибраузерное тестирование","Tue Mar 03 04:23:45 UTC 2026","passed","Tue Mar 03 04:23:46 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testNewPasswordAndCurrentPasswordMatches"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","45800","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 04:28:30 UTC 2026","passed","Tue Mar 03 04:29:16 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"Проверить, что можно выбрать интервал 'За месяц'","15284","testSelectMonth","Мультибраузерное тестирование","Tue Mar 03 04:30:37 UTC 2026","passed","Tue Mar 03 04:30:53 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testSelectMonth"
+"","18732","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:56:27 UTC 2026","passed","Tue Mar 03 04:56:46 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Yandex","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"","15909","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:14:43 UTC 2026","broken","Tue Mar 03 04:14:59 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Chrome","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Новый пароль не соответствует требованиям (например, без цифры или спецсимвола) при смене пароля","1000","testNewPasswordNotMeetRequirements","Мультибраузерное тестирование","Tue Mar 03 04:23:53 UTC 2026","passed","Tue Mar 03 04:23:54 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testNewPasswordNotMeetRequirements"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Конвейерный транспорт
+4. Модуль Схема
+5. Перешел в модуль Журнал
+6. Данные в таблице заполнены
+7. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+8. Модуль Журнал
+9. Данные в таблице заполнены","20183","testDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:36:41 UTC 2026","passed","Tue Mar 03 04:37:01 UTC 2026","tests.MagazineTest","Браузер Edge","tests.MagazineTest","testDashboardDownloads"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G08
+4. Модуль Схема окно Данные измерений вид График
+5. Выбран параметр Замеры тип измерения Спектр
+6. Выбран параметр Замеры тип измерения Форма сигнала
+7. Выбран параметр Замеры тип измерения Тренд
+8. Выбран параметр Замеры тип измерения Орбита","66539","testMeasurementDataGraphParametersMeasurementType","Мультибраузерное тестирование","Tue Mar 03 04:37:09 UTC 2026","passed","Tue Mar 03 04:38:15 UTC 2026","tests.SchemaTest","Браузер Edge","tests.SchemaTest","testMeasurementDataGraphParametersMeasurementType"
+"","17369","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:56:53 UTC 2026","passed","Tue Mar 03 04:57:10 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Yandex","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Проверить, что можно выбрать интервал 'За выбранный интервал'","13286","testSelectCustomRange","Мультибраузерное тестирование","Tue Mar 03 04:29:55 UTC 2026","passed","Tue Mar 03 04:30:08 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testSelectCustomRange"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Конвейерный транспорт
+4. Модуль Схема
+5. Перешел в модуль Журнал
+6. Данные в таблице заполнены
+7. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+8. Модуль Журнал
+9. Данные в таблице заполнены","19718","testDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:15:39 UTC 2026","passed","Tue Mar 03 04:15:58 UTC 2026","tests.MagazineTest","Браузер Chrome","tests.MagazineTest","testDashboardDownloads"
+"Проверить, что можно выбрать интервал 'За месяц'","13952","testSelectMonth","Мультибраузерное тестирование","Tue Mar 03 05:12:10 UTC 2026","passed","Tue Mar 03 05:12:24 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testSelectMonth"
+"Текущий пароль указан неверно при смене пароля","1633","testCurrentPasswordIncorrect","Мультибраузерное тестирование","Tue Mar 03 04:23:19 UTC 2026","passed","Tue Mar 03 04:23:20 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testCurrentPasswordIncorrect"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","46627","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 05:08:13 UTC 2026","passed","Tue Mar 03 05:09:00 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема окно Данные измерений  тип измерения Тренд вид График
+5. Выбран параметр Оборотные
+6. Выбран параметр Оборотные и один Параметры
+7. Выбрано 5 однотипных параметров Замеры
+8. Выбрано 3 не однотипных параметра Замеры","45869","testMeasurementDataGraphParametersTrend","Мультибраузерное тестирование","Tue Mar 03 04:38:25 UTC 2026","broken","Tue Mar 03 04:39:11 UTC 2026","tests.SchemaTest","Браузер Edge","tests.SchemaTest","testMeasurementDataGraphParametersTrend"
+"Проверить, что можно выбрать интервал 'За сутки'","13532","testSelectFullDay","Мультибраузерное тестирование","Tue Mar 03 05:11:48 UTC 2026","passed","Tue Mar 03 05:12:02 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testSelectFullDay"
+"Проверить, что можно выбрать интервал 'За выбранный интервал'","12778","testSelectCustomRange","Мультибраузерное тестирование","Tue Mar 03 04:50:26 UTC 2026","passed","Tue Mar 03 04:50:39 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testSelectCustomRange"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Конвейерный транспорт
+4. Модуль Схема
+5. Перешел в модуль События
+6. Данные в таблице заполнены
+7. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+8. Модуль События
+9. Данные в таблице заполнены","22239","testDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:12:48 UTC 2026","passed","Tue Mar 03 04:13:11 UTC 2026","tests.EventsTest","Браузер Chrome","tests.EventsTest","testDashboardDownloads"
+"Проверка видимости пароля (иконка 'глаз') для поля Текущий пароль на странице Cменить пароль","2836","testCheckingCurrentPasswordVisibility","Мультибраузерное тестирование","Tue Mar 03 04:22:50 UTC 2026","passed","Tue Mar 03 04:22:53 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testCheckingCurrentPasswordVisibility"
+"Проверка видимости пароля (иконка 'глаз') для поля Новый пароль на странице Cменить пароль","2790","testCheckingNewPasswordVisibility","Мультибраузерное тестирование","Tue Mar 03 05:04:33 UTC 2026","passed","Tue Mar 03 05:04:36 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testCheckingNewPasswordVisibility"
+"Ввод неверного логина или пароля","1486","testEnterIncorrectLoginOrPassword","Мультибраузерное тестирование","Tue Mar 03 04:11:56 UTC 2026","passed","Tue Mar 03 04:11:58 UTC 2026","tests.AuthLoginTest","Браузер Chrome","tests.AuthLoginTest","testEnterIncorrectLoginOrPassword"
+"Проверка работы пользовательского временного интервала","18810","testReceivingDataForShiftEvents","Мультибраузерное тестирование","Tue Mar 03 04:29:24 UTC 2026","passed","Tue Mar 03 04:29:43 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testReceivingDataForShiftEvents"
+"Проверить, что можно выбрать интервал 'За смену (8 часов)'","12487","testSelectWorkDay","Мультибраузерное тестирование","Tue Mar 03 04:51:57 UTC 2026","passed","Tue Mar 03 04:52:10 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testSelectWorkDay"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","44535","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 04:46:24 UTC 2026","passed","Tue Mar 03 04:47:09 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4
+4. Выбрал второй фильтр
+5. Выбрал третий фильтр
+6. Выбрал первый фильтр","38321","testFilterButton","Мультибраузерное тестирование","Tue Mar 03 04:24:58 UTC 2026","passed","Tue Mar 03 04:25:37 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testFilterButton"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование
+4. Модуль Схема
+5. Перешел в модуль Аналитика
+6. Выбрал шаблон Статистика агрегатов по заключениям
+7. Построены диаграммы
+8. Выбрал тип отображения Таблица
+9. Построены таблицы","25032","testDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:52:43 UTC 2026","passed","Tue Mar 03 04:53:08 UTC 2026","tests.AnalyticsTest","Браузер Yandex","tests.AnalyticsTest","testDashboardDownloads"
+"Повторное использование пароля при смене пароля","1690","testPasswordReuse","Мультибраузерное тестирование","Tue Mar 03 04:44:49 UTC 2026","passed","Tue Mar 03 04:44:51 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testPasswordReuse"
+"Проверить, что можно выбрать интервал 'За год'","14659","testSelectYear","Мультибраузерное тестирование","Tue Mar 03 04:52:17 UTC 2026","passed","Tue Mar 03 04:52:32 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testSelectYear"
+"Проверка работы пользовательского временного интервала","18897","testReceivingDataForShiftEvents","Мультибраузерное тестирование","Tue Mar 03 05:10:57 UTC 2026","passed","Tue Mar 03 05:11:16 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testReceivingDataForShiftEvents"
+"Проверить, что по умолчанию указывается временной интервал 'За смену (8 часов)'","6404","testDefaultTimeIntervalIsWorkDay","Мультибраузерное тестирование","Tue Mar 03 04:24:30 UTC 2026","passed","Tue Mar 03 04:24:37 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testDefaultTimeIntervalIsWorkDay"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","34687","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 04:25:45 UTC 2026","passed","Tue Mar 03 04:26:20 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"Проверить, что при открытии выпадающего списка отображаются все ожидаемые варианты","7423","testDropdownContainsAllExpectedOptions","Мультибраузерное тестирование","Tue Mar 03 05:06:24 UTC 2026","passed","Tue Mar 03 05:06:32 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testDropdownContainsAllExpectedOptions"
+"Переключение языка на форме смены пароля","1740","testSwitchLanguage","Мультибраузерное тестирование","Tue Mar 03 05:06:02 UTC 2026","passed","Tue Mar 03 05:06:03 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testSwitchLanguage"
+"Проверка видимости пароля (иконка 'глаз') для поля Текущий пароль на странице Cменить пароль","2794","testCheckingCurrentPasswordVisibility","Мультибраузерное тестирование","Tue Mar 03 04:43:27 UTC 2026","passed","Tue Mar 03 04:43:30 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testCheckingCurrentPasswordVisibility"
+"Вход с пустыми полями логина и пароля","1454","testLoginWithEmptyUsernameAndPassword","Мультибраузерное тестирование","Tue Mar 03 04:54:01 UTC 2026","passed","Tue Mar 03 04:54:03 UTC 2026","tests.AuthLoginTest","Браузер Yandex","tests.AuthLoginTest","testLoginWithEmptyUsernameAndPassword"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Конвейерный транспорт
+4. Модуль Схема
+5. Перешел в модуль Журнал
+6. Данные в таблице заполнены
+7. Перешел к станции БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+8. Модуль Журнал
+9. Данные в таблице заполнены","19675","testDashboardDownloads","Мультибраузерное тестирование","Tue Mar 03 04:57:23 UTC 2026","passed","Tue Mar 03 04:57:43 UTC 2026","tests.MagazineTest","Браузер Yandex","tests.MagazineTest","testDashboardDownloads"
+"Логин указан неверно при смене пароля","1652","testLoginIncorrect","Мультибраузерное тестирование","Tue Mar 03 04:44:22 UTC 2026","passed","Tue Mar 03 04:44:24 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testLoginIncorrect"
+"Введенные данные сохраняются в значение поля","453","testEnteredDataSavedFieldValue","Мультибраузерное тестирование","Tue Mar 03 04:12:06 UTC 2026","passed","Tue Mar 03 04:12:07 UTC 2026","tests.AuthLoginTest","Браузер Chrome","tests.AuthLoginTest","testEnteredDataSavedFieldValue"
+"Клик по лого на странице Сменить пароль ","395","testClickLogo","Мультибраузерное тестирование","Tue Mar 03 04:23:11 UTC 2026","passed","Tue Mar 03 04:23:12 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testClickLogo"
+"","18704","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:56:00 UTC 2026","passed","Tue Mar 03 04:56:19 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Yandex","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. В меню Оборудование кликнул Список фильтров
+4. Ввел частичный путь нажал ОК
+5. Заполнил все остальные поля нажал ОК","44538","testPartialPathAndFillOthersAndOk","Мультибраузерное тестирование","Tue Mar 03 04:47:16 UTC 2026","passed","Tue Mar 03 04:48:00 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testPartialPathAndFillOthersAndOk"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема окно Данные измерений  тип измерения Тренд вид График
+5. Выбран параметр Оборотные
+6. Выбран параметр Оборотные и один Параметры
+7. Выбрано 5 однотипных параметров Замеры
+8. Выбрано 3 не однотипных параметра Замеры","47699","testMeasurementDataGraphParametersTrend","Мультибраузерное тестирование","Tue Mar 03 04:59:04 UTC 2026","broken","Tue Mar 03 04:59:52 UTC 2026","tests.SchemaTest","Браузер Yandex","tests.SchemaTest","testMeasurementDataGraphParametersTrend"
+"Попытка SQL-injection в поля логина/пароля не должна приводить к успешной аутентификации","1548","testSqlInjectionDoesNotBypassAuthentication","Мультибраузерное тестирование","Tue Mar 03 04:43:09 UTC 2026","passed","Tue Mar 03 04:43:10 UTC 2026","tests.SecuritySqlInjectionTest","Браузер Edge","tests.SecuritySqlInjectionTest","testSqlInjectionDoesNotBypassAuthentication"
+"","20013","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:34:26 UTC 2026","passed","Tue Mar 03 04:34:46 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Edge","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Проверка видимости пароля (иконка 'глаз') на странице Login","2725","testCheckingPasswordVisibility","Мультибраузерное тестирование","Tue Mar 03 04:32:38 UTC 2026","passed","Tue Mar 03 04:32:41 UTC 2026","tests.AuthLoginTest","Браузер Edge","tests.AuthLoginTest","testCheckingPasswordVisibility"
+"Введенные данные сохраняются в значение поля","431","testEnteredDataSavedFieldValue","Мультибраузерное тестирование","Tue Mar 03 04:33:16 UTC 2026","passed","Tue Mar 03 04:33:16 UTC 2026","tests.AuthLoginTest","Браузер Edge","tests.AuthLoginTest","testEnteredDataSavedFieldValue"
+"Проверить, что можно выбрать интервал 'За смену (8 часов)'","12181","testSelectWorkDay","Мультибраузерное тестирование","Tue Mar 03 04:31:24 UTC 2026","passed","Tue Mar 03 04:31:36 UTC 2026","tests.TimeIntervalPannelTest","Браузер Chrome","tests.TimeIntervalPannelTest","testSelectWorkDay"
+"Проверить, что можно выбрать интервал 'За год'","13540","testSelectYear","Мультибраузерное тестирование","Tue Mar 03 05:13:19 UTC 2026","passed","Tue Mar 03 05:13:33 UTC 2026","tests.TimeIntervalPannelTest","Браузер Yandex","tests.TimeIntervalPannelTest","testSelectYear"
+"Проверить, что можно выбрать интервал 'За сутки'","13512","testSelectFullDay","Мультибраузерное тестирование","Tue Mar 03 04:50:48 UTC 2026","passed","Tue Mar 03 04:51:02 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testSelectFullDay"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G08
+4. Модуль Схема окно Данные измерений вид График
+5. Выбран параметр Замеры тип измерения Спектр
+6. Выбран параметр Замеры тип измерения Форма сигнала
+7. Выбран параметр Замеры тип измерения Тренд
+8. Выбран параметр Замеры тип измерения Орбита","66743","testMeasurementDataGraphParametersMeasurementType","Мультибраузерное тестирование","Tue Mar 03 04:57:50 UTC 2026","passed","Tue Mar 03 04:58:57 UTC 2026","tests.SchemaTest","Браузер Yandex","tests.SchemaTest","testMeasurementDataGraphParametersMeasurementType"
+"Переключения языка (RU/EN)","1832","testSwitchLanguage","Мультибраузерное тестирование","Tue Mar 03 04:12:39 UTC 2026","passed","Tue Mar 03 04:12:40 UTC 2026","tests.AuthLoginTest","Браузер Chrome","tests.AuthLoginTest","testSwitchLanguage"
+"Отображение подсказки под полем 'Текущий пароль' в форме смены пароля","315","testHelperCurrentPassword","Мультибраузерное тестирование","Tue Mar 03 04:23:29 UTC 2026","passed","Tue Mar 03 04:23:29 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testHelperCurrentPassword"
+"","19496","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:55:05 UTC 2026","passed","Tue Mar 03 04:55:24 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Yandex","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G02
+4. Модуль Схема окно Табличные данные
+5. Данные отображаются в виде События, Мероприятия ТОиР, Дефекты, Рекомендации, Отчеты","23084","testTabularDataDisplayTypes","Мультибраузерное тестирование","Tue Mar 03 05:02:57 UTC 2026","passed","Tue Mar 03 05:03:20 UTC 2026","tests.SchemaTest","Браузер Yandex","tests.SchemaTest","testTabularDataDisplayTypes"
+"","15832","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:35:48 UTC 2026","broken","Tue Mar 03 04:36:04 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Edge","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Проверка поля Пароль на sql инъекцию на странице Логин","1474","testSqlInjectionFieldPassword","Мультибраузерное тестирование","Tue Mar 03 05:04:14 UTC 2026","passed","Tue Mar 03 05:04:15 UTC 2026","tests.SecuritySqlInjectionTest","Браузер Yandex","tests.SecuritySqlInjectionTest","testSqlInjectionFieldPassword"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема окно Состояние и прогнозирование
+5. Меняю вид отображения на Шкала","23072","testStatusForecastingScaleWindowCoversEntireWorkArea","Мультибраузерное тестирование","Tue Mar 03 04:41:41 UTC 2026","passed","Tue Mar 03 04:42:04 UTC 2026","tests.SchemaTest","Браузер Edge","tests.SchemaTest","testStatusForecastingScaleWindowCoversEntireWorkArea"
+"Текущий пароль указан неверно при смене пароля","1629","testCurrentPasswordIncorrect","Мультибраузерное тестирование","Tue Mar 03 04:44:03 UTC 2026","passed","Tue Mar 03 04:44:05 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testCurrentPasswordIncorrect"
+"Логин указан неверно при смене пароля","1651","testLoginIncorrect","Мультибраузерное тестирование","Tue Mar 03 04:23:37 UTC 2026","passed","Tue Mar 03 04:23:38 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testLoginIncorrect"
+"Новый пароль и старый одинаковые","636","testNewPasswordAndCurrentPasswordMatches","Мультибраузерное тестирование","Tue Mar 03 04:44:31 UTC 2026","passed","Tue Mar 03 04:44:32 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testNewPasswordAndCurrentPasswordMatches"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема окно Данные измерений тип измерения Тренд вид Таблица
+5. Выбран параметр Оборотные перехожу с График на Таблица
+6. Выбран параметр Оборотные и параметр Параметры перехожу с График на Таблица
+7. Нахожусь на Таблица, выбираю один из Замеры, перехожу на График
+8. Перехожу на Таблица, выбираю один из Замеры с несколькими точками, перехожу на График","78736","testMeasurementDataTableParametersTrend","Мультибраузерное тестирование","Tue Mar 03 04:18:26 UTC 2026","failed","Tue Mar 03 04:19:45 UTC 2026","tests.SchemaTest","Браузер Chrome","tests.SchemaTest","testMeasurementDataTableParametersTrend"
+"Клик по лого на странице Login","218","testClickLogo","Мультибраузерное тестирование","Tue Mar 03 04:53:35 UTC 2026","passed","Tue Mar 03 04:53:35 UTC 2026","tests.AuthLoginTest","Браузер Yandex","tests.AuthLoginTest","testClickLogo"
+"Отображение подсказки под полем 'Текущий пароль' в форме смены пароля","315","testHelperCurrentPassword","Мультибраузерное тестирование","Tue Mar 03 05:05:02 UTC 2026","passed","Tue Mar 03 05:05:02 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testHelperCurrentPassword"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема окно Данные измерений  тип измерения Тренд вид График
+5. Выбран параметр Оборотные
+6. Выбран параметр Оборотные и один Параметры
+7. Выбрано 5 однотипных параметров Замеры
+8. Выбрано 3 не однотипных параметра Замеры","53079","testMeasurementDataGraphParametersTrend","Мультибраузерное тестирование","Tue Mar 03 04:17:24 UTC 2026","broken","Tue Mar 03 04:18:17 UTC 2026","tests.SchemaTest","Браузер Chrome","tests.SchemaTest","testMeasurementDataGraphParametersTrend"
+"","18362","testGetDataUnitSchema","Мультибраузерное тестирование","Tue Mar 03 04:35:22 UTC 2026","passed","Tue Mar 03 04:35:41 UTC 2026","tests.GettingAggregateDataLoadTimeTest","Браузер Edge","tests.GettingAggregateDataLoadTimeTest","testGetDataUnitSchema"
+"Введенные данные сохраняются в значение поля","432","testEnteredDataSavedFieldValue","Мультибраузерное тестирование","Tue Mar 03 04:53:51 UTC 2026","passed","Tue Mar 03 04:53:52 UTC 2026","tests.AuthLoginTest","Браузер Yandex","tests.AuthLoginTest","testEnteredDataSavedFieldValue"
+"Вход с валидными логином и паролем","6174","testLoginWithValidUsernameAndPassword","Мультибраузерное тестирование","Tue Mar 03 04:33:34 UTC 2026","passed","Tue Mar 03 04:33:40 UTC 2026","tests.AuthLoginTest","Браузер Edge","tests.AuthLoginTest","testLoginWithValidUsernameAndPassword"
+"Проверка видимости пароля (иконка 'глаз') для поля Текущий пароль на странице Cменить пароль","2785","testCheckingCurrentPasswordVisibility","Мультибраузерное тестирование","Tue Mar 03 05:04:23 UTC 2026","passed","Tue Mar 03 05:04:26 UTC 2026","tests.SetNewPasswordTest","Браузер Yandex","tests.SetNewPasswordTest","testCheckingCurrentPasswordVisibility"
+"Проверить, что можно выбрать интервал 'За неделю'","14606","testSelectWeek","Мультибраузерное тестирование","Tue Mar 03 04:51:35 UTC 2026","passed","Tue Mar 03 04:51:50 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testSelectWeek"
+"Клик по лого на странице Сменить пароль ","393","testClickLogo","Мультибраузерное тестирование","Tue Mar 03 04:43:49 UTC 2026","passed","Tue Mar 03 04:43:50 UTC 2026","tests.SetNewPasswordTest","Браузер Edge","tests.SetNewPasswordTest","testClickLogo"
+"1. Авторизовался в приложении
+2. Выбрал временной интервал от 01-01-2020 23:00 до 07-10-2025 00:00
+3. Перешел к агрегату БКПРУ-4/СОФ/РВК ""Б""/Насосное оборудование/4.2-2G28
+4. Модуль Схема окно Данные измерений тип измерения Тренд вид Таблица
+5. Выбран параметр Оборотные перехожу с График на Таблица
+6. Выбран параметр Оборотные и параметр Параметры перехожу с График на Таблица
+7. Нахожусь на Таблица, выбираю один из Замеры, перехожу на График
+8. Перехожу на Таблица, выбираю один из Замеры с несколькими точками, перехожу на График","74705","testMeasurementDataTableParametersTrend","Мультибраузерное тестирование","Tue Mar 03 04:59:59 UTC 2026","failed","Tue Mar 03 05:01:14 UTC 2026","tests.SchemaTest","Браузер Yandex","tests.SchemaTest","testMeasurementDataTableParametersTrend"
+"Новый пароль содержит запрещённое слово (например, Moscow)","2","testNewPasswordNotContainForbiddenWord","Мультибраузерное тестирование","Tue Mar 03 04:10:44 UTC 2026","unknown","Tue Mar 03 04:10:44 UTC 2026","tests.SetNewPasswordTest","Браузер Chrome","tests.SetNewPasswordTest","testNewPasswordNotContainForbiddenWord"
+"Проверить, что по умолчанию указывается временной интервал 'За смену (8 часов)'","5699","testDefaultTimeIntervalIsWorkDay","Мультибраузерное тестирование","Tue Mar 03 04:45:16 UTC 2026","passed","Tue Mar 03 04:45:22 UTC 2026","tests.TimeIntervalPannelTest","Браузер Edge","tests.TimeIntervalPannelTest","testDefaultTimeIntervalIsWorkDay"
