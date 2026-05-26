@@ -1,0 +1,9 @@
+{
+  "nameForm" : "Сменить пароль",
+  "newPassword" : "Новый пароль",
+  "buttonSubmit" : "ОТПРАВИТЬ",
+  "login" : "Логин",
+  "helperLanguage" : "Сменить язык",
+  "helperCurrentPassword" : "Обратитесь к администратору, если вы не помните текущий пароль",
+  "currentPassword" : "Текущий пароль"
+}
