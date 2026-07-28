@@ -1,1 +1,0 @@
-https://web.staging.diatechnic.ru/dashboard?precision=hour&tab=1&stationId=842&startTimestamp=2026-03-08T20%3A58%3A00.483Z&endTimestamp=2026-03-09T04%3A58%3A59.483Z&rangeType=WORK_DAY
