@@ -1,1 +1,0 @@
-https://web.staging.diatechnic.ru/dashboard?precision=month&tab=2&stationId=274&startTimestamp=2020-01-01T23%3A00%3A00.000Z&endTimestamp=2025-10-07T00%3A00%3A00.000Z&rangeType=SELECTED_RANGE
