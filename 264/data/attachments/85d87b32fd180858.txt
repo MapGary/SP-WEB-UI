@@ -1,9 +1,0 @@
-{
-  "nameForm" : "Set new password",
-  "newPassword" : "New password",
-  "buttonSubmit" : "SUBMIT",
-  "login" : "Login",
-  "helperLanguage" : "Switch Language",
-  "helperCurrentPassword" : "Contact the administrator if you do not remember the current password",
-  "currentPassword" : "Current password"
-}
