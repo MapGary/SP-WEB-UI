@@ -1,8 +1,0 @@
-{
-  "nameForm" : "Вход",
-  "password" : "Пароль",
-  "buttonNewPassword" : "СМЕНИТЬ ПАРОЛЬ",
-  "buttonLogin" : "ВОЙТИ",
-  "login" : "Логин",
-  "helperLanguage" : "Сменить язык"
-}
